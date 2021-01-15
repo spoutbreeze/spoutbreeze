@@ -1,0 +1,35 @@
+{
+	"folders": [
+		{
+			"name": "spoutbreeze-agent",
+			"path": "spoutbreeze-agent"
+		},
+		{
+			"name": "spoutbreeze-extender",
+			"path": "spoutbreeze-extender"
+		},
+		{
+			"name": "spoutbreeze-interactor",
+			"path": "spoutbreeze-interactor"
+		},
+		{
+			"name": "spoutbreeze-manager",
+			"path": "spoutbreeze-manager"
+		},
+		{
+			"name": "spoutbreeze-player",
+			"path": "spoutbreeze-player"
+		},
+		{
+			"name": "spoutbreeze-selenoid",
+			"path": "spoutbreeze-selenoid"
+		},
+		{
+			"name": "spoutbreeze-web",
+			"path": "spoutbreeze-web"
+		},
+		{
+			"path": "vagrant"
+		}
+	]
+}

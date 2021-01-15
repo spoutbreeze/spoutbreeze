@@ -4,4 +4,5 @@ source /app/vagrant/provision/common.sh
 
 #== Provision script ==
 
-sudo service nginx restart
+# sudo service nginx restart
+# /etc/selenoid/./run.sh

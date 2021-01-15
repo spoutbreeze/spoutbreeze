@@ -1,0 +1,17 @@
+{
+  "chrome": {
+    "default": "87.0",
+    "versions": {
+      "87.0": {
+        "image": "browsers/chrome:87.0",
+        "port": "4444",
+        "path": "/",
+        "env": ["HIDE_CURSOR=true"],
+        "hosts": ["spoutbreeze.test:192.168.83.165"],
+        "tmpfs": {
+          "/tmp": "size=128m"
+        }
+      }
+    }
+  }
+}
