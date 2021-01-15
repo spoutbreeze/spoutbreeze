@@ -1,0 +1,6 @@
+applicationType: default
+defaultPackage: org.spoutbreeze
+testFramework: kotest
+sourceLanguage: kotlin
+buildTool: gradle
+features: [app-name, gradle, http-client, kotest, kotlin, kotlin-application, kotlin-extension-functions, log4j2, netty-server, properties, rabbitmq, readme, redis-lettuce, shade, springloaded]
