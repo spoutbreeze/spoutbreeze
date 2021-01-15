@@ -1,0 +1,21 @@
+<js src="vendors/jquery-3.2.1.min.js"/>
+<js src="vendors/bootstrap.bundle.min.js"/>
+<js src='plugins/noty/jquery.noty.packaged.js'/>
+
+<js src="core/plugins.js"/>
+<js src="core/locale.js"/>
+<js src="core/common.js"/>
+
+{{ \Helpers\Assets::instance()->renderGroup('footer') }}
+
+<script>
+    jQuery(document).ready(function () {
+    {{ \Helpers\Assets::instance()->currentJsLocale() }}
+    {{ \Helpers\Assets::instance()->initJsClasses() }}
+    {{ \Helpers\Flash::instance()->showMessages() }}
+    });
+</script>
+<!-- END JAVASCRIPTS -->
+</body>
+<!-- END BODY -->
+</html>

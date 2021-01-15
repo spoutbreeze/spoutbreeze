@@ -1,0 +1,58 @@
+<div class="header py-4">
+    <div class="container">
+        <div class="d-flex">
+            <a class="header-brand" href="/">
+                <img src="/img/logo.png" class="header-brand-img" alt="tabler logo">
+            </a>
+            <div class="d-flex order-lg-2 ml-auto">
+                <div class="dropdown">
+                    <a href="#" class="nav-link pr-0 leading-none" data-toggle="dropdown" aria-expanded="false">
+                        <span class="avatar text-capitalize header-username-abbr">{{ @SESSION.user.username[0] }}</span>
+                        <span class="ml-2 d-none d-lg-block">
+                      <span class="text-default header-username">{{ @SESSION.user.username }}</span>
+                      <small class="text-muted d-block mt-1">{{ ucfirst(@SESSION.user.role) }}</small>
+                    </span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow" x-placement="bottom-end"
+                         style="position: absolute; transform: translate3d(136px, 32px, 0px); top: 0px; left: 0px; will-change: transform;">
+                        <a class="dropdown-item" href="{{ 'profile' | alias }}">
+                            <i class="dropdown-icon fe fe-user"></i> Profile
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{{ 'logout' | alias }}">
+                            <i class="dropdown-icon fe fe-log-out"></i> Sign out
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <a href="#" class="header-toggler d-lg-none ml-3 ml-lg-0" data-toggle="collapse"
+               data-target="#headerMenuCollapse">
+                <span class="header-toggler-icon"></span>
+            </a>
+        </div>
+    </div>
+</div>
+<div class="header collapse d-lg-flex p-0" id="headerMenuCollapse">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg order-lg-first">
+                <ul class="nav nav-tabs border-0 flex-column flex-lg-row">
+                    <check if="{{ @SESSION.user.role=='admin' || @SESSION.user.role=='customer' }}">
+                        <li class="nav-item">
+                            <a href="{{ @ALIASES.dashboard }}" class="nav-link"><i class="fe fe-activity"></i> Dashboard</a>
+                        </li>
+                    </check>
+                    <check if="{{ @SESSION.user.role=='admin' }}">
+                        <li class="nav-item">
+                            <a href="{{ @ALIASES.users_list }}" class="nav-link"><i class="fe fe-users"></i> Users</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ @ALIASES.settings }}" class="nav-link"><i class="fe fe-settings"></i>
+                                Settings</a>
+                        </li>
+                    </check>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

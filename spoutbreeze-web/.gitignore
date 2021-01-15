@@ -1,0 +1,12 @@
+vendor/
+logs/*
+data/*.sqlite3
+tmp/*
+bin/*
+public/minified/*
+public/xcache/*
+public/hypertest/*
+uploads/*
+*.iml
+*.log
+public/metrics/*

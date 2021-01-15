@@ -1,0 +1,28 @@
+<include href="website/header.phtml"/>
+
+<body class="antialiased">
+<div class="page">
+    <div class="flex-fill">
+        <include href="website/navbar.phtml"/>
+
+        <div class="my-3 my-md-5">
+            <div class="container">
+                <check if="{{ @@partial }}">
+                    <include href="{{ @partial }}"/>
+                </check>
+            </div>
+        </div>
+    </div>
+
+    <include href="website/footer.phtml"/>
+</div>
+
+<!-- ####################### Start Scroll to Top Area ####################### -->
+<div id="back-top">
+    <a title="Go to Top" href="#"></a>
+</div>
+<!-- ####################### End Scroll to Top Area ####################### -->
+
+<include href="website/js.phtml"/>
+
+</body>

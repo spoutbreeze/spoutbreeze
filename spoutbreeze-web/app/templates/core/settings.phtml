@@ -1,0 +1,49 @@
+<div class="page-header">
+    <h1 class="page-title">
+        Settings
+    </h1>
+</div>
+
+<div class="row row-deck">
+    <div class="col-12">
+        <form class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label for="load_balancing_strategy" class="col-form-label">Load Balancing Strategy:</label>
+                            <select class="form-control custom-select" name="load_balancing_strategy" value="{{ $settings['load_balancing_strategy'] }}">
+                                <option value="global_max_meetings">Global Max Meetings Per Server</option>
+                                <option value="per_pool_max_meetings">Per Pool Max Meetings</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="max_meetings" class="col-form-label">Max meetings:</label>
+                            <input type="number" class="form-control form-control-required" data-validation="['required']" name="max_meetings" value="{{ $settings['max_meetings'] }}">
+                            <div class="invalid-feedback invalid-required" style="display: none">Value is required</div>
+                        </div>
+                        <div class="form-group">
+                            <label class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" name="strict_pooling"
+                                       value="{{ $settings['strict_pooling'] }}"/>
+                                <span class="custom-control-label">Strict Pooling (only if `meta_preferred_pool` is used):</span>
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label for="join_as_name" class="col-form-label">Join as name (used in meetings view to join an existing meeting):</label>
+                            <input class="form-control form-control-required" data-validation="['required']" name="join_as_name" value="{{ $settings['join_as_name'] }}">
+                            <div class="invalid-feedback invalid-required" style="display: none">Value is required</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="param_create_logo" class="col-form-label">Logo URL (Injected in all create requests):</label>
+                            <input class="form-control form-control-required" name="param_create_logo" value="{{ $settings['param_create_logo'] }}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer text-right">
+                <button type="button" class="btn btn-primary">Save</button>
+            </div>
+        </form>
+    </div>
+</div>

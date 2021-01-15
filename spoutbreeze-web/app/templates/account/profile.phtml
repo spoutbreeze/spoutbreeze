@@ -1,0 +1,46 @@
+<div class="page-header">
+    <h1 class="page-title">
+        Edit Profile
+    </h1>
+</div>
+
+<div class="row">
+    <div class="col-lg-8">
+        <form class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-6 col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">Username</label>
+                            <input type="text" name="username" class="form-control form-control-required" data-validation="['required']" placeholder="Username" value="{{ @SESSION.user.username }}">
+                            <div class="invalid-feedback invalid-required" style="display: none">Value is required</div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">Email address</label>
+                            <input type="email" name="email" class="form-control form-control-required" data-validation="['required']" placeholder="Email" value="{{ @SESSION.user.email }}">
+                            <div class="invalid-feedback invalid-required" style="display: none">Value is required</div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">Password</label>
+                            <input type="password" name="password" class="form-control" data-validation="['repeat']" data-repeat="repeatPassword" placeholder="Password" value="">
+                            <div class="invalid-feedback invalid-repeat" style="display: none">Passwords are not equal</div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">Repeat Password</label>
+                            <input type="password" name="repeatPassword" class="form-control" data-validation="['repeat-as']" data-repeat="password" placeholder="Repeat Password" value="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer text-right">
+                <button type="button" class="btn btn-primary">Update Profile</button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,359 @@
+html
+{
+	height     : 100%;
+	overflow-y : scroll;
+}
+
+body
+{
+	font-family : Cantarell, Ubuntu, sans-serif;
+	font-size   : 16px;
+	background  : #eee;
+	margin      : 0;
+	min-height  : 100%;
+	overflow    : hidden;
+}
+
+h1
+{
+	margin    : 0 0 0.5em 0;
+	font-size : 1.8em;
+}
+
+.sidebar
+{
+	text-align    : right;
+	color         : #ED1A3B;
+	background    : #111;
+	padding       : 2% 2% 9999px 2%;
+	margin-bottom : -9999px;
+	width         : 23%;
+	float         : left;
+	overflow      : hidden;
+}
+
+.sidebar ul
+{
+	font-size      : 0.9em;
+	font-weight    : bold;
+	text-transform : uppercase;
+	margin         : 1em 0 0 0;
+}
+
+.sidebar li
+{
+	list-style-type : none;
+	line-height     : 1.5em;
+}
+
+.sidebar a
+{
+	color           : #999;
+	text-decoration : none;
+}
+
+.sidebar a.showCoverage
+{
+	color           : #111;
+	text-decoration : none;
+}
+
+.sidebar a:hover
+{
+	color : #fff;
+}
+
+.main
+{
+	color         : #000;
+	padding       : 2% 2% 9999px 2%;
+	margin-bottom : -9979px;
+	width         : 69%;
+	float         : left;
+	overflow      : hidden;
+}
+
+.main h1
+{
+	color : #666;
+}
+
+.main p
+{
+	font-size   : 0.75em;
+	line-height : 1.5em;
+	margin      : 0;
+}
+
+.main p.stats
+{
+	color : #666;
+}
+
+.main span.status
+{
+	font-size  : 0.9em;
+	text-align : center;
+	margin     : 0.15em 0;
+	display    : block;
+	float      : left;
+	min-width  : 2em;
+}
+
+.main span.text
+{
+	white-space : nowrap;
+	margin      : 0.15em 0.5em;
+}
+
+.main span.pass
+{
+	color      : #fff;
+	background : #459821;
+}
+
+.main span.fail
+{
+	color      : #fff;
+	background : #da3033;
+}
+
+.main h2.fail
+{
+	color : #da3033;
+}
+
+.main img
+{
+	border : 0;
+	margin : 1em 0;
+}
+
+.main br
+{
+	clear : both;
+}
+
+@media screen and (max-width : 720px)
+{
+	body
+	{
+		font-size : 0.8em;
+	}
+}
+
+/* Generated using http://www.bestcssbuttongenerator.com/ */
+
+.showCoverage
+{
+	margin-top      : 20px;
+	border-radius   : 2px;
+	border          : 2px solid rgb(255, 170, 34);
+	display         : inline-block;
+	cursor          : pointer;
+	font-size       : 16px;
+	font-weight     : bold;
+	padding         : 6px 12px;
+	text-decoration : none;
+	background      : linear-gradient(rgb(255, 236, 100) 5%, rgb(255, 171, 35) 100%) rgb(255, 236, 100);
+}
+
+.showCoverage:hover
+{
+	background : linear-gradient(rgb(255, 171, 35) 100%, rgb(255, 236, 100) 5%) rgb(255, 236, 100);
+}
+
+.showCoverage:active
+{
+	position : relative;
+	top      : 1px;
+}
+
+/* Pure CSS3 Accordion */
+.transition, p, ul li i:before, ul li i:after
+{
+	transition : all 0.25s ease-in-out;
+}
+
+.flipIn, h1, ul li
+{
+	animation : flipdown 0.5s ease both;
+}
+
+.no-select, h2
+{
+	-webkit-tap-highlight-color : transparent;
+	-webkit-touch-callout       : none;
+	-webkit-user-select         : none;
+	-khtml-user-select          : none;
+	-moz-user-select            : none;
+	-ms-user-select             : none;
+	user-select                 : none;
+}
+
+h2
+{
+	line-height      : 32px;
+	font-weight      : 300;
+	letter-spacing   : 1px;
+	display          : block;
+	background-color : #fefffa;
+	margin           : 0;
+	padding-left     : 10px;
+	cursor           : pointer;
+}
+
+ul.testList p
+{
+	background-color : #fefffa;
+	letter-spacing   : 1px;
+	position         : relative;
+	overflow         : hidden;
+	max-height       : 800px;
+	opacity          : 1;
+	transform        : translate(0, 0);
+	padding-left     : 6px;
+	z-index          : 2;
+}
+
+ul.testList
+{
+	list-style          : none;
+	-webkit-perspective : 900px;
+	perspective         : 900px;
+	padding             : 0;
+	margin              : 0;
+}
+
+ul.testList li
+{
+	position   : relative;
+	padding    : 0;
+	margin     : 0;
+	border-top : 1px dotted #666666;
+}
+
+ul.testList li:last-of-type
+{
+	padding-bottom : 0;
+}
+
+ul.testList li i
+{
+	position   : absolute;
+	transform  : translate(-6px, 0);
+	margin-top : 13px;
+	right      : 13px;
+}
+
+ul.testList li i:before, ul li i:after
+{
+	content          : "";
+	position         : absolute;
+	background-color : #000;
+	width            : 3px;
+	height           : 9px;
+}
+
+ul.testList li i:before
+{
+	transform : translate(-2px, 0) rotate(45deg);
+}
+
+ul.testList li i:after
+{
+	transform : translate(2px, 0) rotate(-45deg);
+}
+
+ul.testList li input[type=checkbox]
+{
+	position : absolute;
+	cursor   : pointer;
+	width    : 100%;
+	height   : 100%;
+	z-index  : 1;
+	opacity  : 0;
+}
+
+ul.testList li input[type=checkbox]:checked ~ p
+{
+	margin-top : 0;
+	max-height : 0;
+	opacity    : 0;
+	transform  : translate(0, 50%);
+}
+
+ul.testList li input[type=checkbox]:checked ~ i:before
+{
+	transform : translate(2px, 0) rotate(45deg);
+}
+
+ul.testList li input[type=checkbox]:checked ~ i:after
+{
+	transform : translate(-2px, 0) rotate(-45deg);
+}
+
+@keyframes flipdown
+{
+	0%
+	{
+		opacity          : 0;
+		transform-origin : top center;
+		transform        : rotateX(-90deg);
+	}
+	5%
+	{
+		opacity : 1;
+	}
+	80%
+	{
+		transform : rotateX(8deg);
+	}
+	83%
+	{
+		transform : rotateX(6deg);
+	}
+	92%
+	{
+		transform : rotateX(-3deg);
+	}
+	100%
+	{
+		transform-origin : top center;
+		transform        : rotateX(0deg);
+	}
+}
+
+.errors-table
+{
+	font-size       : 12px;
+	margin          : 45px;
+	text-align      : left;
+	padding-bottom  : 20px;
+	width           : 100%;
+	border-collapse : collapse;
+}
+
+#errors-table td
+{
+	padding       : 8px;
+	background    : #D3D1C6;
+	border-bottom : 1px solid #F9F3D5;
+	color         : #3C4556;
+	border-top    : 1px solid transparent;
+}
+
+#errors-table td.table-header
+{
+	font-size     : 16px;
+	font-weight   : bold;
+	padding       : 12px;
+	background    : #9098A6;
+	color         : #17181A;
+}
+
+#errors-table tr:hover td
+{
+	background : #C3BFAE;
+	color      : #1E283A;
+}

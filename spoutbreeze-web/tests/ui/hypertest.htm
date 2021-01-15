@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<!--base href="{{ @SCHEME.'://'.@HOST.(!@PORT||@PORT==80||@PORT==443?'':':'.@PORT).@BASE.'/'.@UI }}" /-->
+		<meta charset="{{ @ENCODING}}" />
+		<title>Unit Testing: {{ @utest.time }}</title>
+		<link rel="stylesheet" type="text/css" href="{{ @utest.hypertest_folder }}css/theme.css" />
+		{~ if (@ERROR): ~}
+			<link rel="stylesheet" type="text/css" href="{{ @utest.hypertest_folder }}css/code.css" />
+		{~ endif ~}
+	</head>
+	<body>
+		<div class="row">
+			<div class="sidebar">
+				<h1>Tests run at: {{ @utest.time }}</h1>
+				<ul>
+					<li class=""><a href="/?hypertest">HyperTest Unit Tests</a></li>
+					<li class=""><a href="/?hypertest=withCoverage">HyperTest Unit Tests With code coverage</a></li>
+					<li >
+						<a href="/hypertest/coverage/index.html" target="_blank" class="showCoverage">Show code coverage</a>
+					</li >
+				</ul>
+			</div>
+			<div class="main">
+				<h1>
+					HyperTest Unit Testing
+					{~ $class = @utest.fail == 0 ? 'pass' : 'fail' ~}
+					<span class="{{ @class }}" > {{ @utest.success }}/{{ @utest.success + @utest.fail }}</span>
+				</h1>
+				{~ if (count(@utest.errors) > 0): ~}
+				<table id="errors-table" summary="Unhandled test errors">
+					<tr><td class="table-header">Unhandled test errors</td></tr>
+					{~ foreach (@utest.errors as @i=>@error): ~}
+						<tr><td><b>Error hash:</b> {{ @i }}</td></tr>
+						<tr><td><b>Status:</b> {{ @error.status }}</td></tr>
+						<tr><td><b>Code:</b> {{ @error.code }}</td></tr>
+						<tr><td><b>Text:</b> {{ @error.text }}</td></tr>
+						<tr><td><b>Trace:</b> <br/>{{ html_entity_decode(nl2br(@error.trace)) }}</td></tr>
+					{~ endforeach ~}
+					</tbody>
+				</table>
+				{~ endif ~}
+				<ul class="testList">
+					{~ foreach (@utest.results as @i=>@result): ~}
+					<li data-animation-offset="{{ @utest.delay += 0.25 }}s">
+						<input type="checkbox" checked>
+						<i></i>
+						<h2 {~ if (@result.fail >0): ~} class="fail" {~ endif ~}>{{ @i }}: {{ @result.success }}/{{ @result.success + @result.fail }}</h2>
+							{~ foreach (@result as @i=>@test): ~}
+								{~ if (is_numeric(@i)): ~}
+									<p>
+										<span class="status {{ @test.status?'pass':'fail' }}">{{ @i+1 }}</span>
+										<span class="text">{{ @test.text }} {~ if (!@test.status && @test.source) echo '('.@test.source.')' ~}</span><br/>
+									</p>
+								{~ endif ~}
+							{~ endforeach ~}
+						{~ endforeach ~}
+					</li>
+				</ul>
+				<p>
+					<a href="https://riadvice.tn/">
+						<img src="{{ @utest.hypertest_folder }}images/powered.png" title="RIADVICE"  style="height: 48px;"/>
+					</a>
+					<br />
+				<p class="stats">{{ 'Page rendered in {0} / Memory usage {1}',Core\HyperTest::formatTime(1e3*(microtime(true)-$TIME),2),ByteUnits\Metric::bytes(memory_get_usage(true))->format() | format }}</p>
+			</div>
+		</div>
+		<script type="application/javascript">
+			var elements = document.querySelectorAll('ul.testList li');
+			Array.prototype.forEach.call(elements, function(el, i){
+				el.style['animationDelay'] = ((i * 0.15) + 0.5) + 's';
+			});
+		</script>
+	</body>
+
+</html>
