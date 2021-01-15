@@ -1,0 +1,17 @@
+# Guest OS timezone
+timezone: UTC
+
+# Are we need check box updates for every 'vagrant up'?
+box_check_update: true
+
+# Virtual machine name
+machine_name: spoutbreeze
+
+# Virtual machine IP
+ip: 192.168.83.125
+
+# Virtual machine CPU cores number
+cpus: 4
+
+# Virtual machine RAM
+memory: 4096
