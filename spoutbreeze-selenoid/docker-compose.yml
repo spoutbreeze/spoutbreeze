@@ -15,6 +15,8 @@ services:
         "/etc/selenoid/browsers.json",
         "-video-output-dir",
         "/opt/selenoid/video",
+        "-video-recorder-image",
+        "spoutbreeze/spoutbreeze-broadcaster:0.1",
         "-log-output-dir",
         "/opt/selenoid/logs",
         "-limit",

@@ -5,6 +5,10 @@
 			"path": "spoutbreeze-agent"
 		},
 		{
+			"name": "spoutbreeze-broadcaster",
+			"path": "spoutbreeze-broadcaster"
+		},
+		{
 			"name": "spoutbreeze-extender",
 			"path": "spoutbreeze-extender"
 		},
@@ -29,6 +33,7 @@
 			"path": "spoutbreeze-web"
 		},
 		{
+			"name": "vagrant",
 			"path": "vagrant"
 		}
 	]

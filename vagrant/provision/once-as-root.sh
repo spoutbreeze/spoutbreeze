@@ -42,7 +42,7 @@ sudo chmod +x /usr/local/bin/docker-compose
 info "Pull selenoid images"
 sudo docker pull aerokube/selenoid:latest-release
 sudo docker pull aerokube/selenoid-ui:latest-release
-sudo docker pull selenoid/video-recorder:7.1
+sudo docker pull selenoid/video-recorder:latest-release
 sudo docker pull browsers/chrome:87.0
 
 info "Install Redis for caching"
