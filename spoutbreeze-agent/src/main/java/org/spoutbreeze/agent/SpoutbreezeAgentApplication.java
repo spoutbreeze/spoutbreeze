@@ -1,13 +1,32 @@
 package org.spoutbreeze.agent;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.spoutbreeze.agent.video.VideoBroadcaster;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
+@EnableScheduling
 public class SpoutbreezeAgentApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(SpoutbreezeAgentApplication.class, args);
-	}
+    @Autowired
+    @Qualifier("videoBroadcaster")
+    private static VideoBroadcaster videoBroadcaster;
 
+    private static final Logger logger = LoggerFactory.getLogger(SpoutbreezeAgentApplication.class);
+
+    public static void main(String[] args) {
+        ConfigurableApplicationContext ctx = SpringApplication.run(SpoutbreezeAgentApplication.class, args);
+
+        logger.info("SpoutBreeze Agent Java Application Started");
+
+        videoBroadcaster = new VideoBroadcaster();
+
+        videoBroadcaster.broacast();
+    }
 }
