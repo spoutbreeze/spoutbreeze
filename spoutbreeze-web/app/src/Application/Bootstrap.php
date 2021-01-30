@@ -1,7 +1,7 @@
 <?php
 
 /**
- * SpoutBreeze open source platfrom - https://www.spoutbreeze.io/
+ * SpoutBreeze open source platform - https://www.spoutbreeze.io/
  *
  * Copyright (c) 2021 Frictionless Solutions Inc., RIADVICE SUARL and by respective authors (see below).
  *
@@ -22,7 +22,6 @@ namespace Application;
 
 use Base;
 use Enum\CacheKey;
-use Enum\StrategiesParams;
 use Helpers\Time;
 use Mail\MailSender;
 use Models\Setting;

@@ -1,3 +1,3 @@
 # SpoutBreeze
 
-SpoutBreeze is an open source video streaming platform for BigBlueButton that makes reaching a larger audience possible.
+SpoutBreeze is an open source video broadcasting platform designed for BigBlueButton that makes reaching a larger audience possible.
