@@ -53,7 +53,7 @@ sudo apt-get install -y php8.0-curl php8.0-cli php8.0-intl php8.0-redis php8.0-g
 
 info "Installing PostgreSQL"
 sudo percona-release setup ppg-13.1
-sudo apt-get install percona-postgresql-13 percona-postgresql-13-pgaudit percona-pg-stat-monitor13
+sudo apt-get install -y percona-postgresql-13 percona-postgresql-13-pgaudit percona-pg-stat-monitor13
 
 info "Upgrade to the latest versions"
 sudo apt-get upgrade -y
@@ -72,6 +72,7 @@ echo "Done!"
 info "Enabling site configuration"
 sudo rm /etc/nginx/sites-enabled/default
 sudo ln -s /app/vagrant/dev/nginx/app.conf /etc/nginx/sites-enabled/app.conf
+sudo ln -s /app/vagrant/dev/nginx/docs.conf /etc/nginx/sites-enabled/docs.conf
 echo "Done!"
 
 info "Install composer"

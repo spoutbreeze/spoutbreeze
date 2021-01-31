@@ -1,0 +1,3 @@
+[submodule "docs"]
+	path = docs
+	url = ../spoutbreeze.github.io.git

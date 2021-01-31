@@ -8,6 +8,7 @@ end
 
 domains = {
   mainapp: "spoutbreeze.test",
+  docs: "spoutbreeze.docs",
 }
 
 config = {
@@ -78,6 +79,6 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", path: "./vagrant/provision/always-as-root.sh", run: "always"
 
   # post-install message (vagrant console)
-  config.vm.post_up_message = "Application URL: http://#{domains[:mainapp]}"
+  config.vm.post_up_message = "Application   URL: http://#{domains[:mainapp]}\nDocumentation URL: http://#{domains[:docs]}"
   # SHELL
 end
