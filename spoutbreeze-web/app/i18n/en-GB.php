@@ -52,7 +52,8 @@ return [
 
             'menu' => [
                 'dashboard'       => 'Dashboard',
-                'users'           => 'Users'
+                'users'           => 'Users',
+                'servers'         => 'Servers'
             ],
 
             'dashboard' => [

@@ -43,6 +43,9 @@
                         </li>
                     </check>
                     <check if="{{ @SESSION.user.role=='admin' }}">
+                    	<li class="nav-item">
+                            <a href="{{ @ALIASES.servers_list }}" class="nav-link"><i class="fe fe-server"></i> Servers</a>
+                        </li>
                         <li class="nav-item">
                             <a href="{{ @ALIASES.users_list }}" class="nav-link"><i class="fe fe-users"></i> Users</a>
                         </li>

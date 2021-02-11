@@ -16,7 +16,7 @@
  * with SpoutBreeze; if not, see <http://www.gnu.org/licenses/>.
  */
 
-var Users = function () {
+var    Servers = function () {
     var table;
 
     var addFormValidator = function () {
@@ -27,11 +27,8 @@ var Users = function () {
         $(document).ready(function () {
             var columns = [
                 { data: 'id' },
-                { data: 'email' },
-                { data: 'username' },
-                { data: 'last_login' },
-                { data: 'role' },
-                { data: 'status' },
+                { data: 'fqdn' },
+                { data: 'ip_address' },
                 { data: null }
             ];
             var columnDefs = [
@@ -44,21 +41,9 @@ var Users = function () {
                             { title: 'Delete' }
                         ]
                     )
-                },
-                {
-                    targets: 4,
-                    render: function (data) {
-                        return data.replace(/^\w/, c => c.toUpperCase());
-                    }
-                },
-                {
-                    targets: 5,
-                    render: function (data) {
-                        return data.replace(/^\w/, c => c.toUpperCase());
-                    }
                 }
             ];
-            table = initTable('.table', '/users', columns, columnDefs);
+            table = initTable('.table', '/servers', columns, columnDefs);
         });
     };
 
@@ -71,8 +56,7 @@ var Users = function () {
             var $button = $modal.find('.btn-primary');
 
             setFormValues($modal.find('form'), data);
-            $modal.find('[name=password]').val('');
-            $modal.find('.modal-title').text('Edit User');
+            $modal.find('.modal-title').text('Edit Server');
             $button.attr('disabled', false);
             $modal.find('input').trigger('blur');
 
@@ -97,7 +81,7 @@ var Users = function () {
             $button.attr('disabled', true);
 
             saveRecord(
-                '/users',
+                '/servers',
                 $form,
                 function () {
                     $modal.modal('hide');
@@ -110,6 +94,7 @@ var Users = function () {
         });
     };
 
+
     var addCreateHandler = function () {
         $(document).on('click', '.btn-new', function (e) {
             e.preventDefault();
@@ -121,14 +106,12 @@ var Users = function () {
                 $modal.find('form'),
                 {
                     id: '',
-                    email: '',
-                    username: '',
-                    password: '',
-                    role: 'admin',
-                    status: 'active'
+                    fqdn: '',
+                    ip_address: '',
+                    shared_secret: '',
                 }
             );
-            $modal.find('.modal-title').text('Add User');
+            $modal.find('.modal-title').text('Add Server');
             $button.attr('disabled', false);
             $modal.find('select, input, textarea').removeClass('is-invalid');
             $modal.find('.invalid-feedback').hide();
@@ -144,7 +127,7 @@ var Users = function () {
             var data = $(this).parents('tr').data('row');
 
             $.ajax({
-                url: '/users/' + data.id,
+                url: '/servers/' + data.id,
                 type: 'DELETE',
                 async: false,
                 success: function (result) {

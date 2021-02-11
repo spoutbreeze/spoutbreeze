@@ -2,3 +2,6 @@
 .vagrant/
 *-console.log
 **/*.log
+/.gradle/
+.project
+.settings
