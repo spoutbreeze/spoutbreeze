@@ -18,59 +18,79 @@
  * with SpoutBreeze; if not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Actions\Servers;
+namespace Actions\Endpoints;
 
 use Actions\Base as BaseAction;
-use Enum\ResponseCode;
-use Models\Server;
-use Validation\Validator;
 use Base;
+use Enum\ResponseCode;
+use Models\Endpoint;
+use Validation\Validator;
+
 /**
- * Class Add
- * @package Actions\Servers
+ * Class Edit
+ * @package Actions\Endpoints
  */
-class Add extends BaseAction
+class Edit extends BaseAction
 {
     /**
-     * @param \Base $f3
+     * @param Base $f3
      * @param array $params
      */
     public function show($f3, $params): void
     {
-        $this->render();
+        $endpoint = $this->loadData($params['id']);
+
+        if ($endpoint->valid()) {
+            $this->renderJson(['data' => $endpoint->toArray()]);
+        } else {
+            $this->renderJson([], ResponseCode::HTTP_NOT_FOUND);
+        }
     }
 
     /**
-     * @param \Base $f3
+     * @param Base $f3
      * @param array $params
      */
     public function save($f3, $params): void
     {
-        $v       = new Validator();
-        $form    = $this->getDecodedBody();
+        $v = new Validator();
+        $form = $this->getDecodedBody();
+        $endpoint = $this->loadData($params['id']);
 
-        $server    = new Server();
+        $v->notEmpty()->verify('name', $form['name'], ['notEmpty' => $this->i18n->err('streaming_endpoints.name')]);
+        $v->url()->verify('url', $form['url'], ['url' => $this->i18n->err('streaming_endpoints.url')]);
 
-        $v->notEmpty()->verify('fqdn', $form['fqdn'], ['notEmpty' => $this->i18n->err('servers.fqdn')]);
-        $v->ip('*', FILTER_FLAG_IPV4)->verify('ip_address', $form['ip_address'], ['ip' => $this->i18n->err('servers.ip_address')]);
-        $v->notEmpty()->verify('shared_secret', $form['shared_secret'], ['notEmpty' => $this->i18n->err('servers.shared_secret')]);
 
-        if ($v->allValid()) {
-            $server->fqdn           = $form['fqdn'];
-            $server->ip_address       = $form['ip_address'];
-            $server->shared_secret      = $form['shared_secret'];
+        if (!$endpoint->valid()) {
+            $this->renderJson([], ResponseCode::HTTP_NOT_FOUND);
+        } elseif ($v->allValid()) {
+            $endpoint->name = $form['name'];
+            $endpoint->url = $form['url'];
+
 
             try {
-                $server->save();
+                $endpoint->save();
             } catch (\Exception $e) {
                 $this->renderJson(['errors' => $e->getMessage()], ResponseCode::HTTP_INTERNAL_SERVER_ERROR);
 
                 return;
             }
 
-            $this->renderJson(['data' => $server->toArray()]);
+            $this->renderJson([], ResponseCode::HTTP_NO_CONTENT);
         } else {
             $this->renderJson(['errors' => $v->getErrors()], ResponseCode::HTTP_UNPROCESSABLE_ENTITY);
         }
+    }
+
+    /**
+     * @param int $id
+     * @return Endpoint
+     */
+    public function loadData($id): Endpoint
+    {
+        $endpoint = new Endpoint();
+        $endpoint->load(['id = ?', [$id]]);
+
+        return $endpoint;
     }
 }

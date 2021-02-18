@@ -33,8 +33,8 @@ class AddDefaultAdminRecord extends AbstractMigration
                 'email'      => 'admin@spoutbreeze.test',
                 'username'   => 'admin',
                 'role'       => UserRole::ADMIN,
-                'password'   => '$2y$10$2cc96b1263fa3d2931f23ud5RaGBAhrF5XlaYMPY5oEcTyr9LxPIq',
-                'salt'       => '2cc96b1263fa3d2931f232',
+                'password'   => '$2y$10$389aec3bc72f05df7ff7euhLd8y11Po/FkxCLXPv5hqmy5bFRpMeO', // 12345678
+                'salt'       => '389aec3bc72f05df7ff7e8',
                 'status'     => 'active',
                 'created_on' => date('Y-m-d H:i:s')
             ]

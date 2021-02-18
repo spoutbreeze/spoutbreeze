@@ -18,16 +18,16 @@
  * with SpoutBreeze; if not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Actions\Servers;
+namespace Actions\Endpoints;
 
 use Actions\Base as BaseAction;
 use Enum\ResponseCode;
-use Models\Server;
+use Models\Endpoint;
 use Validation\Validator;
 use Base;
 /**
  * Class Add
- * @package Actions\Servers
+ * @package Actions\Endpoints
  */
 class Add extends BaseAction
 {
@@ -35,7 +35,7 @@ class Add extends BaseAction
      * @param \Base $f3
      * @param array $params
      */
-    public function show($f3, $params): void
+    public function show ($f3, $params): void
     {
         $this->render();
     }
@@ -49,26 +49,24 @@ class Add extends BaseAction
         $v       = new Validator();
         $form    = $this->getDecodedBody();
 
-        $server    = new Server();
+        $endpoint   = new Endpoint();
 
-        $v->notEmpty()->verify('fqdn', $form['fqdn'], ['notEmpty' => $this->i18n->err('servers.fqdn')]);
-        $v->ip('*', FILTER_FLAG_IPV4)->verify('ip_address', $form['ip_address'], ['ip' => $this->i18n->err('servers.ip_address')]);
-        $v->notEmpty()->verify('shared_secret', $form['shared_secret'], ['notEmpty' => $this->i18n->err('servers.shared_secret')]);
+        $v->notEmpty()->verify('name', $form['name'], ['notEmpty' => $this->i18n->err('streaming_endpoints.name')]);
+        $v->url()->verify('url', $form['url'], ['url' => $this->i18n->err('streaming_endpoints.url')]);
 
         if ($v->allValid()) {
-            $server->fqdn           = $form['fqdn'];
-            $server->ip_address       = $form['ip_address'];
-            $server->shared_secret      = $form['shared_secret'];
+            $endpoint->name      = $form['name'];
+            $endpoint->url       = $form['url'];
 
             try {
-                $server->save();
+                $endpoint->save();
             } catch (\Exception $e) {
                 $this->renderJson(['errors' => $e->getMessage()], ResponseCode::HTTP_INTERNAL_SERVER_ERROR);
 
                 return;
             }
 
-            $this->renderJson(['data' => $server->toArray()]);
+            $this->renderJson(['data' => $endpoint->toArray()]);
         } else {
             $this->renderJson(['errors' => $v->getErrors()], ResponseCode::HTTP_UNPROCESSABLE_ENTITY);
         }

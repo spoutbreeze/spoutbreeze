@@ -82,3 +82,4 @@ Vagrant.configure("2") do |config|
   config.vm.post_up_message = "Application   URL: http://#{domains[:mainapp]}\nDocumentation URL: http://#{domains[:docs]}"
   # SHELL
 end
+

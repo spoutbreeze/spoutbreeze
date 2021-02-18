@@ -3,9 +3,9 @@
   "description": "API & Web-Application Management Console",
   "type": "project",
   "autoload": {
-    "classmap": [
-      "app/src"
-    ]
+    "psr-4": {
+      "\\": "app/src"
+    }
   },
   "autoload-dev": {
     "classmap": [

@@ -53,7 +53,8 @@ return [
             'menu' => [
                 'dashboard'       => 'Dashboard',
                 'users'           => 'Users',
-                'servers'         => 'Servers'
+                'servers'         => 'Servers',
+                'endpoints'       => 'Endpoints',
             ],
 
             'dashboard' => [
@@ -124,6 +125,12 @@ return [
                 'server_error'   => 'Unexpected server error',
                 'empty'          => 'This field is required'
 
+            ],
+
+            'servers' => [
+                [
+                    'ip_address' => 'You must provide a valid IP address'
+                ]
             ],
 
             'login' => [
