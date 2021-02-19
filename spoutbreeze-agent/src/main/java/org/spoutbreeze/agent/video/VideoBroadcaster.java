@@ -37,7 +37,7 @@ public class VideoBroadcaster {
                 put("enableLog", true);
                 put("logName", "recording.meetingId.log");
                 put("screenResolution", "1024x768x24");
-                put("sessionTimeout", "30s");
+                put("sessionTimeout", "20000s");
                 put("videoFrameRate", 24);
             }
         });
@@ -60,7 +60,7 @@ public class VideoBroadcaster {
         logger.info("Navigating to url [{}]", recordingUrl);
         seleniumDriver.navigate().to(recordingUrl);
         try {
-            Thread.sleep(40000);
+            Thread.sleep(20000000);
         } catch (InterruptedException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

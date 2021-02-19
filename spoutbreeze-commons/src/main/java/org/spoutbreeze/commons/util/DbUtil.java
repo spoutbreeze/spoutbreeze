@@ -16,16 +16,24 @@
  * with SpoutBreeze; if not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.spoutbreeze.spoutbreezemanager;
+package org.spoutbreeze.commons.util;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import java.sql.Timestamp;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 
-@SpringBootTest
-class SpoutbreezeManagerApplicationTests {
+public final class DbUtil {
 
-	@Test
-	void contextLoads() {
-	}
+    public static ZonedDateTime timeStampToZonedDateTime(Timestamp timeStamp) {
+        return timeStamp.toLocalDateTime().atZone(ZoneId.of("UTC"));
+    }
 
+    public static String now() {
+        return ZonedDateTime.now().toLocalDateTime().atZone(ZoneId.of("UTC")).format(DateTimeFormatter.ISO_INSTANT);
+    }
+
+    public static String timeToDb(ZonedDateTime time) {
+        return time.toLocalDateTime().atZone(ZoneId.of("UTC")).format(DateTimeFormatter.ISO_INSTANT);
+    }
 }

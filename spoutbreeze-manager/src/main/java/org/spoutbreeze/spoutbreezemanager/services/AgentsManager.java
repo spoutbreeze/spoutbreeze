@@ -16,16 +16,27 @@
  * with SpoutBreeze; if not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.spoutbreeze.spoutbreezemanager;
+package org.spoutbreeze.spoutbreezemanager.services;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.spoutbreeze.commons.data.agent.AgentJdbcRepository;
+import org.spoutbreeze.commons.entities.Agent;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 
-@SpringBootTest
-class SpoutbreezeManagerApplicationTests {
+@Service
+public class AgentsManager {
 
-	@Test
-	void contextLoads() {
-	}
+    private static final Logger logger = LoggerFactory.getLogger(AgentsManager.class);
 
+    @Autowired
+    @Qualifier("agentJdbcRepository")
+    private AgentJdbcRepository agentJdbcRepository;
+
+    public Agent getAgent(Long agentId) {
+        logger.info("Looking for agent with id {}", agentId);
+        return agentJdbcRepository.findById(agentId);
+    }
 }

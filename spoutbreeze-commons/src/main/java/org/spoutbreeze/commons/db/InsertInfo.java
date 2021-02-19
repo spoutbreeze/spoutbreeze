@@ -16,16 +16,8 @@
  * with SpoutBreeze; if not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.spoutbreeze.spoutbreezemanager;
+package org.spoutbreeze.commons.db;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-
-@SpringBootTest
-class SpoutbreezeManagerApplicationTests {
-
-	@Test
-	void contextLoads() {
-	}
-
+public class InsertInfo {
+    public Integer lastId;
 }

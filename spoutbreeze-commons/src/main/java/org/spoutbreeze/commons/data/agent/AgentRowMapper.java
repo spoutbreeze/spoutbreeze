@@ -16,16 +16,27 @@
  * with SpoutBreeze; if not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.spoutbreeze.spoutbreezemanager;
+package org.spoutbreeze.commons.data.agent;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
-@SpringBootTest
-class SpoutbreezeManagerApplicationTests {
+import org.spoutbreeze.commons.entities.Agent;
+import org.spoutbreeze.commons.util.DbUtil;
+import org.springframework.jdbc.core.RowMapper;
 
-	@Test
-	void contextLoads() {
-	}
+public class AgentRowMapper implements RowMapper<Agent> {
+
+    @Override
+    public Agent mapRow(ResultSet rs, int rowNum) throws SQLException {
+
+        Agent agent = new Agent();
+        agent.id = rs.getLong("id");
+        agent.name = rs.getString("name");
+        agent.status = rs.getString("status");
+        agent.createdOn = DbUtil.timeStampToZonedDateTime(rs.getTimestamp("created_on"));
+        agent.updatedOn = DbUtil.timeStampToZonedDateTime(rs.getTimestamp("updated_on"));
+        return agent;
+    }
 
 }

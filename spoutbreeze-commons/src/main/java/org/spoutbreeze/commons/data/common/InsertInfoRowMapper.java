@@ -16,16 +16,22 @@
  * with SpoutBreeze; if not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.spoutbreeze.spoutbreezemanager;
+package org.spoutbreeze.commons.data.common;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
-@SpringBootTest
-class SpoutbreezeManagerApplicationTests {
+import org.spoutbreeze.commons.db.InsertInfo;
+import org.springframework.jdbc.core.RowMapper;
 
-	@Test
-	void contextLoads() {
-	}
+public class InsertInfoRowMapper implements RowMapper<InsertInfo> {
+
+    @Override
+    public InsertInfo mapRow(ResultSet rs, int rowNum) throws SQLException {
+
+        InsertInfo insertInfo = new InsertInfo();
+        insertInfo.lastId = rs.getInt("last_id");
+        return insertInfo;
+    }
 
 }

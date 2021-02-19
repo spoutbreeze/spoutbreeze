@@ -16,16 +16,32 @@
  * with SpoutBreeze; if not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.spoutbreeze.spoutbreezemanager;
+package org.spoutbreeze.commons.entities;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import java.time.ZonedDateTime;
 
-@SpringBootTest
-class SpoutbreezeManagerApplicationTests {
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
 
-	@Test
-	void contextLoads() {
-	}
+import org.springframework.data.annotation.Id;
 
+// @Entity(name = "streaming_endpoints")
+public class StreamingEndpoint {
+
+    @Id
+    @GeneratedValue
+    @Column(name = "id")
+    public Long id;
+
+    @Column(name = "name")
+    public String name;
+
+    @Column(name = "url")
+    public String url;
+
+    @Column(name = "created_on")
+    public ZonedDateTime createdOn;
+
+    @Column(name = "updated_on")
+    public ZonedDateTime updatedOn;
 }

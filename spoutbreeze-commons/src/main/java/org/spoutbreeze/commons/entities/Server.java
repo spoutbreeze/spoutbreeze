@@ -16,16 +16,35 @@
  * with SpoutBreeze; if not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.spoutbreeze.spoutbreezemanager;
+package org.spoutbreeze.commons.entities;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import java.time.ZonedDateTime;
 
-@SpringBootTest
-class SpoutbreezeManagerApplicationTests {
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
 
-	@Test
-	void contextLoads() {
-	}
+import org.springframework.data.annotation.Id;
 
+// @Entity(name = "servers")
+public class Server {
+
+    @Id
+    @GeneratedValue
+    @Column(name = "id")
+    public Long id;
+
+    @Column(name = "fqdn")
+    public String fqdn;
+
+    @Column(name = "ip_address")
+    public String ipAddress;
+
+    @Column(name = "shared_secret")
+    public String sharedSecret;
+
+    @Column(name = "created_on")
+    public ZonedDateTime createdOn;
+
+    @Column(name = "updated_on")
+    public ZonedDateTime updatedOn;
 }
