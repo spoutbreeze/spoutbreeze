@@ -24,7 +24,6 @@ use Actions\Base as BaseAction;
 use Enum\ResponseCode;
 use Models\Server;
 use Validation\Validator;
-use Base;
 /**
  * Class Add
  * @package Actions\Servers
@@ -56,8 +55,8 @@ class Add extends BaseAction
         $v->notEmpty()->verify('shared_secret', $form['shared_secret'], ['notEmpty' => $this->i18n->err('servers.shared_secret')]);
 
         if ($v->allValid()) {
-            $server->fqdn           = $form['fqdn'];
-            $server->ip_address       = $form['ip_address'];
+            $server->fqdn               = $form['fqdn'];
+            $server->ip_address         = $form['ip_address'];
             $server->shared_secret      = $form['shared_secret'];
 
             try {

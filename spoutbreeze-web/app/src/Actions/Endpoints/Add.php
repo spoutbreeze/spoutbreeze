@@ -24,7 +24,6 @@ use Actions\Base as BaseAction;
 use Enum\ResponseCode;
 use Models\Endpoint;
 use Validation\Validator;
-use Base;
 /**
  * Class Add
  * @package Actions\Endpoints
@@ -35,7 +34,7 @@ class Add extends BaseAction
      * @param \Base $f3
      * @param array $params
      */
-    public function show ($f3, $params): void
+    public function show($f3, $params): void
     {
         $this->render();
     }

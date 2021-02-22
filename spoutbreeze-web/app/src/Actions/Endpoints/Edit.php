@@ -33,7 +33,7 @@ use Validation\Validator;
 class Edit extends BaseAction
 {
     /**
-     * @param Base $f3
+     * @param Base  $f3
      * @param array $params
      */
     public function show($f3, $params): void
@@ -48,25 +48,23 @@ class Edit extends BaseAction
     }
 
     /**
-     * @param Base $f3
+     * @param Base  $f3
      * @param array $params
      */
     public function save($f3, $params): void
     {
-        $v = new Validator();
-        $form = $this->getDecodedBody();
+        $v        = new Validator();
+        $form     = $this->getDecodedBody();
         $endpoint = $this->loadData($params['id']);
 
         $v->notEmpty()->verify('name', $form['name'], ['notEmpty' => $this->i18n->err('streaming_endpoints.name')]);
         $v->url()->verify('url', $form['url'], ['url' => $this->i18n->err('streaming_endpoints.url')]);
 
-
         if (!$endpoint->valid()) {
             $this->renderJson([], ResponseCode::HTTP_NOT_FOUND);
         } elseif ($v->allValid()) {
             $endpoint->name = $form['name'];
-            $endpoint->url = $form['url'];
-
+            $endpoint->url  = $form['url'];
 
             try {
                 $endpoint->save();
@@ -83,7 +81,7 @@ class Edit extends BaseAction
     }
 
     /**
-     * @param int $id
+     * @param  int      $id
      * @return Endpoint
      */
     public function loadData($id): Endpoint

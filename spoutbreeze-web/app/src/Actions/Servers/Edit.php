@@ -33,7 +33,7 @@ use Validation\Validator;
 class Edit extends BaseAction
 {
     /**
-     * @param Base $f3
+     * @param Base  $f3
      * @param array $params
      */
     public function show($f3, $params): void
@@ -48,27 +48,25 @@ class Edit extends BaseAction
     }
 
     /**
-     * @param Base $f3
+     * @param Base  $f3
      * @param array $params
      */
     public function save($f3, $params): void
     {
-        $v = new Validator();
-        $form = $this->getDecodedBody();
+        $v      = new Validator();
+        $form   = $this->getDecodedBody();
         $server = $this->loadData($params['id']);
 
         $v->notEmpty()->verify('fqdn', $form['fqdn'], ['notEmpty' => $this->i18n->err('servers.fqdn')]);
         $v->notEmpty()->verify('ip_address', $form['ip_address'], ['notEmpty' => $this->i18n->err('servers.ip_address')]);
         $v->notEmpty()->verify('shared_secret', $form['shared_secret'], ['notEmpty' => $this->i18n->err('servers.shared_secret')]);
 
-
         if (!$server->valid()) {
             $this->renderJson([], ResponseCode::HTTP_NOT_FOUND);
         } elseif ($v->allValid()) {
-            $server->fqdn = $form['fqdn'];
-            $server->ip_address = $form['ip_address'];
+            $server->fqdn          = $form['fqdn'];
+            $server->ip_address    = $form['ip_address'];
             $server->shared_secret = $form['shared_secret'];
-
 
             try {
                 $server->save();
@@ -85,7 +83,7 @@ class Edit extends BaseAction
     }
 
     /**
-     * @param int $id
+     * @param  int    $id
      * @return Server
      */
     public function loadData($id): Server

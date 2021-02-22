@@ -20,12 +20,8 @@
 
 namespace Models;
 
-use Enum\UserStatus;
-use Helpers\Pagination;
 use Models\Base as BaseModel;
 use DateTime;
-use DB\Cortex;
-use Bcrypt;
 
 /**
  * Class Server
@@ -53,8 +49,4 @@ class Server extends BaseModel
             return $crypt->hash($value, $self->salt);
         });
     }
-
-
-
-
 }

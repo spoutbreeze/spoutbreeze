@@ -24,7 +24,6 @@ use Actions\Base as BaseAction;
 use Enum\ResponseCode;
 use Models\Agent;
 use Validation\Validator;
-use Base;
 /**
  * Class Add
  * @package Actions\Agents
@@ -56,7 +55,7 @@ class Add extends BaseAction
 
         if ($v->allValid()) {
             $agent->name          = $form['name'];
-            $agent->status      = $form['status'];
+            $agent->status        = $form['status'];
 
             try {
                 $agent->save();

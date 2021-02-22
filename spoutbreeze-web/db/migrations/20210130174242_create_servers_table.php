@@ -37,7 +37,6 @@ final class CreateServersTable extends AbstractMigration
 
     public function down(): void
     {
-        $userTable = $this->table('servers');
-        $userTable->drop();
+        $this->table('servers')->drop()->save();
     }
 }

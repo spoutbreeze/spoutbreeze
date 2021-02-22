@@ -53,7 +53,7 @@ class Index extends BaseAction
     public function execute($f3, $params): void
     {
         $endpoint    = new Endpoint();
-        $filter    = $f3->get('GET');
+        $filter      = $f3->get('GET');
         $endpoints   = $endpoint->find($filter, ['order' => 'id']);
 
         $this->renderJson(['data' => $endpoints ? $endpoints->castAll(0) : [], 'filter' => $filter]);

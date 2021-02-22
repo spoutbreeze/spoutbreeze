@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SpoutBreeze open source platform - https://www.spoutbreeze.io/
  *
@@ -18,15 +20,22 @@
  * with SpoutBreeze; if not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Actions\Agents;
+use Phinx\Migration\AbstractMigration;
 
-use Actions\Delete as DeleteAction;
-
-/**
- * Class Delete
-  
- * @package Actions\Servers
- */
-class Delete extends DeleteAction
+final class CreateAgentsTable extends AbstractMigration
 {
+    public function up(): void
+    {
+        $table = $this->table('agents');
+        $table->addColumn('name', 'string', ['limit' => 256, 'null' => false])
+              ->addColumn('status', 'string', ['limit' => 256, 'null' => false])
+              ->addColumn('created_on', 'datetime', ['default' => '0001-01-01 00:00:00', 'timezone' => true])
+              ->addColumn('updated_on', 'datetime', ['default' => '0001-01-01 00:00:00', 'timezone' => true])
+              ->save();
+    }
+
+    public function down(): void
+    {
+        $this->table('agents')->drop()->save();
+    }
 }

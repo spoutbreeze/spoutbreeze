@@ -52,9 +52,9 @@ class Index extends BaseAction
      */
     public function execute($f3, $params): void
     {
-        $agent    = new Agent();
+        $agent     = new Agent();
         $filter    = $f3->get('GET');
-        $agents   = $agent->find($filter, ['order' => 'id']);
+        $agents    = $agent->find($filter, ['order' => 'id']);
 
         $this->renderJson(['data' => $agents ? $agents->castAll(0) : [], 'filter' => $filter]);
     }

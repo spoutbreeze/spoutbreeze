@@ -20,11 +20,8 @@
 
 namespace Models;
 
-use Helpers\Pagination;
 use Models\Base as BaseModel;
 use DateTime;
-use DB\Cortex;
-use Bcrypt;
 
 /**
  * Class Server
@@ -51,8 +48,4 @@ class Agent extends BaseModel
             return $crypt->hash($value, $self->salt);
         });
     }
-
-
-
-
 }

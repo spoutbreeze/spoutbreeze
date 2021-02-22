@@ -20,12 +20,8 @@
 
 namespace Models;
 
-use Enum\UserStatus;
-use Helpers\Pagination;
 use Models\Base as BaseModel;
 use DateTime;
-use DB\Cortex;
-use Bcrypt;
 
 /**
  * Class Broadcast
@@ -36,7 +32,6 @@ use Bcrypt;
  * @property DateTime  $updated_on
  * @package Models
  */
-
 class Broadcast extends BaseModel
 {
     protected $table = 'broadcasts';
@@ -53,9 +48,4 @@ class Broadcast extends BaseModel
             return $crypt->hash($value, $self->salt);
         });
     }
-
-
-
-
 }
-

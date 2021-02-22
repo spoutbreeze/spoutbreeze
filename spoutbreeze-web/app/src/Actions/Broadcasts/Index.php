@@ -18,7 +18,7 @@
  * with SpoutBreeze; if not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Actions\Broadcats;
+namespace Actions\Broadcasts;
 
 use Actions\Base as BaseAction;
 use Models\Broadcast;
@@ -37,7 +37,6 @@ class Index extends BaseAction
      */
     public function show($f3, $params): void
     {
-
         $this->assets->addJs('core.js');
         $this->assets->addJs('core/broadcasts.js');
         $this->assets->addJs('vendors/datatables.min.js');
@@ -54,7 +53,7 @@ class Index extends BaseAction
     public function execute($f3, $params): void
     {
         $broadcast    = new Broadcast();
-        $filter    = $f3->get('GET');
+        $filter       = $f3->get('GET');
         $broadcasts   = $broadcast->find($filter, ['order' => 'id']);
 
         $this->renderJson(['data' => $broadcasts ? $broadcasts->castAll(0) : [], 'filter' => $filter]);
