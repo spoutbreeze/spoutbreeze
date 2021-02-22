@@ -1,0 +1,72 @@
+<div class="page-header">
+    <h1 class="page-title">
+        Agents
+    </h1>
+
+    <div class="col-auto ml-auto d-print-none">
+        <span class="d-none d-sm-inline">
+            <a href="#" class="btn btn-secondary btn-new">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                New agent
+            </a>
+        </span>
+    </div>
+</div>
+
+<div class="row row-deck">
+    <div class="col-12">
+        <div class="card">
+            <div class="table-responsive">
+                <table class="table card-table table-vcenter text-nowrap datatable table-listing">
+                    <thead>
+                    <tr>
+                        <th class="w-1p">ID</th>
+                        <th>Name</th>
+                        <th>Status</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Edit Agent</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <input type="hidden" name="id">
+
+                    <div class="form-group">
+                        <label for="name" class="form-label">Name:</label>
+                        <input type="text" class="form-control form-control-required" data-validation="['required']" name="name">
+                        <div class="invalid-feedback invalid-required" style="display: none">Value is required</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="status" class="form-label">Status:</label>
+                        <input class="form-control form-control-required" data-validation="['required']" name="status">
+                        <div class="invalid-feedback invalid-required" style="display: none">Value is required</div>
+                    </div>
+
+
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
