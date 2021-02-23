@@ -22,7 +22,7 @@ import java.util.List;
 
 import org.spoutbreeze.commons.data.common.InsertInfoRowMapper;
 import org.spoutbreeze.commons.db.InsertInfo;
-import org.spoutbreeze.commons.entities.Agent;
+import org.spoutbreeze.commons.entities.Endpoint;
 import org.spoutbreeze.commons.util.DbUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -39,13 +39,13 @@ public class EndpointJdbcRepository {
 
     public Endpoint findById(Long id) {
         return jdbcTemplate.queryForObject("SELECT * FROM streaming_endpoints WHERE id = ?", new Object[] { id },
-                new ServerRowMapper());
+                new EndpointRowMapper());
     }
 
     public Endpoint findByName(String name) {
         try {
-            return jdbcTemplate.queryForObject("SELECT * FROM streaming_endpoints WHERE name = ?", new Object[] { name},
-                    new EndpointRowMapper());
+            return jdbcTemplate.queryForObject("SELECT * FROM streaming_endpoints WHERE name = ?",
+                    new Object[] { name }, new EndpointRowMapper());
         } catch (EmptyResultDataAccessException e) {
             return null;
         }
@@ -57,8 +57,9 @@ public class EndpointJdbcRepository {
 
     public int insert(Endpoint endpoint) {
         return jdbcTemplate.update(
-                "INSERT INTO streaming_endpoints (name, url, created_on,updated_on) " + "VALUES(?, ?, ?, ?, ?::timestamp)",
-                new Object[] {endpoint.name, endpoint.url, DbUtil.timeToDb(endpoint.createdOn) });
+                "INSERT INTO streaming_endpoints (name, url, created_on,updated_on) "
+                        + "VALUES(?, ?, ?, ?, ?::timestamp)",
+                new Object[] { endpoint.name, endpoint.url, DbUtil.timeToDb(endpoint.createdOn) });
     }
 
     public List<Endpoint> findAll() {
@@ -66,6 +67,7 @@ public class EndpointJdbcRepository {
     }
 
     public InsertInfo lastInsertedId() {
-        return jdbcTemplate.query("SELECT MAX(id) as last_id FROM streaming_endpoints", new InsertInfoRowMapper()).get(0);
+        return jdbcTemplate.query("SELECT MAX(id) as last_id FROM streaming_endpoints", new InsertInfoRowMapper())
+                .get(0);
     }
 }

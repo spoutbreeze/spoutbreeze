@@ -21,7 +21,7 @@ package org.spoutbreeze.commons.data.endpoint;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.spoutbreeze.commons.entities.Agent;
+import org.spoutbreeze.commons.entities.Endpoint;
 import org.spoutbreeze.commons.util.DbUtil;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -30,12 +30,12 @@ public class EndpointRowMapper implements RowMapper<Endpoint> {
     @Override
     public Endpoint mapRow(ResultSet rs, int rowNum) throws SQLException {
 
-    	Endpoint endpoint = new Endpoint();
-    	endpoint.id = rs.getLong("id");
-    	endpoint.fqdn = rs.getString("name");
-    	endpoint.ip_address = rs.getString("url");
-    	endpoint.createdOn = DbUtil.timeStampToZonedDateTime(rs.getTimestamp("created_on"));
-    	endpoint.updatedOn = DbUtil.timeStampToZonedDateTime(rs.getTimestamp("updated_on"));
+        Endpoint endpoint = new Endpoint();
+        endpoint.id = rs.getLong("id");
+        endpoint.name = rs.getString("name");
+        endpoint.url = rs.getString("url");
+        endpoint.createdOn = DbUtil.timeStampToZonedDateTime(rs.getTimestamp("created_on"));
+        endpoint.updatedOn = DbUtil.timeStampToZonedDateTime(rs.getTimestamp("updated_on"));
         return endpoint;
     }
 

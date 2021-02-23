@@ -10,3 +10,4 @@ uploads/*
 *.iml
 *.log
 public/metrics/*
+*.idea/*

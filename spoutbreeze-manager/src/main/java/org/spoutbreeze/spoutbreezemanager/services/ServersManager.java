@@ -21,7 +21,7 @@ package org.spoutbreeze.spoutbreezemanager.services;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spoutbreeze.commons.data.server.ServerJdbcRepository;
-import org.spoutbreeze.commons.entities.Endpoint;
+import org.spoutbreeze.commons.entities.Server;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;

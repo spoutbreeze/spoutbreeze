@@ -22,7 +22,7 @@ import java.util.List;
 
 import org.spoutbreeze.commons.data.common.InsertInfoRowMapper;
 import org.spoutbreeze.commons.db.InsertInfo;
-import org.spoutbreeze.commons.entities.Agent;
+import org.spoutbreeze.commons.entities.Server;
 import org.spoutbreeze.commons.util.DbUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -57,8 +57,9 @@ public class ServerJdbcRepository {
 
     public int insert(Server server) {
         return jdbcTemplate.update(
-                "INSERT INTO agents (fqdn, ip_address,shared_secret, created_on,updated_on) " + "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?::timestamp)",
-                new Object[] { server.fqdn, server.ip_address, DbUtil.timeToDb(server.createdOn) });
+                "INSERT INTO agents (fqdn, ip_address,shared_secret, created_on,updated_on) "
+                        + "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?::timestamp)",
+                new Object[] { server.fqdn, server.ipAddress, DbUtil.timeToDb(server.createdOn) });
     }
 
     public List<Server> findAll() {

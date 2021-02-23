@@ -21,7 +21,7 @@ package org.spoutbreeze.commons.data.server;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.spoutbreeze.commons.entities.Agent;
+import org.spoutbreeze.commons.entities.Server;
 import org.spoutbreeze.commons.util.DbUtil;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -33,8 +33,8 @@ public class ServerRowMapper implements RowMapper<Server> {
         Server server = new Server();
         server.id = rs.getLong("id");
         server.fqdn = rs.getString("fqdn");
-        server.ip_address = rs.getString("ip_address");
-        server.shared_secret = rs.getString("shared_secret");
+        server.ipAddress = rs.getString("ip_address");
+        server.sharedSecret = rs.getString("shared_secret");
         server.createdOn = DbUtil.timeStampToZonedDateTime(rs.getTimestamp("created_on"));
         server.updatedOn = DbUtil.timeStampToZonedDateTime(rs.getTimestamp("updated_on"));
         return server;
