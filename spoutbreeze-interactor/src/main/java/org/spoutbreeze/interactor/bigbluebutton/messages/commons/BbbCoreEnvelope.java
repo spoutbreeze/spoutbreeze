@@ -16,8 +16,11 @@
  * with SpoutBreeze; if not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.spoutbreeze.interactor.services;
+package org.spoutbreeze.interactor.bigbluebutton.messages.commons;
 
-public class RedisMessageInjector {
+import java.util.Map;
 
+public class BbbCoreEnvelope {
+    public String name;
+    public Map<String, String> routing;
 }

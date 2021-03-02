@@ -16,8 +16,11 @@
  * with SpoutBreeze; if not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.spoutbreeze.interactor.services;
+package org.spoutbreeze.interactor.bigbluebutton.messages.domain;
 
-public class RedisMessageInjector {
-
+public class MeetingProp {
+    public String name;
+    public String extId;
+    public String intId;
+    public Boolean isBreakout;
 }

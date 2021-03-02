@@ -16,8 +16,11 @@
  * with SpoutBreeze; if not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.spoutbreeze.interactor.services;
+package org.spoutbreeze.interactor.bigbluebutton.messages.system;
 
-public class RedisMessageInjector {
+import org.spoutbreeze.interactor.bigbluebutton.messages.commons.BbbCoreEnvelope;
+import org.spoutbreeze.interactor.bigbluebutton.messages.commons.BbbCoreMsg;
 
+public class CreateMeetingReqMsg extends BbbCoreMsg {
+    public BbbCoreEnvelope envelope;
 }

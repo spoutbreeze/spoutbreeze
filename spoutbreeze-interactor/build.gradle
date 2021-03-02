@@ -40,6 +40,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.slf4j:slf4j-simple")
+    implementation("com.squareup.moshi:moshi:1.11.0")
     runtime("io.micronaut.spring:micronaut-spring-boot")
     testImplementation("org.testcontainers:testcontainers")
     testImplementation("org.testcontainers:spock")
@@ -48,13 +49,10 @@ dependencies {
 
 
 application {
-    mainClass.set("org.spoutbreeze.interactor.Application")
+    mainClass.set("org.spoutbreeze.interactor.SpoutBreezeInteractor")
 }
 
 java {
     sourceCompatibility = JavaVersion.toVersion("1.8")
     targetCompatibility = JavaVersion.toVersion("1.8")
 }
-
-
-
