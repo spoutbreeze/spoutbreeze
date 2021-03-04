@@ -1,7 +1,7 @@
 <?php
 
 /**
- * SpoutBreeze open source platform - https://www.spoutbreeze.io/
+ * SpoutBreeze open source platform - https://www.spoutbreeze.org/
  *
  * Copyright (c) 2021 Frictionless Solutions Inc., RIADVICE SUARL and by respective authors (see below).
  *
