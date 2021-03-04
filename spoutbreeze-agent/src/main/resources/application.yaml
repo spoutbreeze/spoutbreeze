@@ -1,0 +1,10 @@
+network:
+  name: mp4-agent-local
+selenoid:
+  endpoint: http://127.0.0.1:4444
+  hub: /wd/hub
+broadcasting:
+  frameRate: 24
+  directory: /etc/selenoid/
+api:
+  user: YXBpLm1hc3RlckByaWFkemljZS50bjowcEtRTlpqZlpKaDdpVzV5Wwpydw==

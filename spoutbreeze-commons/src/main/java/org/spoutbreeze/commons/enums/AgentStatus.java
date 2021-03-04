@@ -16,35 +16,8 @@
  * with SpoutBreeze; if not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.spoutbreeze.commons.entities;
+package org.spoutbreeze.commons.enums;
 
-import java.time.ZonedDateTime;
-
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-
-import org.springframework.data.annotation.Id;
-
-// @Entity(name = "broadcasts")
-public class Broadcast {
-
-    @Id
-    @GeneratedValue
-    @Column(name = "id")
-    public Long id;
-
-    @Column(name = "server_id")
-    public Long server_id;
-
-    @Column(name = "endpoint_id")
-    public Long endpoint_id;
-
-    @Column(name = "selenoid_id")
-    public String selenoid_id;
-
-    @Column(name = "created_on")
-    public ZonedDateTime createdOn;
-
-    @Column(name = "updated_on")
-    public ZonedDateTime updatedOn;
+public enum AgentStatus {
+    ENABLED, DISABLED
 }
