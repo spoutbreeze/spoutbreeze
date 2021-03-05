@@ -20,16 +20,18 @@
 
 namespace Models;
 
-use Models\Base as BaseModel;
 use DateTime;
+use Models\Base as BaseModel;
 
 /**
  * Class Server
- * @property int       $id
- * @property string    $name
- * @property string    $status
- * @property DateTime  $created_on
- * @property DateTime  $updated_on
+ * @property int $id
+ * @property string $name
+ * @property string $status
+ * @property string $ip_address
+ * @property integer $port
+ * @property DateTime $created_on
+ * @property DateTime $updated_on
  * @package Models
  */
 class Agent extends BaseModel

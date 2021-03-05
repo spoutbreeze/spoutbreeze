@@ -24,6 +24,7 @@ use Actions\Base as BaseAction;
 use Enum\ResponseCode;
 use Models\Agent;
 use Validation\Validator;
+
 /**
  * Class Add
  * @package Actions\Agents
@@ -45,17 +46,21 @@ class Add extends BaseAction
      */
     public function save($f3, $params): void
     {
-        $v       = new Validator();
-        $form    = $this->getDecodedBody();
+        $v = new Validator();
+        $form = $this->getDecodedBody();
 
-        $agent    = new Agent();
+        $agent = new Agent();
 
         $v->notEmpty()->verify('name', $form['name'], ['notEmpty' => $this->i18n->err('agents.name')]);
         $v->notEmpty()->verify('status', $form['status'], ['notEmpty' => $this->i18n->err('agents.status')]);
+        $v->ip('*', FILTER_FLAG_IPV4)->verify('ip_address', $form['ip_address'], ['ip' => $this->i18n->err('agents.ip_address')]);
+        $v->between(1, 65536)->verify('port', $form['port'], ['between' => $this->i18n->err('agents.port')]);
 
         if ($v->allValid()) {
-            $agent->name          = $form['name'];
-            $agent->status        = $form['status'];
+            $agent->name = $form['name'];
+            $agent->status = $form['status'];
+            $agent->ip_address = $form['ip_address'];
+            $agent->port = $form['port'];
 
             try {
                 $agent->save();

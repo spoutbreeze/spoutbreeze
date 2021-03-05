@@ -29,6 +29,9 @@ var   Agents = function () {
                 { data: 'id' },
                 { data: 'name' },
                 { data: 'status' },
+                { data: 'ip_address' },
+                { data: 'port' },
+
                 { data: null }
             ];
             var columnDefs = [
@@ -108,6 +111,8 @@ var   Agents = function () {
                     id: '',
                     name: '',
                     status: '',
+                    ip_address:'',
+                    port:'',
                 }
             );
             $modal.find('.modal-title').text('Add Agent');

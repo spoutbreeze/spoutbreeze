@@ -23,6 +23,9 @@
                         <th class="w-1p">ID</th>
                         <th>Name</th>
                         <th>Status</th>
+                        <th>Ip_address</th>
+                        <th>Port</th>
+
                         <th></th>
                     </tr>
                     </thead>
@@ -59,7 +62,17 @@
                         <div class="invalid-feedback invalid-required" style="display: none">Value is required</div>
                     </div>
 
+                    <div class="form-group">
+                        <label for="ip_address" class="form-label">ip_address:</label>
+                        <input class="form-control form-control-required" data-validation="['required']" name="ip_address">
+                        <div class="invalid-feedback invalid-required" style="display: none">Value is required</div>
+                    </div>
 
+                    <div class="form-group">
+                        <label for="port" class="form-label">Port:</label>
+                        <input class="form-control form-control-required" data-validation="['required']" name="port">
+                        <div class="invalid-feedback invalid-required" style="display: none">Value is required</div>
+                    </div>
 
                 </form>
             </div>

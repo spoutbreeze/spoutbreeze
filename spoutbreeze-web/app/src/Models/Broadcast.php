@@ -1,7 +1,7 @@
 <?php
 
 /**
- * SpoutBreeze open source platform - https://www.spoutbreeze.org/
+ * SpoutBreeze open source platform - https://www.spoutbreeze.io/
  *
  * Copyright (c) 2021 Frictionless Solutions Inc., RIADVICE SUARL and by respective authors (see below).
  *
@@ -25,11 +25,11 @@ use DateTime;
 
 /**
  * Class Broadcast
- * @property int       $selenoid_id
- * @property int       $server_id
- * @property string    $endpoint_id
- * @property DateTime  $created_on
- * @property DateTime  $updated_on
+ * @property int $selenoid_id
+ * @property int $server_id
+ * @property int $endpoint_id
+ * @property DateTime $created_on
+ * @property DateTime $updated_on
  * @package Models
  */
 class Broadcast extends BaseModel

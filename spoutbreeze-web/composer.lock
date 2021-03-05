@@ -43,7 +43,7 @@
         },
         {
             "name": "cakephp/core",
-            "version": "4.2.3",
+            "version": "4.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/core.git",
@@ -100,16 +100,16 @@
         },
         {
             "name": "cakephp/database",
-            "version": "4.2.3",
+            "version": "4.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/database.git",
-                "reference": "8326f272a8e43c38c73c0b4a969f5c142428d8a4"
+                "reference": "548196c180e1085982410bf50ee43c1f2e968efc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/database/zipball/8326f272a8e43c38c73c0b4a969f5c142428d8a4",
-                "reference": "8326f272a8e43c38c73c0b4a969f5c142428d8a4",
+                "url": "https://api.github.com/repos/cakephp/database/zipball/548196c180e1085982410bf50ee43c1f2e968efc",
+                "reference": "548196c180e1085982410bf50ee43c1f2e968efc",
                 "shasum": ""
             },
             "require": {
@@ -151,20 +151,20 @@
                 "issues": "https://github.com/cakephp/cakephp/issues",
                 "source": "https://github.com/cakephp/database"
             },
-            "time": "2021-01-21T15:09:57+00:00"
+            "time": "2021-02-25T11:18:56+00:00"
         },
         {
             "name": "cakephp/datasource",
-            "version": "4.2.3",
+            "version": "4.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/datasource.git",
-                "reference": "e2c8c895254837722a5a00609644b72ef01290a0"
+                "reference": "46b069760f901d43bda94decd3c39ed8a9903175"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/datasource/zipball/e2c8c895254837722a5a00609644b72ef01290a0",
-                "reference": "e2c8c895254837722a5a00609644b72ef01290a0",
+                "url": "https://api.github.com/repos/cakephp/datasource/zipball/46b069760f901d43bda94decd3c39ed8a9903175",
+                "reference": "46b069760f901d43bda94decd3c39ed8a9903175",
                 "shasum": ""
             },
             "require": {
@@ -209,11 +209,11 @@
                 "issues": "https://github.com/cakephp/cakephp/issues",
                 "source": "https://github.com/cakephp/datasource"
             },
-            "time": "2021-01-01T07:34:22+00:00"
+            "time": "2021-02-24T02:04:30+00:00"
         },
         {
             "name": "cakephp/utility",
-            "version": "4.2.3",
+            "version": "4.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/utility.git",
@@ -782,16 +782,16 @@
         },
         {
             "name": "nette/utils",
-            "version": "v3.2.1",
+            "version": "v3.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/utils.git",
-                "reference": "2bc2f58079c920c2ecbb6935645abf6f2f5f94ba"
+                "reference": "967cfc4f9a1acd5f1058d76715a424c53343c20c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/utils/zipball/2bc2f58079c920c2ecbb6935645abf6f2f5f94ba",
-                "reference": "2bc2f58079c920c2ecbb6935645abf6f2f5f94ba",
+                "url": "https://api.github.com/repos/nette/utils/zipball/967cfc4f9a1acd5f1058d76715a424c53343c20c",
+                "reference": "967cfc4f9a1acd5f1058d76715a424c53343c20c",
                 "shasum": ""
             },
             "require": {
@@ -861,9 +861,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nette/utils/issues",
-                "source": "https://github.com/nette/utils/tree/v3.2.1"
+                "source": "https://github.com/nette/utils/tree/v3.2.2"
             },
-            "time": "2021-01-11T03:05:59+00:00"
+            "time": "2021-03-03T22:53:25+00:00"
         },
         {
             "name": "psr/container",
