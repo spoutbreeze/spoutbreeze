@@ -33,7 +33,7 @@ use Validation\Validator;
 class Edit extends BaseAction
 {
     /**
-     * @param Base $f3
+     * @param Base  $f3
      * @param array $params
      */
     public function show($f3, $params): void
@@ -48,13 +48,13 @@ class Edit extends BaseAction
     }
 
     /**
-     * @param Base $f3
+     * @param Base  $f3
      * @param array $params
      */
     public function save($f3, $params): void
     {
-        $v = new Validator();
-        $form = $this->getDecodedBody();
+        $v     = new Validator();
+        $form  = $this->getDecodedBody();
         $agent = $this->loadData($params['id']);
 
         $v->notEmpty()->verify('name', $form['name'], ['notEmpty' => $this->i18n->err('agents.name')]);
@@ -65,10 +65,10 @@ class Edit extends BaseAction
         if (!$agent->valid()) {
             $this->renderJson([], ResponseCode::HTTP_NOT_FOUND);
         } elseif ($v->allValid()) {
-            $agent->name = $form['name'];
-            $agent->status = $form['status'];
+            $agent->name       = $form['name'];
+            $agent->status     = $form['status'];
             $agent->ip_address = $form['ip_address'];
-            $agent->port = $form['port'];
+            $agent->port       = $form['port'];
 
             try {
                 $agent->save();
@@ -85,7 +85,7 @@ class Edit extends BaseAction
     }
 
     /**
-     * @param int $id
+     * @param  int   $id
      * @return Agent
      */
     public function loadData($id): Agent

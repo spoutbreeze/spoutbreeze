@@ -46,7 +46,7 @@ class Add extends BaseAction
      */
     public function save($f3, $params): void
     {
-        $v = new Validator();
+        $v    = new Validator();
         $form = $this->getDecodedBody();
 
         $agent = new Agent();
@@ -57,10 +57,10 @@ class Add extends BaseAction
         $v->between(1, 65536)->verify('port', $form['port'], ['between' => $this->i18n->err('agents.port')]);
 
         if ($v->allValid()) {
-            $agent->name = $form['name'];
-            $agent->status = $form['status'];
+            $agent->name       = $form['name'];
+            $agent->status     = $form['status'];
             $agent->ip_address = $form['ip_address'];
-            $agent->port = $form['port'];
+            $agent->port       = $form['port'];
 
             try {
                 $agent->save();

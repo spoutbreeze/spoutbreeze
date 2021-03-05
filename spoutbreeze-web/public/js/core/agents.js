@@ -28,9 +28,9 @@ var   Agents = function () {
             var columns = [
                 { data: 'id' },
                 { data: 'name' },
-                { data: 'status' },
                 { data: 'ip_address' },
                 { data: 'port' },
+                { data: 'status' },
 
                 { data: null }
             ];

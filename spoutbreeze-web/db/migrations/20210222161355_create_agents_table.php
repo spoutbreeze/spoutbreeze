@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * SpoutBreeze open source platform - https://www.spoutbreeze.org/
  *
@@ -19,6 +17,8 @@ declare(strict_types=1);
  * You should have received a copy of the GNU Lesser General Public License along
  * with SpoutBreeze; if not, see <http://www.gnu.org/licenses/>.
  */
+
+declare(strict_types=1);
 
 use Phinx\Migration\AbstractMigration;
 
