@@ -22,10 +22,16 @@ import javax.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.spoutbreeze.interactor.config.ApiConfiguration;
 
+import io.micronaut.core.annotation.Nullable;
+import io.micronaut.http.HttpMethod;
 import io.micronaut.http.HttpRequest;
+import io.micronaut.http.MediaType;
+import io.micronaut.http.MutableHttpRequest;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Post;
+import io.micronaut.http.annotation.Produces;
 import io.micronaut.http.client.RxHttpClient;
 import io.micronaut.http.client.annotation.Client;
 import io.reactivex.Flowable;
@@ -33,18 +39,25 @@ import io.reactivex.Flowable;
 @Controller("/endpoints")
 public class EndpointsController {
 
+    private final ApiConfiguration apiConfiguration;
+
     private static final Logger log = LoggerFactory.getLogger(EndpointsController.class);
+
+    public EndpointsController(@Nullable ApiConfiguration apiConfiguration) {
+        this.apiConfiguration = apiConfiguration;
+    }
 
     @Client("api")
     @Inject
     RxHttpClient httpClient;
 
     @Post("/list")
-    public String list() {
-        HttpRequest request = HttpRequest.GET("/endpoints/available").basicAuth("api@spoutbreeze.test", "api_password");
-
-        Flowable response = httpClient.exchange(request);
-        return null;
+    @Produces(MediaType.APPLICATION_JSON)
+    public Flowable<String> list() {
+        // @todo: add more headers and secure the call later
+        MutableHttpRequest<Object> request = HttpRequest.create(HttpMethod.GET, "/endpoints/available")
+                .basicAuth(apiConfiguration.user, apiConfiguration.password).accept(MediaType.APPLICATION_JSON);
+        return httpClient.retrieve(request);
     }
 
 }
