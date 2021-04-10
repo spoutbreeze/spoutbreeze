@@ -1,7 +1,7 @@
 <?php
 
 /**
- * SpoutBreeze open source platform - https://www.spoutbreeze.io/
+ * SpoutBreeze open source platform - https://www.spoutbreeze.org/
  *
  * Copyright (c) 2021 Frictionless Solutions Inc., RIADVICE SUARL and by respective authors (see below).
  *
@@ -18,22 +18,26 @@
  * with SpoutBreeze; if not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Models;
+declare(strict_types=1);
 
-use Models\Base as BaseModel;
-use DateTime;
+use Phinx\Migration\AbstractMigration;
 
-/**
- * Class Broadcast
- * @property int $selenoid_id
- * @property int $server_id
- * @property int $endpoint_id
- * @property int $meeting_id
- * @property DateTime $created_on
- * @property DateTime $updated_on
- * @package Models
- */
-class Broadcast extends BaseModel
+final class AddMeetingIdColumnToBroadcasts extends AbstractMigration
 {
-    protected $table = 'broadcasts';
+    public function up(): void {
+        $table = $this->table('broadcasts');
+        $table->addColumn('meeting_id', 'string', ['limit' => 128, 'null' => false])
+              ->addIndex(['meeting_id'], [
+                                     'unique' => true,
+                                     'name'   => 'idx_broadcasts_meeting_id']
+              )
+              ->save();
+    }
+
+    public function down(): void {
+        $this->table('broadcasts')
+             ->removeIndexByName('idx_broadcasts_meeting_id')
+             ->removeColumn('meeting_id')
+             ->save();
+    }
 }

@@ -26,6 +26,7 @@ import io.micronaut.http.HttpMethod;
 import io.micronaut.http.HttpRequest;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.MutableHttpRequest;
+import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Post;
 import io.micronaut.http.annotation.Produces;
@@ -40,16 +41,18 @@ public class BroadcastingController extends ApiController {
         super(apiConfiguration);
     }
 
-    /*
-     * {"endpointId":"1",
-     * "meetingId":"5b6d8c848e9b1b3746b72a7681d8c59f3481f8a7-1600099820574",
-     * "userId": "12345"}
+    /**
+     * 
+     * @param payload {"endpointId":"1",
+     *                "meetingId":"5b6d8c848e9b1b3746b72a7681d8c59f3481f8a7-1600099820574",
+     *                "userId": "12345"}
+     * @return
      */
     @Post("/start")
     @Produces(MediaType.APPLICATION_JSON)
-    public Flowable<String> list() {
-        // @todo: add more headers and secure the call later
-        MutableHttpRequest<Object> request = HttpRequest.create(HttpMethod.GET, "/broadcasts/start")
+    public Flowable<String> list(@Body String payload) {
+        // @todo: add more headers and secure the call later using the userId
+        MutableHttpRequest<String> request = HttpRequest.create(HttpMethod.POST, "/broadcasts/start").body(payload)
                 .basicAuth(apiConfiguration.user, apiConfiguration.password).accept(MediaType.APPLICATION_JSON);
         final Flowable<String> response = httpClient.retrieve(request);
         return response;
