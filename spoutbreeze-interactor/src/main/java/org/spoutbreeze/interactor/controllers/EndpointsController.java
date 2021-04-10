@@ -18,13 +18,10 @@
 
 package org.spoutbreeze.interactor.controllers;
 
-import javax.inject.Inject;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spoutbreeze.interactor.config.ApiConfiguration;
 
-import io.micronaut.core.annotation.Nullable;
 import io.micronaut.http.HttpMethod;
 import io.micronaut.http.HttpRequest;
 import io.micronaut.http.MediaType;
@@ -32,24 +29,16 @@ import io.micronaut.http.MutableHttpRequest;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Post;
 import io.micronaut.http.annotation.Produces;
-import io.micronaut.http.client.RxHttpClient;
-import io.micronaut.http.client.annotation.Client;
 import io.reactivex.Flowable;
 
-@Controller("/endpoints")
-public class EndpointsController {
-
-    private final ApiConfiguration apiConfiguration;
+@Controller("/spoutbreeze/endpoints")
+public class EndpointsController extends ApiController {
 
     private static final Logger log = LoggerFactory.getLogger(EndpointsController.class);
 
-    public EndpointsController(@Nullable ApiConfiguration apiConfiguration) {
-        this.apiConfiguration = apiConfiguration;
+    public EndpointsController(ApiConfiguration apiConfiguration) {
+        super(apiConfiguration);
     }
-
-    @Client("api")
-    @Inject
-    RxHttpClient httpClient;
 
     @Post("/list")
     @Produces(MediaType.APPLICATION_JSON)
