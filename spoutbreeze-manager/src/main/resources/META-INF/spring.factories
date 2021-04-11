@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+org.spoutbreeze.commons.data.agent.AgentJdbcRepository,\
+org.spoutbreeze.commons.data.endpoint.EndpointJdbcRepository,\
+org.spoutbreeze.commons.data.server.ServerJdbcRepository

@@ -16,31 +16,24 @@
  * with SpoutBreeze; if not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.spoutbreeze.interactor.handlers;
+package org.spoutbreeze.spoutbreezemanager.services;
 
-import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.spoutbreeze.interactor.bigbluebutton.messages.commons.BbbCommonEnvCoreMsg;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.stereotype.Service;
 
-import com.squareup.moshi.JsonAdapter;
-import com.squareup.moshi.Moshi;
+@Service
+public class QueueProcessor {
+    private static final Logger logger = LoggerFactory.getLogger(AgentsManager.class);
 
-public class ReceivedMessageHandler {
-
-    private static final Logger log = LoggerFactory.getLogger(ReceivedMessageHandler.class);
-
-    public void handleMessage(String message) {
-        Moshi moshi = new Moshi.Builder().build();
-        JsonAdapter<BbbCommonEnvCoreMsg> jsonAdapter = moshi.adapter(BbbCommonEnvCoreMsg.class);
-
-        try {
-            BbbCommonEnvCoreMsg bbbMesage = jsonAdapter.nullSafe().fromJson(message);
-            log.info("Converted new message {}", bbbMesage.core.header.name);
-        } catch (IOException e) {
-            log.error("Cannot handle the received BigBlueButton message", e);
-        }
-
+    @RabbitListener(queues = "spoutbreeze_manager")
+    public void receiveMessage(final Message message) {
+        String s = new String(message.getBody(), StandardCharsets.UTF_8);
+        logger.info("Received message as generic: {}", s);
     }
+
 }

@@ -31,7 +31,8 @@
     "robmorgan/phinx": "^0.12",
     "symfony/yaml": "^5.1",
     "league/uri": "^6.3",
-    "bigbluebutton/bigbluebutton-api-php": "~2.0.0"
+    "bigbluebutton/bigbluebutton-api-php": "~2.0.0",
+    "php-amqplib/php-amqplib": ">=3.0.0"
   },
   "require-dev": {
     "ext-xdebug": ">=2.3.3",

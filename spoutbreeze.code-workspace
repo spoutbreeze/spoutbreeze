@@ -35,6 +35,9 @@
 		{
 			"name": "vagrant",
 			"path": "vagrant"
+		},
+		{
+			"path": "docs"
 		}
 	]
 }

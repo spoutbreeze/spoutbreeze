@@ -32,7 +32,7 @@ public class ServersManager {
     private static final Logger logger = LoggerFactory.getLogger(ServersManager.class);
 
     @Autowired
-    @Qualifier("endpointJdbcRepository")
+    @Qualifier("serverJdbcRepository")
     private ServerJdbcRepository serverJdbcRepository;
 
     public Server getServer(Long serverId) {

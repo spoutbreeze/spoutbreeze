@@ -32,7 +32,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @EnableScheduling
-@ComponentScan("module-service")
+@ComponentScan({ "org.spoutbreeze.spoutbreezemanager.services", "org.spoutbreeze.spoutbreezemanager.queue" })
 public class SpoutbreezeManagerApplication {
 
     @Autowired

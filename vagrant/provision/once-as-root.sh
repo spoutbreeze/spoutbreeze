@@ -75,6 +75,13 @@ sudo ln -s /app/vagrant/dev/nginx/app.conf /etc/nginx/sites-enabled/app.conf
 sudo ln -s /app/vagrant/dev/nginx/docs.conf /etc/nginx/sites-enabled/docs.conf
 echo "Done!"
 
+info "Install RabbitMQ Server"
+sudo apt-get install -y rabbitmq-server
+sudo rabbitmq-plugins enable rabbitmq_management
+sudo rabbitmqctl add_user spoutbreeze spoutbreeze
+sudo rabbitmqctl set_user_tags spoutbreeze administrator
+sudo rabbitmqctl set_permissions -p '/' 'spoutbreeze' '.*' '.*' '.*'
+
 info "Install composer"
 sudo curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer
 

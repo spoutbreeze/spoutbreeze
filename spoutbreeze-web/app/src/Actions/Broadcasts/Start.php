@@ -25,6 +25,8 @@ use Base;
 use Models\Broadcast;
 use Models\Endpoint;
 use Models\Server;
+use PhpAmqpLib\Connection\AMQPStreamConnection;
+use PhpAmqpLib\Message\AMQPMessage;
 
 /**
  * Class Start
@@ -40,6 +42,7 @@ class Start extends BaseAction
         // @todo: check the meeting id first then return and indompedant response
         $form      = $this->getDecodedBody();
         $broadcast = $this->loadBroadcastByMeetingId($form["meetingId"]);
+
         // @todo: make sure the server ID is checked also
         if (!$broadcast->dry()) {
             $this->renderJson(['data' => $broadcast->cast()]);
@@ -55,6 +58,8 @@ class Start extends BaseAction
                 $broadcast->meeting_id  = $form["meetingId"];
                 $broadcast->selenoid_id = "none";
                 $broadcast->save();
+
+                $this->publishMessage(json_encode($broadcast->cast()));
 
                 $this->renderJson(['data' => $broadcast->cast()]);
             } else {
@@ -94,5 +99,26 @@ class Start extends BaseAction
         $broadcast->load(['meeting_id = ?', [$meetingId]]);
 
         return $broadcast;
+    }
+
+    /**
+     * @param Broadcast $broadcast
+     * @throws \Exception
+     */
+    private function publishMessage($broadcast) {
+        // @todo: move config to file
+        $connection = new AMQPStreamConnection('localhost', 5672, 'spoutbreeze', 'spoutbreeze');
+        $channel    = $connection->channel();
+
+        // @todo: put the exchange and queues
+        $channel->exchange_declare('spoutbreeze', 'direct', false, false, false);
+        $channel->queue_declare('spoutbreeze_manager', false, false, false, false);
+        $channel->queue_bind('spoutbreeze_manager', 'spoutbreeze', 'spoutbreeze_manager');
+
+        $msg = new AMQPMessage($broadcast);
+        $channel->basic_publish($msg, 'spoutbreeze', 'spoutbreeze_manager');
+
+        $channel->close();
+        $connection->close();
     }
 }
