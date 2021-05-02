@@ -30,10 +30,9 @@ use BigBlueButton\Parameters\JoinMeetingParameters;
  */
 class Join extends BaseAction
 {
-
     public function execute($f3, $params): string
     {
-        $serverId = $params['serverId'];
+        $serverId  = $params['serverId'];
         $meetingId = $params['meetingId'];
 
         $bigBlueButton = new BigBlueButton();
@@ -41,7 +40,7 @@ class Join extends BaseAction
         $meetings = $bigBlueButton->getMeetings();
         foreach ($meetings->getMeetings() as $meeting) {
             if ($meeting = $params['meetingId']) {
-                $joinParams = new JoinMeetingParameters($meeting->meetingId, "SpoutBreeze Broadcaster", $meeting->attendeePassword);
+                $joinParams = new JoinMeetingParameters($meeting->meetingId, 'SpoutBreeze Broadcaster', $meeting->attendeePassword);
                 $bigBlueButton->joinMeeting($joinParams);
             }
         }
