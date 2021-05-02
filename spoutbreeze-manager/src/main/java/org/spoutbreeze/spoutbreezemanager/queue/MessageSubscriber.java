@@ -18,33 +18,28 @@
 
 package org.spoutbreeze.spoutbreezemanager.queue;
 
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.DirectExchange;
-import org.springframework.amqp.core.Queue;
-import org.springframework.context.annotation.Bean;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.amqp.core.ExchangeTypes;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.rabbit.annotation.Exchange;
+import org.springframework.amqp.rabbit.annotation.Queue;
+import org.springframework.amqp.rabbit.annotation.QueueBinding;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
 @Component
 public class MessageSubscriber {
 
+    private static final Logger logger = LoggerFactory.getLogger(MessageSubscriber.class);
+
     static final String directExchangeName = "spoutbreeze";
 
-    static final String queueName = "spoutbreeze_manager";
+    static final String queueName = "spoutbreeze.manager";
 
-    @Bean
-    Queue queue() {
-        return new Queue(queueName, false);
-    }
-
-    @Bean
-    DirectExchange exchange() {
-        return new DirectExchange(directExchangeName, false, false);
-    }
-
-    @Bean
-    Binding binding(Queue queue, DirectExchange exchange) {
-        return BindingBuilder.bind(queue).to(exchange).with("spoutbreeze_manager");
+    @RabbitListener(bindings = @QueueBinding(value = @Queue(name = queueName, durable = "true"), exchange = @Exchange(name = directExchangeName, type = ExchangeTypes.DIRECT, durable = "true"), key = "spoutbreeze_manager"))
+    public void l(Message message) {
+        logger.info(message.getMessageProperties().getTimestamp().toString());
     }
 
 }

@@ -29,11 +29,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class QueueProcessor {
     private static final Logger logger = LoggerFactory.getLogger(AgentsManager.class);
-
+/*
     @RabbitListener(queues = "spoutbreeze_manager")
     public void receiveMessage(final Message message) {
         String s = new String(message.getBody(), StandardCharsets.UTF_8);
         logger.info("Received message as generic: {}", s);
     }
+    */
 
 }

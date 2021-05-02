@@ -42,7 +42,7 @@ class Start extends BaseAction
         // @todo: check the meeting id first then return and indompedant response
         $form      = $this->getDecodedBody();
         $broadcast = $this->loadBroadcastByMeetingId($form["meetingId"]);
-
+        $this->logger->info($f3->ip());
         // @todo: make sure the server ID is checked also
         if (!$broadcast->dry()) {
             $this->renderJson(['data' => $broadcast->cast()]);
@@ -57,7 +57,7 @@ class Start extends BaseAction
                 $broadcast->server_id   = $server->id;
                 $broadcast->meeting_id  = $form["meetingId"];
                 $broadcast->selenoid_id = "none";
-                $broadcast->save();
+                //              $broadcast->save();
 
                 $this->publishMessage(json_encode($broadcast->cast()));
 
@@ -111,9 +111,10 @@ class Start extends BaseAction
         $channel    = $connection->channel();
 
         // @todo: put the exchange and queues
-        $channel->exchange_declare('spoutbreeze', 'direct', false, false, false);
-        $channel->queue_declare('spoutbreeze_manager', false, false, false, false);
-        $channel->queue_bind('spoutbreeze_manager', 'spoutbreeze', 'spoutbreeze_manager');
+        $this->logger->info('MESSAGE', ['log_file' => $broadcast]);
+        $channel->exchange_declare('spoutbreeze', 'direct', false, true, false);
+        $channel->queue_declare('spoutbreeze.manager', false, true, false, false);
+        $channel->queue_bind('spoutbreeze.manager', 'spoutbreeze', 'spoutbreeze_manager');
 
         $msg = new AMQPMessage($broadcast);
         $channel->basic_publish($msg, 'spoutbreeze', 'spoutbreeze_manager');
