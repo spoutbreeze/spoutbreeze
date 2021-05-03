@@ -26,6 +26,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collections;
+
 @Repository
 public class AgentsManager {
 
@@ -39,4 +41,9 @@ public class AgentsManager {
         logger.info("Looking for agent with id {}", agentId);
         return agentJdbcRepository.findById(agentId);
     }
+
+//    public List<Agent> getAllAgentForStatus(final String status) {
+//        logger.info("looking for agents with status " + status);
+//        return Collections.EMPTY_SET
+//    }
 }
