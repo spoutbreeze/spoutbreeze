@@ -24,7 +24,8 @@ use Phinx\Migration\AbstractMigration;
 
 final class AddMeetingIdColumnToBroadcasts extends AbstractMigration
 {
-    public function up(): void {
+    public function up(): void
+    {
         $table = $this->table('broadcasts');
         $table->addColumn('meeting_id', 'string', ['limit' => 128, 'null' => false])
               ->addIndex(['meeting_id'], [
@@ -34,7 +35,8 @@ final class AddMeetingIdColumnToBroadcasts extends AbstractMigration
               ->save();
     }
 
-    public function down(): void {
+    public function down(): void
+    {
         $this->table('broadcasts')
              ->removeIndexByName('idx_broadcasts_meeting_id')
              ->removeColumn('meeting_id')

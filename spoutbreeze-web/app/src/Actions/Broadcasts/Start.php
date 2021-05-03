@@ -35,17 +35,19 @@ use PhpAmqpLib\Message\AMQPMessage;
 class Start extends BaseAction
 {
     /**
-     * @param Base $f3
+     * @param Base  $f3
      * @param array $params
      */
-    public function execute($f3, $params): void {
+    public function execute($f3, $params): void
+    {
         // @todo: check the meeting id first then return and indompedant response
         $form      = $this->getDecodedBody();
-        $broadcast = $this->loadBroadcastByMeetingId($form["meetingId"]);
-
+        $broadcast = $this->loadBroadcastByMeetingId($form['meetingId']);
+        $this->logger->info($f3->ip());
         // @todo: make sure the server ID is checked also
         if (!$broadcast->dry()) {
             $this->renderJson(['data' => $broadcast->cast()]);
+
             return;
         }
         $server = $this->loadServerByIP($f3->ip());
@@ -55,9 +57,9 @@ class Start extends BaseAction
                 $broadcast              = new Broadcast();
                 $broadcast->endpoint_id = $endpoint->id;
                 $broadcast->server_id   = $server->id;
-                $broadcast->meeting_id  = $form["meetingId"];
-                $broadcast->selenoid_id = "none";
-                $broadcast->save();
+                $broadcast->meeting_id  = $form['meetingId'];
+                $broadcast->selenoid_id = 'none';
+                //              $broadcast->save();
 
                 $this->publishMessage(json_encode($broadcast->cast()));
 
@@ -73,10 +75,11 @@ class Start extends BaseAction
     }
 
     /**
-     * @param int $id
+     * @param  int      $id
      * @return Endpoint
      */
-    public function loadEndpoint($id): Endpoint {
+    public function loadEndpoint($id): Endpoint
+    {
         $endpoint = new Endpoint();
         $endpoint->load(['id = ?', [$id]]);
 
@@ -84,17 +87,19 @@ class Start extends BaseAction
     }
 
     /**
-     * @param int $ip_address
+     * @param  int    $ip_address
      * @return Server
      */
-    public function loadServerByIP($ip_address): Server {
+    public function loadServerByIP($ip_address): Server
+    {
         $server = new Server();
         $server->load(['ip_address = ?', [$ip_address]]);
 
         return $server;
     }
 
-    public function loadBroadcastByMeetingId($meetingId) {
+    public function loadBroadcastByMeetingId($meetingId)
+    {
         $broadcast = new Broadcast();
         $broadcast->load(['meeting_id = ?', [$meetingId]]);
 
@@ -102,18 +107,20 @@ class Start extends BaseAction
     }
 
     /**
-     * @param Broadcast $broadcast
+     * @param  Broadcast  $broadcast
      * @throws \Exception
      */
-    private function publishMessage($broadcast) {
+    private function publishMessage($broadcast): void
+    {
         // @todo: move config to file
         $connection = new AMQPStreamConnection('localhost', 5672, 'spoutbreeze', 'spoutbreeze');
         $channel    = $connection->channel();
 
         // @todo: put the exchange and queues
-        $channel->exchange_declare('spoutbreeze', 'direct', false, false, false);
-        $channel->queue_declare('spoutbreeze_manager', false, false, false, false);
-        $channel->queue_bind('spoutbreeze_manager', 'spoutbreeze', 'spoutbreeze_manager');
+        $this->logger->info('MESSAGE', ['log_file' => $broadcast]);
+        $channel->exchange_declare('spoutbreeze', 'direct', false, true, false);
+        $channel->queue_declare('spoutbreeze.manager', false, true, false, false);
+        $channel->queue_bind('spoutbreeze.manager', 'spoutbreeze', 'spoutbreeze_manager');
 
         $msg = new AMQPMessage($broadcast);
         $channel->basic_publish($msg, 'spoutbreeze', 'spoutbreeze_manager');
