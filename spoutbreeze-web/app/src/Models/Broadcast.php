@@ -29,6 +29,8 @@ use DateTime;
  * @property int $server_id
  * @property int $endpoint_id
  * @property int $meeting_id
+ * @property int $agent_id
+ * @property string $status
  * @property DateTime $created_on
  * @property DateTime $updated_on
  * @package Models
