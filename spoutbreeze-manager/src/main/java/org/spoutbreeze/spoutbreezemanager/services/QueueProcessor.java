@@ -61,6 +61,8 @@ public class QueueProcessor {
             return;
         }
 
+        System.out.println("the broadcast message is " + broadcastMessage);
+
         //get the agent
         final Agent agent = getOneAgent("enabled");
 
@@ -80,6 +82,9 @@ public class QueueProcessor {
     public BroadcastMessage getBroadcastMessage(byte[] message) {
         logger.info("Received message as generic: {}", message);
         System.out.println("the message obtained is " + message);
+
+        System.out.println(new String(message));
+
 
         final ObjectMapper objectMapper = new ObjectMapper();
 

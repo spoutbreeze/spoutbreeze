@@ -26,12 +26,14 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.ExitCodeGenerator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @EnableScheduling
+@EntityScan("org.spoutbreeze.commons.*")
 public class SpoutbreezeManagerApplication {
 
     @Autowired
@@ -41,7 +43,7 @@ public class SpoutbreezeManagerApplication {
     private static final Logger logger = LoggerFactory.getLogger(SpoutbreezeManagerApplication.class);
 
     public static void main(String[] args) {
-        ConfigurableApplicationContext ctx = SpringApplication.run(SpoutbreezeManagerApplication.class, args);
+        SpringApplication.run(SpoutbreezeManagerApplication.class, args);
         logger.info("SpoutBreeze Manager Application Started");
 
 //        Runtime.getRuntime().addShutdownHook(new Thread() {

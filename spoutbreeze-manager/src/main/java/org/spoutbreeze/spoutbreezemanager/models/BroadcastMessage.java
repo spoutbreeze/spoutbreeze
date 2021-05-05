@@ -26,6 +26,12 @@ public class BroadcastMessage {
     @JsonProperty("updated_on")
     private String updatedOn;
 
+    @JsonProperty("agent_id")
+    private String agentId;
+
+    @JsonProperty("status")
+    private String status;
+
     @JsonIgnore
     private String userId;
 
@@ -78,6 +84,22 @@ public class BroadcastMessage {
 
     public void setServerId(String serverId) {
         this.serverId = serverId;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getAgentId() {
+        return agentId;
+    }
+
+    public void setAgentId(String agentId) {
+        this.agentId = agentId;
     }
 
     public String getCreatedOn() {
