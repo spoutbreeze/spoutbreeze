@@ -21,69 +21,95 @@ package org.spoutbreeze.spoutbreezemanager.services;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spoutbreeze.commons.data.broadcast.BroadcastJdbcRepository;
+import org.spoutbreeze.commons.entities.Agent;
 import org.spoutbreeze.commons.entities.Broadcast;
+import org.spoutbreeze.spoutbreezemanager.models.BroadcastMessage;
+import org.spoutbreeze.spoutbreezemanager.repository.BroadcastRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
+import java.util.Optional;
+
+@Component
 public class BroadcastingAssigner {
+//
+//    private static final Logger logger = LoggerFactory.getLogger(BroadcastingAssigner.class);
+//
+//    private Boolean isAssigning = false;
+//
+//    @Autowired
+//    @Qualifier("agentsService")
+//    private AgentsService agentsManager;
+//
+//    @Autowired
+//    @Qualifier("assignmentJdbcRepository")
+//    private BroadcastJdbcRepository broadcastJdbcRepository;
+//
+//    // Check if there is any broadcast to assign to an agent then create
+//    // @todo: replace @Scheduled task with real-time message (redis)
+//    @Scheduled(fixedRate = 2500)
+//    public void scheduleAssignments() {
+//        try {
+//            assignRecordingsToAgents();
+//            endAssignement();
+//        } catch (InterruptedException e) {
+//            logger.error("CRITICAL !! An excpeted error occured during assigning the recordings.", e);
+//        }
+//    }
+//
+//    /**
+//     * Fetches the recordings and distribute them to agents
+//     *
+//     * @throws InterruptedException
+//     */
+//    private void assignRecordingsToAgents() throws InterruptedException {
+//        // Do nothing if an assignment is being made
+//        if (assignementInProgess())
+//            return;
+//
+//        // Create a lock to inform the other services that an assignment is in progress
+//        startAssignment();
+//
+//        // Load the assignments
+//        Broadcast readyBroadcast = broadcastJdbcRepository.findReadyBroadcast();
+//        // @todo assign the broadcast to an agent and find the agent
+//        broadcastJdbcRepository.assignToAgent(readyBroadcast, 1);
+//
+//        logger.info("Finished distributing the recordings");
+//    }
+//
+//    private void startAssignment() {
+//        isAssigning = true;
+//        logger.info("Lock on recordings assignement created");
+//    }
+//
+//    private void endAssignement() {
+//        isAssigning = false;
+//        logger.info("Lock on recordings assignement released");
+//    }
+//
+//    public Boolean assignementInProgess() {
+//        return isAssigning.equals(true);
+//    }
 
     private static final Logger logger = LoggerFactory.getLogger(BroadcastingAssigner.class);
 
-    private Boolean isAssigning = false;
-
     @Autowired
-    @Qualifier("agentsManager")
-    private AgentsManager agentsManager;
+    private BroadcastRepository broadcastRepository;
 
-    @Autowired
-    @Qualifier("assignmentJdbcRepository")
-    private BroadcastJdbcRepository broadcastJdbcRepository;
-
-    // Check if there is any broadcast to assign to an agent then create
-    // @todo: replace @Scheduled task with real-time message (redis)
-    @Scheduled(fixedRate = 2500)
-    public void scheduleAssignments() {
-        try {
-            assignRecordingsToAgents();
-            endAssignement();
-        } catch (InterruptedException e) {
-            logger.error("CRITICAL !! An excpeted error occured during assigning the recordings.", e);
-        }
-    }
-
-    /**
-     * Fetches the recordings and distribute them to agents
-     * 
-     * @throws InterruptedException
-     */
-    private void assignRecordingsToAgents() throws InterruptedException {
-        // Do nothing if an assignment is being made
-        if (assignementInProgess())
+    @Transactional
+    public void assignBroadcastToAgent(final BroadcastMessage broadcastMessage, final Agent agent) {
+        //get the broadcast class for the broadcast object
+        final Optional<Broadcast> broadcastOptional = broadcastRepository.findById(broadcastMessage.getId());
+        if (broadcastOptional.get() == null) {
             return;
-
-        // Create a lock to inform the other services that an assignment is in progress
-        startAssignment();
-
-        // Load the assignments
-        Broadcast readyBroadcast = broadcastJdbcRepository.findReadyBroadcast();
-        // @todo assign the broadcast to an agent and find the agent
-        broadcastJdbcRepository.assignToAgent(readyBroadcast, 1);
-
-        logger.info("Finished distributing the recordings");
+        }
+        final Broadcast broadcast = broadcastOptional.get();
+        broadcast.agent = agent;
+        broadcastRepository.save(broadcast);
     }
 
-    private void startAssignment() {
-        isAssigning = true;
-        logger.info("Lock on recordings assignement created");
-    }
-
-    private void endAssignement() {
-        isAssigning = false;
-        logger.info("Lock on recordings assignement released");
-    }
-
-    public Boolean assignementInProgess() {
-        return isAssigning.equals(true);
-    }
 }

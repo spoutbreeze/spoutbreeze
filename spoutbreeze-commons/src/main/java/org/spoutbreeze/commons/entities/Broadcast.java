@@ -42,6 +42,8 @@ public class Broadcast {
     @Column(name = "selenoid_id")
     public String selenoid_id;
 
+    public Agent agent;
+
     @Column(name = "created_on")
     public ZonedDateTime createdOn;
 

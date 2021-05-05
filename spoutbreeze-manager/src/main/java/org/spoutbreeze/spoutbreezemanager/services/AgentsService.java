@@ -20,30 +20,30 @@ package org.spoutbreeze.spoutbreezemanager.services;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.spoutbreeze.commons.data.agent.AgentJdbcRepository;
 import org.spoutbreeze.commons.entities.Agent;
+import org.spoutbreeze.spoutbreezemanager.repository.AgentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-import java.util.Collections;
+import java.util.List;
 
-@Repository
-public class AgentsManager {
+@Service
+public class AgentsService {
 
-    private static final Logger logger = LoggerFactory.getLogger(AgentsManager.class);
+    private static final Logger logger = LoggerFactory.getLogger(AgentsService.class);
 
     @Autowired
-    @Qualifier("agentJdbcRepository")
-    private AgentJdbcRepository agentJdbcRepository;
+    private AgentRepository agentRepository;
 
     public Agent getAgent(Long agentId) {
         logger.info("Looking for agent with id {}", agentId);
-        return agentJdbcRepository.findById(agentId);
+        return agentRepository.findById(agentId).get();
     }
 
-//    public List<Agent> getAllAgentForStatus(final String status) {
-//        logger.info("looking for agents with status " + status);
-//        return Collections.EMPTY_SET
-//    }
+    public List<Agent> getAllAgentForStatus(final String status) {
+        logger.info("looking for agents with status " + status);
+        return agentRepository.findAllByStatus(status);
+    }
 }

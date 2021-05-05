@@ -36,7 +36,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @EnableScheduling
-@ComponentScan("module-service")
 public class SpoutbreezeAgentApplication {
 
     private static final Logger logger = LoggerFactory.getLogger(SpoutbreezeAgentApplication.class);

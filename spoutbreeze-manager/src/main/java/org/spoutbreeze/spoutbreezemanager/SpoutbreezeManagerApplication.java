@@ -32,7 +32,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @EnableScheduling
-@ComponentScan({ "org.spoutbreeze.spoutbreezemanager.services", "org.spoutbreeze.spoutbreezemanager.queue" })
 public class SpoutbreezeManagerApplication {
 
     @Autowired
@@ -45,29 +44,29 @@ public class SpoutbreezeManagerApplication {
         ConfigurableApplicationContext ctx = SpringApplication.run(SpoutbreezeManagerApplication.class, args);
         logger.info("SpoutBreeze Manager Application Started");
 
-        Runtime.getRuntime().addShutdownHook(new Thread() {
-            public void run() {
-                logger.info(
-                        "Received a instruction to shutdown the application. A graceful shutdown is going to be attempted.");
-                while (broadcastingAssigner.assignementInProgess()) {
-                    try {
-                        Thread.sleep(5000);
-                    } catch (InterruptedException e) {
-                        logger.error("Cannot put exit thread on sleep", e);
-                    }
-                }
-                int exitCode = SpringApplication.exit(ctx, new ExitCodeGenerator() {
-                    @Override
-                    public int getExitCode() {
-                        logger.info("Shutting down the server application.");
-                        // no errors
-                        return 0;
-                    }
-                });
-
-                System.exit(exitCode);
-            }
-        });
+//        Runtime.getRuntime().addShutdownHook(new Thread() {
+//            public void run() {
+//                logger.info(
+//                        "Received a instruction to shutdown the application. A graceful shutdown is going to be attempted.");
+//                while (broadcastingAssigner.assignementInProgess()) {
+//                    try {
+//                        Thread.sleep(5000);
+//                    } catch (InterruptedException e) {
+//                        logger.error("Cannot put exit thread on sleep", e);
+//                    }
+//                }
+//                int exitCode = SpringApplication.exit(ctx, new ExitCodeGenerator() {
+//                    @Override
+//                    public int getExitCode() {
+//                        logger.info("Shutting down the server application.");
+//                        // no errors
+//                        return 0;
+//                    }
+//                });
+//
+//                System.exit(exitCode);
+//            }
+//        });
     }
 
 }

@@ -19,21 +19,35 @@
 package org.spoutbreeze.spoutbreezemanager.services;
 
 import java.io.IOException;
+import java.util.List;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.spoutbreeze.commons.entities.Agent;
 import org.spoutbreeze.spoutbreezemanager.models.BroadcastMessage;
+import org.spoutbreeze.spoutbreezemanager.repository.AgentRepository;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 /**
  * Processes the inbound message from the queue
  */
-@Service
+@Component
 public class QueueProcessor {
-    private static final Logger logger = LoggerFactory.getLogger(AgentsManager.class);
+    private static final Logger logger = LoggerFactory.getLogger(AgentsService.class);
+
+    @Autowired
+    private AgentsService agentsService;
+
+    @Autowired
+    private BroadcastingAssigner broadcastingAssigner;
+
+    @Autowired
+    private AgentQueuePublisher agentQueuePublisher;
 
     /**
      * gets the message
@@ -48,8 +62,13 @@ public class QueueProcessor {
         }
 
         //get the agent
+        final Agent agent = getOneAgent("enabled");
 
+        //assinging the broadcasting message to the agent ????
+        broadcastingAssigner.assignBroadcastToAgent(broadcastMessage, agent);
 
+        //send the queue message to the agent queue.
+        agentQueuePublisher.publishMessage(broadcastMessage, agent);
     }
 
     /**
@@ -74,5 +93,20 @@ public class QueueProcessor {
         }
 
         return null;
+    }
+
+    /**
+     * returns the agent(s) having the status
+     * @param status the status of the agent
+     * @return the agent(s) or no agent with the given status
+     */
+    @Nullable
+    private Agent getOneAgent(final String status) {
+        final List<Agent> agents = agentsService.getAllAgentForStatus(status);
+        if (agents.size() == 0) {
+            logger.error("the agents are empty, please get some agents");
+            return null;
+        }
+        return agents.get(0);
     }
 }
