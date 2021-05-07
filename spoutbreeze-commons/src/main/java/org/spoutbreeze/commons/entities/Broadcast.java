@@ -20,16 +20,13 @@ package org.spoutbreeze.commons.entities;
 
 import java.time.ZonedDateTime;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
+import javax.persistence.*;
 
-import org.springframework.data.annotation.Id;
 
-// @Entity(name = "broadcasts")
+@Entity(name = "broadcasts")
 public class Broadcast {
 
     @Id
-    @GeneratedValue
     @Column(name = "id")
     public Long id;
 
@@ -42,6 +39,8 @@ public class Broadcast {
     @Column(name = "selenoid_id")
     public String selenoid_id;
 
+    @OneToOne
+    @JoinColumn(name="id")
     public Agent agent;
 
     @Column(name = "created_on")

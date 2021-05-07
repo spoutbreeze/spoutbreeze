@@ -21,15 +21,15 @@ package org.spoutbreeze.commons.entities;
 import java.time.ZonedDateTime;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
-import org.springframework.data.annotation.Id;
 
-// @Entity(name = "streaming_endpoints")
+@Entity(name = "streaming_endpoints")
 public class StreamingEndpoint {
 
     @Id
-    @GeneratedValue
     @Column(name = "id")
     public Long id;
 
