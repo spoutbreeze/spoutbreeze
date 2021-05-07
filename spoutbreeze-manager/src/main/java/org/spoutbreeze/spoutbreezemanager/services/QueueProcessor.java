@@ -67,7 +67,7 @@ public class QueueProcessor {
         final Agent agent = getOneAgent("enabled");
 
         //assinging the broadcasting message to the agent ????
-        broadcastingAssigner.assignBroadcastToAgent(broadcastMessage, agent);
+//        broadcastingAssigner.assignBroadcastToAgent(broadcastMessage, agent);
 
         //send the queue message to the agent queue.
         agentQueuePublisher.publishMessage(broadcastMessage, agent);

@@ -49,8 +49,8 @@ public class AgentQueuePublisher {
 
 
     private void createQueue(String queueName) {
-        Queue queue = new Queue(queueName, false, false, false);
-        Binding binding = new Binding(queueName, Binding.DestinationType.EXCHANGE, "spoutbreeze", queueName, null);
+        Queue queue = new Queue(queueName, true, false, false);
+        Binding binding = new Binding(queueName, Binding.DestinationType.QUEUE, "spoutbreeze", queueName, null);
         amqpAdmin.declareQueue(queue);
         amqpAdmin.declareBinding(binding);
     }

@@ -38,12 +38,12 @@ public class MessageSubscriber {
 
     @Bean
     Queue queue() {
-        return new Queue(queueName, false);
+        return new Queue(queueName, true, false, false);
     }
 
     @Bean
     DirectExchange exchange() {
-        return new DirectExchange(directExchangeName, false, false);
+        return new DirectExchange(directExchangeName, true, false);
     }
 
     @Bean
