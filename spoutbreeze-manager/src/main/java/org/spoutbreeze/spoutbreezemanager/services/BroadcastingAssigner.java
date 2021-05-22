@@ -20,14 +20,11 @@ package org.spoutbreeze.spoutbreezemanager.services;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.spoutbreeze.commons.data.broadcast.BroadcastJdbcRepository;
 import org.spoutbreeze.commons.entities.Agent;
 import org.spoutbreeze.commons.entities.Broadcast;
 import org.spoutbreeze.spoutbreezemanager.models.BroadcastMessage;
-import org.spoutbreeze.spoutbreezemanager.repository.BroadcastRepository;
+import org.spoutbreeze.commons.repository.BroadcastRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;

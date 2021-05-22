@@ -26,8 +26,12 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	// @todo: implementation 'org.springframework.boot:spring-boot-starter-log4j2'
 	implementation 'org.springframework.session:spring-session-core'
+	compile "com.rabbitmq:http-client:3.10.0"
+	compile "org.springframework:spring-web:5.3.6"
 	implementation 'org.spoutbreeze:spoutbreeze-commons:0.0.1-SNAPSHOT'
 	implementation 'org.seleniumhq.selenium:selenium-java'
+	implementation 'org.springframework.boot:spring-boot-starter-amqp'
+	implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.11.1'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'org.postgresql:postgresql'
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'

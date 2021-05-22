@@ -21,10 +21,8 @@ package org.spoutbreeze.spoutbreezemanager.services;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spoutbreeze.commons.entities.Agent;
-import org.spoutbreeze.spoutbreezemanager.repository.AgentRepository;
+import org.spoutbreeze.commons.repository.AgentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

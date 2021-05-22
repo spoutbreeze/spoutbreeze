@@ -26,12 +26,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spoutbreeze.commons.entities.Agent;
 import org.spoutbreeze.spoutbreezemanager.models.BroadcastMessage;
-import org.spoutbreeze.spoutbreezemanager.repository.AgentRepository;
+import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 /**
  * Processes the inbound message from the queue
@@ -54,7 +53,7 @@ public class QueueProcessor {
      * @param message the message
      */
     @RabbitListener(queues = "spoutbreeze_manager")
-    public void receiveMessage(final byte[] message) {
+    public void receiveMessage(final Message message) {
         //get the message
         final BroadcastMessage broadcastMessage = getBroadcastMessage(message);
         if (broadcastMessage == null) {
@@ -79,19 +78,13 @@ public class QueueProcessor {
      * @return the marshalled object
      */
     @Nullable
-    public BroadcastMessage getBroadcastMessage(byte[] message) {
+    public BroadcastMessage getBroadcastMessage(final Message message) {
         logger.info("Received message as generic: {}", message);
-        System.out.println("the message obtained is " + message);
-
-        System.out.println(new String(message));
-
 
         final ObjectMapper objectMapper = new ObjectMapper();
 
         try {
-            final BroadcastMessage broadcastMessage = objectMapper.readValue(message, BroadcastMessage.class);
-
-            System.out.println(broadcastMessage.toString());
+            final BroadcastMessage broadcastMessage = objectMapper.readValue(message.getBody(), BroadcastMessage.class);
             return broadcastMessage;
         } catch (IOException e) {
             e.printStackTrace();

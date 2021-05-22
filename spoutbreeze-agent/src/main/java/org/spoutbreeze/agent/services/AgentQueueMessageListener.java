@@ -1,2 +1,9 @@
-package org.spoutbreeze.agent.services;public interface AgentQueueMessageListener {
+package org.spoutbreeze.agent.services;
+
+import org.springframework.amqp.core.Message;
+
+public interface AgentQueueMessageListener {
+
+    void receiveMessage(Message message);
+
 }

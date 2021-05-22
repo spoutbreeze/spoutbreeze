@@ -27,6 +27,7 @@ public class AgentQueuePublisher {
      * @param broadcastMessage the message to be published.
      */
     public void publishMessage(final BroadcastMessage broadcastMessage, final Agent agent) {
+        broadcastMessage.setAgentId(String.valueOf(agent.id));
         final String queueName = getQueueName(agent);
         createQueue(queueName);
 
@@ -43,7 +44,7 @@ public class AgentQueuePublisher {
         if (agent == null) {
             logger.error("the agent provided to publish message is null", agent);
         }
-        final String queueName = "queue-" + agent.name + "-" + agent.id;
+        final String queueName = "spoutbreeze_agent." + agent.name + "-" + agent.id;
         return queueName;
     }
 
