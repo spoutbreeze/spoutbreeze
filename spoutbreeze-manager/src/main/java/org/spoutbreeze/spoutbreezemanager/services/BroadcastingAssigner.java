@@ -22,7 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spoutbreeze.commons.entities.Agent;
 import org.spoutbreeze.commons.entities.Broadcast;
-import org.spoutbreeze.spoutbreezemanager.models.BroadcastMessage;
+import org.spoutbreeze.commons.entities.BroadcastMessage;
 import org.spoutbreeze.commons.repository.BroadcastRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

@@ -1,4 +1,4 @@
-package org.spoutbreeze.spoutbreezemanager.models;
+package org.spoutbreeze.commons.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;

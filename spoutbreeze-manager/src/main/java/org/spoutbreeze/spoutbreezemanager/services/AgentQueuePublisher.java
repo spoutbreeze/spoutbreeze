@@ -3,7 +3,7 @@ package org.spoutbreeze.spoutbreezemanager.services;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spoutbreeze.commons.entities.Agent;
-import org.spoutbreeze.spoutbreezemanager.models.BroadcastMessage;
+import org.spoutbreeze.commons.entities.BroadcastMessage;
 import org.springframework.amqp.core.AmqpAdmin;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.core.Binding;

@@ -41,6 +41,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-amqp'
     implementation 'org.springframework.boot:spring-boot-autoconfigure'
     implementation 'com.google.guava:guava:29.0-jre'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.11.1'
 }
 
 publishing {
