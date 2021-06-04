@@ -28,6 +28,7 @@ dependencies {
 	implementation 'org.springframework.session:spring-session-core'
     implementation 'org.springframework.boot:spring-boot-starter-amqp'
   	implementation 'org.spoutbreeze:spoutbreeze-commons:0.0.1-SNAPSHOT'
+	implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.11.1'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'org.postgresql:postgresql'
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'

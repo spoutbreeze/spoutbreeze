@@ -119,8 +119,8 @@ class Start extends BaseAction
         // @todo: put the exchange and queues
         $this->logger->info('MESSAGE', ['log_file' => $broadcast]);
         $channel->exchange_declare('spoutbreeze', 'direct', false, true, false);
-        $channel->queue_declare('spoutbreeze.manager', false, true, false, false);
-        $channel->queue_bind('spoutbreeze.manager', 'spoutbreeze', 'spoutbreeze_manager');
+        $channel->queue_declare('spoutbreeze_manager', false, true, false, false);
+        $channel->queue_bind('spoutbreeze_manager', 'spoutbreeze', 'spoutbreeze_manager');
 
         $msg = new AMQPMessage($broadcast);
         $channel->basic_publish($msg, 'spoutbreeze', 'spoutbreeze_manager');

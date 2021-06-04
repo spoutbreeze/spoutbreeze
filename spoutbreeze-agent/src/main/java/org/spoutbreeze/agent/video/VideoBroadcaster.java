@@ -29,9 +29,10 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-@Service
+@Component
 public class VideoBroadcaster {
 
     private static final Logger logger = LoggerFactory.getLogger(VideoBroadcaster.class);
@@ -40,9 +41,7 @@ public class VideoBroadcaster {
 
     private String selenoidServiceUri = "http://127.0.0.1:4444/wd/hub";
 
-    private String sessionId;
-
-    public void broacast() {
+    public String broacast() {
         logger.info("Starting a new broadcast");
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
@@ -72,7 +71,7 @@ public class VideoBroadcaster {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        sessionId = seleniumDriver.getSessionId().toString();
+        String sessionId = seleniumDriver.getSessionId().toString();
         logger.info("Created Selenium session with id [{}]", "sessionId");
 
         // @todo : use the URL generated from an API call
@@ -92,6 +91,7 @@ public class VideoBroadcaster {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        return sessionId;
     }
 
     private void connectToSelenoid(MutableCapabilities capabilities) throws MalformedURLException {

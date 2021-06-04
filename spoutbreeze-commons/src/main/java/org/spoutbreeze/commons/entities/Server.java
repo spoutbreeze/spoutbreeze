@@ -21,15 +21,15 @@ package org.spoutbreeze.commons.entities;
 import java.time.ZonedDateTime;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
-import org.springframework.data.annotation.Id;
 
-// @Entity(name = "servers")
+@Entity(name = "servers")
 public class Server {
 
     @Id
-    @GeneratedValue
     @Column(name = "id")
     public Long id;
 
