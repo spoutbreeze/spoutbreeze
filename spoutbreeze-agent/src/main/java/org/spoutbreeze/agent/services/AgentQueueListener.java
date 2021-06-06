@@ -3,8 +3,11 @@ package org.spoutbreeze.agent.services;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spoutbreeze.agent.video.VideoBroadcaster;
+import org.spoutbreeze.commons.entities.Agent;
 import org.spoutbreeze.commons.entities.Broadcast;
 import org.spoutbreeze.commons.entities.BroadcastMessage;
+import org.spoutbreeze.commons.enums.AgentStatus;
+import org.spoutbreeze.commons.enums.BroadcastStatus;
 import org.spoutbreeze.commons.repository.AgentRepository;
 import org.spoutbreeze.commons.repository.BroadcastRepository;
 import org.spoutbreeze.commons.util.QueueMessageUtils;
@@ -39,9 +42,14 @@ public class AgentQueueListener implements AgentQueueMessageListener {
 
         final BroadcastMessage broadcastMessage = QueueMessageUtils.getBroadcastMessage(message.getBody());
 
+        startABroadcastSession(broadcastMessage);
+
 //        updateAgentInBroadcastTable(broadcastMessage);
 
-        startABroadcastSession(broadcastMessage);
+//        updateAgentStatus(broadcastMessage);
+
+//        updateBroadcastStatus(broadcastMessage);
+
     }
 
 
@@ -65,6 +73,20 @@ public class AgentQueueListener implements AgentQueueMessageListener {
     }
 
     /**
+     * update the agent status
+     * @param broadcastMessage the message
+     */
+    public void updateAgentStatus(final BroadcastMessage broadcastMessage) {
+        final String agentId = broadcastMessage.getAgentId();
+        final Agent agent = agentRepository.findById(Long.parseLong(agentId))
+                .orElseThrow(() -> new RuntimeException("agent not found" + agentId));
+
+        agent.status = AgentStatus.BROADCASTING;
+
+        agentRepository.save(agent);
+    }
+
+    /**
      * starts the selenoid session and saves the sessionId
      * @param broadcastMessage the message
      */
@@ -76,6 +98,20 @@ public class AgentQueueListener implements AgentQueueMessageListener {
                 .orElseThrow(() -> new RuntimeException("No broadcast found for the id : " + broadcastMessage.getId()));
 
         broadcast.selenoid_id = sessionId;
+
+        broadcastRepository.save(broadcast);
+    }
+
+    /**
+     * update the broadcast status
+     * @param broadcastMessage the broadcast message
+     */
+    public void updateBroadcastStatus(final BroadcastMessage broadcastMessage) {
+        final Broadcast broadcast =
+                broadcastRepository.findById(broadcastMessage.getId())
+                        .orElseThrow(() -> new RuntimeException("no broadcast with id " + broadcastMessage.getId()));
+
+        broadcast.status = BroadcastStatus.LIVE;
 
         broadcastRepository.save(broadcast);
     }

@@ -33,7 +33,7 @@ public class AgentRowMapper implements RowMapper<Agent> {
         Agent agent = new Agent();
         agent.id = rs.getLong("id");
         agent.name = rs.getString("name");
-        agent.status = rs.getString("status");
+//        agent.status = rs.getString("status");
         agent.createdOn = DbUtil.timeStampToZonedDateTime(rs.getTimestamp("created_on"));
         agent.updatedOn = DbUtil.timeStampToZonedDateTime(rs.getTimestamp("updated_on"));
         return agent;

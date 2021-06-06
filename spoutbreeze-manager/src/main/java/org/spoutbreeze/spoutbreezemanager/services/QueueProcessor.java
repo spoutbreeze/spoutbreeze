@@ -18,14 +18,14 @@
 
 package org.spoutbreeze.spoutbreezemanager.services;
 
-import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spoutbreeze.commons.entities.Agent;
 import org.spoutbreeze.commons.entities.BroadcastMessage;
+import org.spoutbreeze.commons.enums.AgentStatus;
 import org.spoutbreeze.commons.util.QueueMessageUtils;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -64,7 +64,7 @@ public class QueueProcessor {
         System.out.println("the broadcast message is " + broadcastMessage);
 
         //get the agent
-        final Agent agent = getOneAgent("enabled");
+        final Agent agent = getOneAgent(AgentStatus.ENABLED).orElseThrow(() -> new RuntimeException("No agent of type enabled"));
 
         //assinging the broadcasting message to the agent ????
 //        broadcastingAssigner.assignBroadcastToAgent(broadcastMessage, agent);
@@ -79,12 +79,12 @@ public class QueueProcessor {
      * @return the agent(s) or no agent with the given status
      */
     @Nullable
-    private Agent getOneAgent(final String status) {
+    private Optional<Agent> getOneAgent(final AgentStatus status) {
         final List<Agent> agents = agentsService.getAllAgentForStatus(status);
         if (agents.size() == 0) {
             logger.error("the agents are empty, please get some agents");
             return null;
         }
-        return agents.get(0);
+        return Optional.of(agents.get(0));
     }
 }

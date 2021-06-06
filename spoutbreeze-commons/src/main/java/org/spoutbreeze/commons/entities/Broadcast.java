@@ -18,6 +18,8 @@
 
 package org.spoutbreeze.commons.entities;
 
+import org.spoutbreeze.commons.enums.BroadcastStatus;
+
 import java.time.ZonedDateTime;
 
 import javax.persistence.*;
@@ -48,4 +50,8 @@ public class Broadcast {
 
     @Column(name = "updated_on")
     public ZonedDateTime updatedOn;
+
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    public BroadcastStatus status;
 }
