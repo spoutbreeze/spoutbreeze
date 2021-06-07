@@ -52,7 +52,7 @@ info "Install PHP 8.0 with its dependencies"
 sudo apt-get install -y php8.0-curl php8.0-cli php8.0-intl php8.0-redis php8.0-gd php8.0-fpm php8.0-pgsql php8.0-mbstring php8.0-xml php8.0-bcmath php-xdebug
 
 info "Installing PostgreSQL"
-sudo percona-release setup ppg-13.1
+sudo percona-release setup ppg-13.2
 sudo apt-get install -y percona-postgresql-13 percona-postgresql-13-pgaudit percona-pg-stat-monitor13
 
 info "Upgrade to the latest versions"
