@@ -1,12 +1,21 @@
 {
 	"folders": [
 		{
+			"path": "build"
+		},
+		{
+			"path": "docs"
+		},
+		{
 			"name": "spoutbreeze-agent",
 			"path": "spoutbreeze-agent"
 		},
 		{
 			"name": "spoutbreeze-broadcaster",
 			"path": "spoutbreeze-broadcaster"
+		},
+		{
+			"path": "spoutbreeze-commons"
 		},
 		{
 			"name": "spoutbreeze-extender",
@@ -35,12 +44,6 @@
 		{
 			"name": "vagrant",
 			"path": "vagrant"
-		},
-		{
-			"path": "docs"
-		},
-		{
-			"path": "build"
 		}
 	]
 }

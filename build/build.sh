@@ -43,3 +43,10 @@ GIT_BRANCH=$(git --git-dir="$BASEDIR/../.git" branch | sed -n '/\* /s///p')
 GIT_VERSION=$(git --git-dir="$BASEDIR/../.git" describe --tags --always HEAD)
 
 echo "User $USER :: Building SpoutBreeze :: Version $GIT_VERSION on $GIT_BRANCH branch with"
+
+# Browse to the server project
+echo "Build spoutbreeze-commons Java Library"
+cd $BASEDIR/spoutbreeze-commons
+gradle clean build
+gradle publishToMavenLocal
+
