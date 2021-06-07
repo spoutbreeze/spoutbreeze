@@ -49,4 +49,3 @@ echo "Build spoutbreeze-commons Java Library"
 cd $BASEDIR/spoutbreeze-commons
 gradle clean build
 gradle publishToMavenLocal
-
