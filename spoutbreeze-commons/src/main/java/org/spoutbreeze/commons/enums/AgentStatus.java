@@ -19,5 +19,5 @@
 package org.spoutbreeze.commons.enums;
 
 public enum AgentStatus {
-    ENABLED, DISABLED, BROADCASTING
+    ENABLED, DISABLED
 }

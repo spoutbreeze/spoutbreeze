@@ -3,10 +3,8 @@ package org.spoutbreeze.agent.services;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spoutbreeze.agent.video.VideoBroadcaster;
-import org.spoutbreeze.commons.entities.Agent;
 import org.spoutbreeze.commons.entities.Broadcast;
 import org.spoutbreeze.commons.entities.BroadcastMessage;
-import org.spoutbreeze.commons.enums.AgentStatus;
 import org.spoutbreeze.commons.enums.BroadcastStatus;
 import org.spoutbreeze.commons.repository.AgentRepository;
 import org.spoutbreeze.commons.repository.BroadcastRepository;
@@ -44,11 +42,9 @@ public class AgentQueueListener implements AgentQueueMessageListener {
 
         startABroadcastSession(broadcastMessage);
 
-//        updateAgentInBroadcastTable(broadcastMessage);
+        updateAgentInBroadcastTable(broadcastMessage);
 
-//        updateAgentStatus(broadcastMessage);
-
-//        updateBroadcastStatus(broadcastMessage);
+        updateBroadcastStatus(broadcastMessage);
 
     }
 
@@ -70,20 +66,6 @@ public class AgentQueueListener implements AgentQueueMessageListener {
                 .orElseThrow(() -> new RuntimeException("no agent with id " + agentId));
 
         broadcastRepository.save(broadcast);
-    }
-
-    /**
-     * update the agent status
-     * @param broadcastMessage the message
-     */
-    public void updateAgentStatus(final BroadcastMessage broadcastMessage) {
-        final String agentId = broadcastMessage.getAgentId();
-        final Agent agent = agentRepository.findById(Long.parseLong(agentId))
-                .orElseThrow(() -> new RuntimeException("agent not found" + agentId));
-
-        agent.status = AgentStatus.BROADCASTING;
-
-        agentRepository.save(agent);
     }
 
     /**
