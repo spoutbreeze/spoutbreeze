@@ -18,12 +18,11 @@
 
 package org.spoutbreeze.commons.entities;
 
+import org.spoutbreeze.commons.enums.AgentStatus;
+
 import java.time.ZonedDateTime;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 
 @Entity(name = "agents")
@@ -37,7 +36,8 @@ public class Agent {
     public String name;
 
     @Column(name = "status")
-    public String status;
+    @Enumerated(EnumType.STRING)
+    public AgentStatus status;
 
     @Column(name = "created_on")
     public ZonedDateTime createdOn;

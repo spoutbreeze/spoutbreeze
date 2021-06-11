@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.spoutbreeze.agent.video.VideoBroadcaster;
 import org.spoutbreeze.commons.entities.Broadcast;
 import org.spoutbreeze.commons.entities.BroadcastMessage;
+import org.spoutbreeze.commons.enums.BroadcastStatus;
 import org.spoutbreeze.commons.repository.AgentRepository;
 import org.spoutbreeze.commons.repository.BroadcastRepository;
 import org.spoutbreeze.commons.util.QueueMessageUtils;
@@ -39,9 +40,12 @@ public class AgentQueueListener implements AgentQueueMessageListener {
 
         final BroadcastMessage broadcastMessage = QueueMessageUtils.getBroadcastMessage(message.getBody());
 
-//        updateAgentInBroadcastTable(broadcastMessage);
-
         startABroadcastSession(broadcastMessage);
+
+        updateAgentInBroadcastTable(broadcastMessage);
+
+        updateBroadcastStatus(broadcastMessage);
+
     }
 
 
@@ -76,6 +80,20 @@ public class AgentQueueListener implements AgentQueueMessageListener {
                 .orElseThrow(() -> new RuntimeException("No broadcast found for the id : " + broadcastMessage.getId()));
 
         broadcast.selenoid_id = sessionId;
+
+        broadcastRepository.save(broadcast);
+    }
+
+    /**
+     * update the broadcast status
+     * @param broadcastMessage the broadcast message
+     */
+    public void updateBroadcastStatus(final BroadcastMessage broadcastMessage) {
+        final Broadcast broadcast =
+                broadcastRepository.findById(broadcastMessage.getId())
+                        .orElseThrow(() -> new RuntimeException("no broadcast with id " + broadcastMessage.getId()));
+
+        broadcast.status = BroadcastStatus.LIVE;
 
         broadcastRepository.save(broadcast);
     }

@@ -21,6 +21,7 @@ package org.spoutbreeze.spoutbreezemanager.services;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spoutbreeze.commons.entities.Agent;
+import org.spoutbreeze.commons.enums.AgentStatus;
 import org.spoutbreeze.commons.repository.AgentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,7 +41,7 @@ public class AgentsService {
         return agentRepository.findById(agentId).get();
     }
 
-    public List<Agent> getAllAgentForStatus(final String status) {
+    public List<Agent> getAllAgentForStatus(final AgentStatus status) {
         logger.info("looking for agents with status " + status);
         return agentRepository.findAllByStatus(status);
     }
