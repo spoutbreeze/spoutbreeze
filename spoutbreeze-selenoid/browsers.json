@@ -1,9 +1,9 @@
 {
   "chrome": {
-    "default": "87.0",
+    "default": "91.0",
     "versions": {
-      "87.0": {
-        "image": "browsers/chrome:87.0",
+      "91.0": {
+        "image": "browsers/chrome:91.0",
         "port": "4444",
         "path": "/",
         "env": ["HIDE_CURSOR=true"],

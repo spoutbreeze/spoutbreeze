@@ -72,7 +72,7 @@ echo "Pull selenoid images"
 sudo docker pull aerokube/selenoid:latest-release
 sudo docker pull aerokube/selenoid-ui:latest-release
 sudo docker pull selenoid/video-recorder:latest-release
-sudo docker pull browsers/chrome:87.0
+sudo docker pull browsers/chrome:91.0
 
 echo "Install Redis for caching"
 sudo apt-get install -y redis
