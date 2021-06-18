@@ -12,6 +12,9 @@ possible.
 [![Interactor Library Build Status](https://jenkins.spoutbreeze.org/buildStatus/icon?job=spoutbreeze-interactor&subject=[Java]%20Interactor&status=%20(${displayName})%20-%20master%20-%20${duration})](https://spoutbreeze.org)
 [![Selenoid Broadcaster](https://jenkins.spoutbreeze.org/buildStatus/icon?job=spoutbreeze-broadcaster&subject=[Docker]%20Selenoid%20Broadcaster&status=%20(${displayName})%20-%20master%20-%20${duration})](https://spoutbreeze.org)
 
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=spoutbreeze_spoutbreeze&metric=security_rating)](https://sonarcloud.io/dashboard?id=spoutbreeze_spoutbreeze)
+
+
 ## Social Media
 
 [![Twitter](https://img.shields.io/badge/twitter-@SpoutBreeze-blue.svg?style=flat)](https://twitter.com/spoutbreeze)
@@ -21,6 +24,20 @@ possible.
 ## Getting started
 
 The main goal of the first versio we want to release is to be able to stream a BigBlueButton meeting to some selected media servers. The requirements will expand later.
+
+## Install
+
+SpoutBreeze is a set components divided in 2 groups. A first set of components installable into a BigBlueButton server and a second set installable into another standalone server. The install happens on a Ubuntu 18.04 LTS.
+
+To install the SpoutBreeze server components: 
+```bash
+wget -qO- https://ubuntu.sputbreeze.org/install.sh | bash -s --
+```
+
+To install the BigBlueButton server components: 
+```bash
+wget -qO- https://ubuntu.sputbreeze.org/install-bbb.sh | bash -s --
+```
 
 ## Community
 
