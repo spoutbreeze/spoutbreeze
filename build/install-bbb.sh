@@ -19,7 +19,7 @@
 #       Ghazi Triki <ghazi.triki@riadvice.tn>
 #
 # Changelog:
-#   2021-06-07 GTR Initial Version
+#   2021-06-18 GTR Initial Version
 
 # The real location of the script
 SCRIPT=$(readlink -f "$0")
@@ -36,31 +36,4 @@ NOW=$(date +"%Y-%m-%d_%H.%M.%S")
 # Production BBB LB directory
 APP_DIR=$BASEDIR/../
 
-# Current git branch name transforms '* dev-0.5' to 'dev-0.5'
-GIT_BRANCH=$(git --git-dir="$BASEDIR/../.git" branch | sed -n '/\* /s///p')
-
-# Git tag, commits ahead & commit id under format '0.4-160-g3bb256c'
-GIT_VERSION=$(git --git-dir="$BASEDIR/../.git" describe --tags --always HEAD)
-
-echo "User $USER :: Building SpoutBreeze :: Version $GIT_VERSION on $GIT_BRANCH branch with"
-
-# Build spoutbreeze-commons
-echo "Build spoutbreeze-commons Java Library"
-cd $BASEDIR/spoutbreeze-commons
-gradle clean build
-gradle publishToMavenLocal
-
-echo "Build spoutbreeze-agent Java Library"
-cd $BASEDIR/spoutbreeze-agent
-gradle clean assemble
-mkdir $BASEDIR/spoutbreeze-agent/staging
-mv $BASEDIR/spoutbreeze-agent/target/spoutbreeze-agent.tar.gz $BASEDIR/spoutbreeze-agent/staging/spoutbreeze-agent.tar.gz
-cd $BASEDIR/bbb-mp4-server/staging
-tar -xzvf bbb-mp4-server.tar.gz
-mv prod/deploy.sh deploy.sh
-chmod +x deploy.sh
-
-
-echo "Build spoutbreeze-manager Java Library"
-cd $BASEDIR/spoutbreeze-manager
-gradle clean assemble
+echo "User $USER :: Installing SpoutBreeze BigBlueButton Components"

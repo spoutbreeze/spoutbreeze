@@ -36,13 +36,7 @@ NOW=$(date +"%Y-%m-%d_%H.%M.%S")
 # Production BBB LB directory
 APP_DIR=$BASEDIR/../
 
-# Current git branch name transforms '* dev-0.5' to 'dev-0.5'
-GIT_BRANCH=$(git --git-dir="$BASEDIR/../.git" branch | sed -n '/\* /s///p')
-
-# Git tag, commits ahead & commit id under format '0.4-160-g3bb256c'
-GIT_VERSION=$(git --git-dir="$BASEDIR/../.git" describe --tags --always HEAD)
-
-echo "User $USER :: Installing SpoutBreeze :: Version $GIT_VERSION on $GIT_BRANCH branch"
+echo "User $USER :: Installing SpoutBreeze"
 
 echo "Add ondrej/php repository"
 sudo add-apt-repository -y ppa:ondrej/php
