@@ -74,6 +74,24 @@ sudo apt-get install -y redis
 echo "Install PHP 8.0 with its dependencies"
 sudo apt-get install -y php8.0-curl php8.0-cli php8.0-intl php8.0-redis php8.0-gd php8.0-fpm php8.0-pgsql php8.0-mbstring php8.0-xml php8.0-bcmath php-xdebug
 
-echo "Installing PostgreSQL"
+echo "Install PostgreSQL"
 sudo percona-release setup ppg-13.2
 sudo apt-get install -y percona-postgresql-13 percona-postgresql-13-pgaudit percona-pg-stat-monitor13
+
+echo "Install RabbitMQ Server"
+sudo apt-get install -y rabbitmq-server
+sudo rabbitmq-plugins enable rabbitmq_management
+
+if [ -f ".pgpass" ]; then
+    PG_PASS=$(dd if=/dev/urandom bs=1 count=32 2>/dev/null | base64 -w 0 | rev | cut -b 2- | rev)
+    echo "$PG_PASS" >>".pgpass"
+fi
+
+PG_PASS=$(cat .pgpass)
+
+sudo -u postgres psql -c "CREATE USER spoutbreeze_u WITH PASSWORD '$PG_PASS'"
+sudo -u postgres psql -c "CREATE DATABASE spoutbreeze WITH OWNER 'spoutbreeze_u'"
+
+echo "------ PLEASE SAVE THE INFO BELOW ------"
+echo "PostgreSQL Password => $PG_PASS"
+echo "--------- DISPLAYED ONLY ONCE ----------"

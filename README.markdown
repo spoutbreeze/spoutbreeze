@@ -31,12 +31,12 @@ SpoutBreeze is a set components divided in 2 groups. A first set of components i
 
 To install the SpoutBreeze server components: 
 ```bash
-wget -qO- https://ubuntu.sputbreeze.org/install.sh | bash -s --
+wget -qO- https://ubuntu.spoutbreeze.org/install.sh | bash -s --
 ```
 
 To install the BigBlueButton server components: 
 ```bash
-wget -qO- https://ubuntu.sputbreeze.org/install-bbb.sh | bash -s --
+wget -qO- https://ubuntu.spoutbreeze.org/install-bbb.sh | bash -s --
 ```
 
 ```bash
@@ -63,7 +63,6 @@ export SDKMAN_DIR="/usr/local/sdkman" [[ -s "/usr/local/sdkman/bin/sdkman-init.s
 ## Community
 
 All the project community is gathered in Github Discussions https://github.com/spoutbreeze/spoutbreeze/discussions
-
 
 https://jenkins.spoutbreeze.org/job/spoutbreeze-agent/badge/icon?style=flat-square&subject=spoutbreeze-agent
 
