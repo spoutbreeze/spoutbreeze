@@ -39,6 +39,27 @@ To install the BigBlueButton server components:
 wget -qO- https://ubuntu.sputbreeze.org/install-bbb.sh | bash -s --
 ```
 
+```bash
+sdk install gradle 7.0.2
+sdk install springboot 2.4.3
+sdk install micronaut 2.3.3
+sdk install java 8.0.265-open
+```
+
+## Prepare build server
+
+Using root user
+
+```bash
+export SDKMAN_DIR="/usr/local/sdkman" && curl -s "https://get.sdkman.io" | bash
+source "/usr/local/sdkman/bin/sdkman-init.sh"
+```
+
+For the building user
+```bash
+export SDKMAN_DIR="/usr/local/sdkman" [[ -s "/usr/local/sdkman/bin/sdkman-init.sh" ]] && source "/usr/local/sdkman/bin/sdkman-init.sh"
+```
+
 ## Community
 
 All the project community is gathered in Github Discussions https://github.com/spoutbreeze/spoutbreeze/discussions

@@ -42,25 +42,27 @@ GIT_BRANCH=$(git --git-dir="$BASEDIR/../.git" branch | sed -n '/\* /s///p')
 # Git tag, commits ahead & commit id under format '0.4-160-g3bb256c'
 GIT_VERSION=$(git --git-dir="$BASEDIR/../.git" describe --tags --always HEAD)
 
+SDKMAN_DIR="/usr/local/sdkman"
+source "/usr/local/sdkman/bin/sdkman-init.sh"
+
 echo "User $USER :: Building SpoutBreeze :: Version $GIT_VERSION on $GIT_BRANCH branch with"
 
 # Build spoutbreeze-commons
 echo "Build spoutbreeze-commons Java Library"
-cd $BASEDIR/spoutbreeze-commons
+cd $APP_DIR/spoutbreeze-commons
 gradle clean build
 gradle publishToMavenLocal
 
 echo "Build spoutbreeze-agent Java Library"
-cd $BASEDIR/spoutbreeze-agent
+cd $APP_DIR/spoutbreeze-agent
 gradle clean assemble
-mkdir $BASEDIR/spoutbreeze-agent/staging
-mv $BASEDIR/spoutbreeze-agent/target/spoutbreeze-agent.tar.gz $BASEDIR/spoutbreeze-agent/staging/spoutbreeze-agent.tar.gz
-cd $BASEDIR/bbb-mp4-server/staging
+mkdir $APP_DIR/spoutbreeze-agent/staging
+mv $APP_DIR/spoutbreeze-agent/target/spoutbreeze-agent.tar.gz $APP_DIR/spoutbreeze-agent/staging/spoutbreeze-agent.tar.gz
+cd $APP_DIR/bbb-mp4-server/staging
 tar -xzvf bbb-mp4-server.tar.gz
 mv prod/deploy.sh deploy.sh
 chmod +x deploy.sh
 
-
 echo "Build spoutbreeze-manager Java Library"
-cd $BASEDIR/spoutbreeze-manager
+cd $APP_DIR/spoutbreeze-manager
 gradle clean assemble
