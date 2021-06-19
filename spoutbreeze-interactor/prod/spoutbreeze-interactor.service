@@ -1,0 +1,21 @@
+[Unit]
+Description=SpoutBreeze Interactor for BigBlueButton
+Requires=network.target
+
+[Service]
+Type=simple
+User=spoutbreeze
+Group=spoutbreeze
+WorkingDirectory=/usr/share/spoutbreeze-interactor
+ExecStartPre=/bin/chown -R spoutbreeze:spoutbreeze /usr/share/spoutbreeze-interactor
+ExecStart=/usr/share/spoutbreeze-interactor/run-prod.sh
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=always
+RestartSec=60
+SuccessExitStatus=
+TimeoutStopSec=5
+PermissionsStartOnly=true
+LimitNOFILE=12288
+
+[Install]
+WantedBy=multi-user.target

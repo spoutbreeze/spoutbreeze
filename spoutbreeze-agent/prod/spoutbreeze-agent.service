@@ -1,0 +1,21 @@
+[Unit]
+Description=SpoutBreeze Agent [AGENT_NAME]
+Requires=network.target
+
+[Service]
+Type=simple
+User=spoutbreeze
+Group=spoutbreeze
+WorkingDirectory=/usr/share/spoutbreeze-agent-AGENT_NAME
+ExecStartPre=/bin/chown -R spoutbreeze:spoutbreeze /usr/share/spoutbreeze-agent-AGENT_NAME
+ExecStart=/usr/share/spoutbreeze-agent-AGENT_NAME/run-prod.sh
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=always
+RestartSec=60
+SuccessExitStatus=
+TimeoutStopSec=5
+PermissionsStartOnly=true
+LimitNOFILE=12288
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,21 @@
+[Unit]
+Description=SpoutBreeze Manager
+Requires=network.target
+
+[Service]
+Type=simple
+User=spoutbreeze
+Group=spoutbreeze
+WorkingDirectory=/usr/share/spoutbreeze-manager
+ExecStartPre=/bin/chown -R spoutbreeze:spoutbreeze /usr/share/spoutbreeze-manager
+ExecStart=/usr/share/spoutbreeze-manager/run-prod.sh
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=always
+RestartSec=60
+SuccessExitStatus=
+TimeoutStopSec=5
+PermissionsStartOnly=true
+LimitNOFILE=12288
+
+[Install]
+WantedBy=multi-user.target

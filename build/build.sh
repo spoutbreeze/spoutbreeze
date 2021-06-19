@@ -47,6 +47,14 @@ source "/usr/local/sdkman/bin/sdkman-init.sh"
 
 echo "User $USER :: Building SpoutBreeze :: Version $GIT_VERSION on $GIT_BRANCH branch with"
 
+# Archive spoutbreeze-web
+cd $APP_DIR/spoutbreeze-web
+./package.sh
+
+# Preparing buikd package
+cd $APP_DIR/build
+tar czvf config.tar.gz config/app.conf config/www.conf
+
 # Build spoutbreeze-commons
 echo "Build spoutbreeze-commons Java Library"
 cd $APP_DIR/spoutbreeze-commons

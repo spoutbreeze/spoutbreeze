@@ -38,6 +38,9 @@ APP_DIR=$BASEDIR/../
 
 echo "User $USER :: Installing SpoutBreeze"
 
+echo "Create spoutbreeze user"
+id -u spoutbreeze &>/dev/null || sudo useradd -r -s /bin/false spoutbreeze
+
 echo "Add ondrej/php repository"
 sudo add-apt-repository -y ppa:ondrej/php
 
@@ -82,16 +85,23 @@ echo "Install RabbitMQ Server"
 sudo apt-get install -y rabbitmq-server
 sudo rabbitmq-plugins enable rabbitmq_management
 
-if [ -f ".pgpass" ]; then
-    PG_PASS=$(dd if=/dev/urandom bs=1 count=32 2>/dev/null | base64 -w 0 | rev | cut -b 2- | rev)
-    echo "$PG_PASS" >>".pgpass"
+DB_LISTED=$(sudo -u postgres psql -c "SELECT datname FROM pg_database;" &>/dev/null | grep "spoutbreeze")
+
+if [[ ! $DB_LISTED =~ 'spoutbreeze$' ]]; then
+    if [ ! -f ".pgpass" ]; then
+        PG_PASS=$(dd if=/dev/urandom bs=1 count=32 2>/dev/null | base64 -w 0 | rev | cut -b 2- | rev)
+        echo "$PG_PASS" >>".pgpass"
+    fi
+
+    PG_PASS=$(cat .pgpass)
+
+    sudo -u postgres psql -c "CREATE USER spoutbreeze_u WITH PASSWORD '$PG_PASS'"
+    sudo -u postgres psql -c "CREATE DATABASE spoutbreeze WITH OWNER 'spoutbreeze_u'"
+
+    echo "------ PLEASE SAVE THE INFO BELOW ------"
+    echo "PostgreSQL Password => $PG_PASS"
+    echo "--------- DISPLAYED ONLY ONCE ----------"
 fi
 
-PG_PASS=$(cat .pgpass)
-
-sudo -u postgres psql -c "CREATE USER spoutbreeze_u WITH PASSWORD '$PG_PASS'"
-sudo -u postgres psql -c "CREATE DATABASE spoutbreeze WITH OWNER 'spoutbreeze_u'"
-
-echo "------ PLEASE SAVE THE INFO BELOW ------"
-echo "PostgreSQL Password => $PG_PASS"
-echo "--------- DISPLAYED ONLY ONCE ----------"
+echo "Install JRE8"
+sudo apt install openjdk-8-jre
