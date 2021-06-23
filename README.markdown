@@ -11,6 +11,7 @@ possible.
 [![Agent Build Status](https://jenkins.spoutbreeze.org/buildStatus/icon?job=spoutbreeze-agent&subject=[Java]%20Agent&status=%20(${displayName})%20-%20master%20-%20${duration})](https://spoutbreeze.org)
 [![Interactor Library Build Status](https://jenkins.spoutbreeze.org/buildStatus/icon?job=spoutbreeze-interactor&subject=[Java]%20Interactor&status=%20(${displayName})%20-%20master%20-%20${duration})](https://spoutbreeze.org)
 [![Selenoid Broadcaster](https://jenkins.spoutbreeze.org/buildStatus/icon?job=spoutbreeze-broadcaster&subject=[Docker]%20Selenoid%20Broadcaster&status=%20(${displayName})%20-%20master%20-%20${duration})](https://spoutbreeze.org)
+[![BigBlueButton HTML5 Client](https://jenkins.spoutbreeze.org/buildStatus/icon?job=bigbluebutton-html5&subject=[Node.js(Meteor)]%20BigBlueButton%20HTML5%20Client&status=%20(${displayName})%20-%20master%20-%20${duration})](https://spoutbreeze.org)
 
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=spoutbreeze_spoutbreeze&metric=security_rating)](https://sonarcloud.io/dashboard?id=spoutbreeze_spoutbreeze)
 
@@ -23,7 +24,7 @@ possible.
 
 ## Getting started
 
-The main goal of the first versio we want to release is to be able to stream a BigBlueButton meeting to some selected media servers. The requirements will expand later.
+The main goal of the first version we want to release is to be able to broadcast a BigBlueButton meeting to some selected media servers. The requirements will expand later.
 
 ## Install
 

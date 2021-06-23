@@ -61,16 +61,20 @@ cd $APP_DIR/spoutbreeze-commons
 gradle clean build
 gradle publishToMavenLocal
 
-echo "Build spoutbreeze-agent Java Library"
+echo "Build spoutbreeze-manager Java Application"
+cd $APP_DIR/spoutbreeze-manager
+gradle clean assemble
+mkdir $APP_DIR/spoutbreeze-manager/staging
+cd $APP_DIR/spoutbreeze-manager/staging
+mv $APP_DIR/spoutbreeze-manager/build/libs/spoutbreeze-manager* spoutbreeze-manager.jar
+cp -R $APP_DIR/spoutbreeze-manager/prod/*.*  .
+tar -zcvf spoutbreeze-manager.tar.gz .
+
+echo "Build spoutbreeze-agent Java Application"
 cd $APP_DIR/spoutbreeze-agent
 gradle clean assemble
 mkdir $APP_DIR/spoutbreeze-agent/staging
-mv $APP_DIR/spoutbreeze-agent/build/libs/spoutbreeze-agent* $APP_DIR/spoutbreeze-agent/staging/spoutbreeze-agent.jar
-# cd $APP_DIR/bbb-mp4-server/staging
-# tar -xzvf spoutbreeze-agent.tar.gz
-# mv prod/deploy.sh deploy.sh
-# chmod +x deploy.sh
-
-echo "Build spoutbreeze-manager Java Library"
-cd $APP_DIR/spoutbreeze-manager
-gradle clean assemble
+cd $APP_DIR/spoutbreeze-agent/staging
+mv $APP_DIR/spoutbreeze-agent/build/libs/spoutbreeze-agent* spoutbreeze-agent.jar
+cp -R $APP_DIR/spoutbreeze-agent/prod/*.*  .
+tar -zcvf spoutbreeze-agent.tar.gz .

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" monitorInterval="30">
+	<Properties>
+		<Property name="LOG_PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS} %5p ${hostName}--- [%10.25t] %-20.40c{1.} : %m%n%ex</Property>
+	</Properties>
+	<Appenders>
+		<Console name="ConsoleAppender" target="SYSTEM_OUT"
+			follow="true">
+			<PatternLayout pattern="${LOG_PATTERN}" />
+		</Console>
+		<RollingFile name="RollingFileAppender"
+			fileName="logs/spoutbreeze-manager.log"
+			filePattern="logs/spoutbreeze-manager-%d{MM-dd-yyyy}.log.gz"
+			ignoreExceptions="false">
+			<PatternLayout pattern="${LOG_PATTERN}" />
+			<TimeBasedTriggeringPolicy />
+		</RollingFile>
+				<RollingFile name="ErrorRollingFileAppender"
+			fileName="logs/spoutbreeze-manager-error.log"
+			filePattern="logs/spoutbreeze-manager-error-%d{MM-dd-yyyy}.log.gz"
+			ignoreExceptions="false">
+			<PatternLayout pattern="${LOG_PATTERN}" />
+			<TimeBasedTriggeringPolicy />
+		</RollingFile>
+	</Appenders>
+	<Loggers>
+		<Root level="info">
+			<AppenderRef ref="ConsoleAppender" />
+			<AppenderRef ref="RollingFileAppender" />
+		</Root>
+		<Logger name="errorLogger" level="warn">
+			<AppenderRef ref="ConsoleAppender" />
+			<AppenderRef ref="ErrorRollingFileAppender" />
+		</Logger>
+	</Loggers>
+</Configuration>

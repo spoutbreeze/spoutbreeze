@@ -104,4 +104,43 @@ if [[ ! $DB_LISTED =~ 'spoutbreeze$' ]]; then
 fi
 
 echo "Install JRE8"
-sudo apt install openjdk-8-jre
+sudo apt install -y openjdk-8-jre
+
+echo "System Configuration"
+sudo sed -e 's|^#Default\(.*\)Accounting=.*$|Default\1Accounting=yes|g' /etc/systemd/system.conf >/tmp/system.conf
+sudo cp /tmp/system.conf /etc/systemd/system.conf
+sudo systemctl daemon-reexec
+
+echo "Installing selenoid"
+sudo mkdir /etc/selenoid
+cd /etc/selenoid
+
+echo "Install SpoutBreeze Manager"
+sudo mkdir -p /usr/share/spoutbreeze-manager/tmp
+cd /usr/share/spoutbreeze-manager/tmp
+sudo wget https://ubunut.spoutbreeze.org/spoutbreeze-manager.tar.gz
+sudo tar -xzvf spoutbreeze-manager.tar.gz
+sudo mv spoutbreeze-manager.jar ../
+sudo mv spoutbreeze-manager.service "/etc/systemd/system/spoutbreeze-manager.service"
+# Handle run-prod.sh | chmod +x
+# Enable the service
+cd ..
+sudo rm -rf tmp
+sudo chown -R spoutbreeze: .
+sudo systemctl enable spoutbreeze-manager
+sudo systemctl start spoutbreeze-manager
+
+echo "Install SpoutBreeze Agent"
+sudo mkdir -p /usr/share/spoutbreeze-agent/tmp
+cd /usr/share/spoutbreeze-agent/tmp
+sudo wget https://ubunut.spoutbreeze.org/spoutbreeze-agent.tar.gz
+sudo tar -xzvf spoutbreeze-agent.tar.gz
+sudo mv spoutbreeze-agent.jar ../
+sudo mv spoutbreeze-agent.service "/etc/systemd/system/spoutbreeze-agent.service"
+# Handle run-prod.sh | chmod +x
+# Enable the service
+cd ..
+sudo rm -rf tmp
+sudo chown -R spoutbreeze: .
+sudo systemctl enable spoutbreeze-agent
+sudo systemctl start spoutbreeze-agent
