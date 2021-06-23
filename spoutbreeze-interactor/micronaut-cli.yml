@@ -3,4 +3,4 @@ defaultPackage: org.spoutbreeze
 testFramework: spock
 sourceLanguage: java
 buildTool: gradle
-features: [app-name, gradle, graphql, http-client, http-session, jackson-xml, java, java-application, log4j2, mongo-sync, netty-server, properties, rabbitmq, readme, redis-lettuce, shade, spock, spring, spring-boot, testcontainers, views-freemarker]
+features: [app-name, gradle, graphql, http-client, http-session, jackson-xml, java, java-application, log4j2, mongo-sync, netty-server, properties, readme, redis-lettuce, shade, spock, spring, spring-boot, testcontainers, views-freemarker]

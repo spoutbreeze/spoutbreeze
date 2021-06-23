@@ -34,7 +34,6 @@ dependencies {
     implementation("io.micronaut.mongodb:micronaut-mongo-sync")
     implementation("io.micronaut.graphql:micronaut-graphql")
     implementation("io.micronaut.redis:micronaut-redis-lettuce")
-    implementation("io.micronaut.rabbitmq:micronaut-rabbitmq")
     implementation("io.micronaut.views:micronaut-views-freemarker")
     implementation("io.micronaut.xml:micronaut-jackson-xml")
     implementation("org.springframework.boot:spring-boot-starter")
@@ -56,3 +55,5 @@ java {
     sourceCompatibility = JavaVersion.toVersion("1.8")
     targetCompatibility = JavaVersion.toVersion("1.8")
 }
+
+run.jvmArgs('-Dmicronaut.environments=dev','-noverify', '-XX:TieredStopAtLevel=1', '-Xdebug',"-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=n", '-Dcom.sun.management.jmxremote')

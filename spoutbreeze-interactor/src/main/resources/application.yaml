@@ -25,9 +25,6 @@ mongodb:
 redis:
   uri: redis://localhost:6379
 
-rabbitmq:
-  uri: amqp://localhost:5672
-
 spoutbreeze:
   api:
     user: api@spoutbreeze.test

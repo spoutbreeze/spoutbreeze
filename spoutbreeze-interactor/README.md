@@ -43,8 +43,3 @@
 ## Feature spring documentation
 
 - [Micronaut Spring Framework Annotations documentation](https://micronaut-projects.github.io/micronaut-spring/latest/guide/index.html)
-
-## Feature rabbitmq documentation
-
-- [Micronaut RabbitMQ Messaging documentation](https://micronaut-projects.github.io/micronaut-rabbitmq/latest/guide/index.html)
-
