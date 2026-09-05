@@ -1,0 +1,15 @@
+Source: bbb-plugin-template
+Section: web
+Priority: extra
+Maintainer: Anton Georgiev <anton.georgiev@blindsidenetworks.com>
+Build-Depends: debhelper (>= 13), nodejs (>= 18)
+Standards-Version: 4.1.4
+Homepage: https://github.com/bigbluebutton/plugin-template
+
+Package: bbb-plugin-template
+Architecture: all
+Depends: ${misc:Depends}, nodejs
+Description: Share a webpage with all session participants
+ An official BigBlueButton plugin which allows
+ the presenter to display a web page to
+ all viewers inside of a session.

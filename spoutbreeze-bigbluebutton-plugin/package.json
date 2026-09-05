@@ -1,0 +1,66 @@
+{
+  "name": "spoutbreeze-extender",
+  "version": "0.1.0",
+  "private": true,
+  "main": "./src/index.tsx",
+  "dependencies": {
+    "babel-plugin-syntax-dynamic-import": "^6.18.0",
+    "bigbluebutton-html-plugin-sdk": "0.1.26",
+    "path": "^0.12.7",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "styled-components": "^5.3.3"
+  },
+  "scripts": {
+    "build-bundle": "webpack --mode production",
+    "start": "webpack serve --mode development",
+    "build:watch": "rm -rf dist && tsc -w --module CommonJS",
+    "lint": "eslint ./src/*",
+    "lint:fix": "npm run lint -- --fix",
+    "lint:watch": "watch 'yarn lint'"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@babel/core": "^7.21.8",
+    "@babel/preset-env": "^7.21.5",
+    "@babel/preset-react": "^7.18.6",
+    "@types/node": "^20.4.4",
+    "@types/react": "^18.2.15",
+    "@types/react-dom": "^18.2.7",
+    "@types/react-modal": "^3.16.0",
+    "@types/styled-components": "^5.1.26",
+    "@typescript-eslint/eslint-plugin": "^6.2.0",
+    "@typescript-eslint/parser": "^6.2.0",
+    "babel-loader": "^9.1.2",
+    "copy-webpack-plugin": "^12.0.2",
+    "css-loader": "^6.7.4",
+    "eslint": "^8.45.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
+    "eslint-plugin-react": "^7.33.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-watch": "^8.0.0",
+    "lint-staged": "11.2.0",
+    "react-dom": "^18.2.0",
+    "style-loader": "^3.3.3",
+    "ts-loader": "^9.4.3",
+    "typescript": "^5.1.6",
+    "watch": "^0.13.0",
+    "webpack": "^5.83.1",
+    "webpack-cli": "^5.1.1",
+    "webpack-dev-server": "^4.15.1"
+  }
+}

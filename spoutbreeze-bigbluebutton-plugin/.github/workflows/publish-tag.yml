@@ -1,0 +1,44 @@
+name: Cut a new tag (also auto updates package.json and package-lock.json)
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_type:
+        description: 'Version bump type (patch, minor, major)'
+        required: true
+        default: 'patch'
+
+jobs:
+  bump-version:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20'
+
+    - name: Get triggering user's email
+      run: |
+        user_email=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/users/${{ github.actor }} | jq -r '.email')
+        if [ -z "$user_email" ] || [ "$user_email" == "null" ]; then
+          user_email="github-actions@github.com"
+        fi
+        echo "user_email=$user_email" >> $GITHUB_ENV
+    
+    - name: Configure Git with the triggering user's info
+      run: |
+        git config user.name "${{ github.actor }}"
+        git config user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
+
+
+    - name: Bump version and push tag
+      run: |
+        npm install
+        npm version ${{ github.event.inputs.release_type }} -m "chore: bump version to %s"
+        git push --follow-tags
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

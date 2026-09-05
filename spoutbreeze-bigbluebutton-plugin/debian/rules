@@ -1,0 +1,12 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@ --no-parallel --verbose
+
+override_dh_auto_build:
+	npm install
+	npm run build-bundle
+
+override_dh_auto_install:
+	install -d debian/bbb-plugin-template/var/www/bigbluebutton-default/assets/plugins/bbb-plugin-template
+	cp -r dist/* debian/bbb-plugin-template/var/www/bigbluebutton-default/assets/plugins/bbb-plugin-template

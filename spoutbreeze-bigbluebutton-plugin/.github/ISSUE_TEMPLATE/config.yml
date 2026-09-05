@@ -1,0 +1,13 @@
+blank_issues_enabled: false
+contact_links:
+  - name: BigBlueButton GitHub Repository
+    url: https://github.com/bigbluebutton/bigbluebutton
+  - name: BigBlueButton Plugin SDK GitHub Repository
+    url: https://github.com/bigbluebutton/bigbluebutton-html-plugin-sdk
+    about: Everything BigBlueButton (in case you are looking for something different than plugin sdk)
+  - name: Looking for commercial support in building/maintaining plugins
+    url: https://bigbluebutton.org/commercial-support
+    about: List of companies offering commercial BigBlueButton support
+  - name: BigBlueButton Developers Mailing List:
+    url: https://groups.google.com/forum/#!forum/bigbluebutton-dev
+    about: Ask questions and share experiences with other BigBlueButton developers (including about plugins).

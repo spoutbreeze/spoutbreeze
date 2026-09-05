@@ -1,0 +1,99 @@
+---
+name: "📦 Build .deb package for plugin"
+on:
+  push:
+    branches: [ "main"]
+    paths-ignore:
+      - debian/changelog
+  pull_request:
+    branches: [ "main" ]
+    paths-ignore:
+      - debian/changelog
+
+jobs:
+  build-deb-package:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-22.04]
+
+    env:
+      OS_VERSION: ${{ matrix.os }}
+    defaults:
+      run:
+        working-directory: .
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Extract and print repository name
+        run: |
+          echo "REPO_NAME=$(echo ${{ github.repository }} | cut -d'/' -f2)" >> $GITHUB_ENV
+
+      - name: Set up Node.js
+        run: |
+          curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+            sudo apt-get install -y nodejs
+
+      - name: Verify Node.js installation
+        run: |
+          node -v
+          npm -v
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y devscripts debhelper
+
+      # - name: Build Debian package
+      #   run: |
+      #     sudo dpkg-buildpackage -us -uc
+
+      # - name: Create artifacts directory and move .deb files
+      #   run: |
+      #     mkdir -p artifacts
+      #     mv ../*.deb artifacts/ || mv ./*.deb artifacts/
+      #     ls -la artifacts
+
+      # - name: Upload Debian Package
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: "${{ env.REPO_NAME }}-${{ env.OS_VERSION }}"
+      #     path: artifacts/*.deb
+
+  release:
+    name: "Upload assets to release"
+    needs: build-deb-package
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-22.04]
+
+    env:
+      OS_VERSION: ${{ matrix.os }}
+    if: ${{ github.ref_type == 'tag' }}
+    permissions:
+      contents: write
+      actions: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Extract and print repository name
+        run: |
+          echo "REPO_NAME=$(echo ${{ github.repository }} | cut -d'/' -f2)" >> $GITHUB_ENV
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: "${{ env.REPO_NAME }}-${{ env.OS_VERSION }}"
+          path: "${{ env.REPO_NAME }}-${{ env.OS_VERSION }}"
+
+      - name: Create release asset archives
+        run: zip --junk-paths --recurse-paths --compression-method store "${{ env.REPO_NAME }}-${{ env.OS_VERSION }}.zip" "${{ env.REPO_NAME }}-${{ env.OS_VERSION }}"
+
+      - name: Upload release assets
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release upload ${{ github.ref_name }} "${{ env.REPO_NAME }}-${{ env.OS_VERSION }}.zip"
+

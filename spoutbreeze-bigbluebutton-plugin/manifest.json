@@ -1,0 +1,6 @@
+{
+  "requiredSdkVersion": "^0.1.2",
+  "name": "SpoutBreeze",
+  "javascriptEntrypointUrl": "SpoutBreeze.js",
+  "localesBaseUrl": "locales"
+}

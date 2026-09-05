@@ -1,0 +1,44 @@
+
+{
+    "root": true,
+    "parser": "@typescript-eslint/parser",
+    "extends": [
+        "airbnb",
+        "eslint:recommended",
+        "plugin:@typescript-eslint/eslint-recommended",
+        "plugin:@typescript-eslint/recommended"
+    ],
+    "parserOptions": {
+      "ecmaVersion": 2020
+    },
+    "plugins": [
+        "@typescript-eslint",
+        "react",
+        "jsx-a11y",
+        "import"
+    ],
+    "env": {
+      "es6": true,
+      "node": true,
+      "browser": true
+    },
+    "rules": {
+      "react/jsx-filename-extension": [1, { "extensions": [".tsx", ".jsx"] }],
+      "no-shadow": "off",
+      "@typescript-eslint/no-shadow": "warn",
+      "import/prefer-default-export": "off",
+      "no-underscore-dangle": 0,
+      "import/extensions": [2, "never"],
+      "import/no-absolute-path": 0,
+      "import/no-unresolved": 0,
+      "import/no-extraneous-dependencies": 1,
+      "react/prop-types": 1,
+      "jsx-a11y/no-access-key": 0,
+      "react/jsx-props-no-spreading": "off",
+      "max-classes-per-file": "off",
+      "class-methods-use-this": "off"
+    },
+    "globals": {
+      "browser": "writable"
+    }
+  }
