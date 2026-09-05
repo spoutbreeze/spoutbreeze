@@ -14,11 +14,12 @@
  * You should have received a copy of the GNU Affero General Public License along
  * with SpoutBreeze. If not, see <https://www.gnu.org/licenses/>.
  */
-package org.spoutbreeze.interactor.bigbluebutton.messages.commons;
+package org.spoutbreeze.interactor.bbb;
 
-import java.util.Map;
+import org.spoutbreeze.commons.contracts.BroadcastEvent;
 
-public class BbbCoreEnvelope {
-    public String name;
-    public Map<String, String> routing;
+public interface BbbEventPublisher {
+    void publish(String server, String body);
+
+    void publishEvent(BroadcastEvent event);
 }

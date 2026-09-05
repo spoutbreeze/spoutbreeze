@@ -14,11 +14,16 @@
  * You should have received a copy of the GNU Affero General Public License along
  * with SpoutBreeze. If not, see <https://www.gnu.org/licenses/>.
  */
-package org.spoutbreeze.interactor.bigbluebutton.messages.commons;
+package org.spoutbreeze.interactor.chat;
 
-import java.util.Map;
+public final class ChatMessageFormatter {
+    private ChatMessageFormatter() {
+    }
 
-public class BbbCoreEnvelope {
-    public String name;
-    public Map<String, String> routing;
+    public static String format(String platform, String author, String text) {
+        if (platform == null || platform.isBlank()) {
+            return author + ": " + text;
+        }
+        return "[" + platform + "] " + author + ": " + text;
+    }
 }

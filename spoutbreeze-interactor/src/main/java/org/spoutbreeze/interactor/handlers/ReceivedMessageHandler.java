@@ -1,46 +1,40 @@
-/**
+/*
  * SpoutBreeze open source platform - https://www.spoutbreeze.org/
  *
- * Copyright (c) 2021 Frictionless Solutions Inc., RIADVICE SUARL and by respective authors (see below).
+ * Copyright (c) 2021-2026 RIADVICE SUARL.
  *
- * This program is free software; you can redistribute it and/or modify it under the
- * terms of the GNU Lesser General Public License as published by the Free Software
- * Foundation; either version 3.0 of the License, or (at your option) any later
- * version.
+ * This program is free software: you can redistribute it and/or modify it under the
+ * terms of the GNU Affero General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later version.
  *
  * SpoutBreeze is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
- * PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+ * PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License along
- * with SpoutBreeze; if not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Affero General Public License along
+ * with SpoutBreeze. If not, see <https://www.gnu.org/licenses/>.
  */
-
 package org.spoutbreeze.interactor.handlers;
 
-import java.io.IOException;
-
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spoutbreeze.interactor.bigbluebutton.messages.commons.BbbCommonEnvCoreMsg;
 
-import com.squareup.moshi.JsonAdapter;
-import com.squareup.moshi.Moshi;
+import java.io.IOException;
 
 public class ReceivedMessageHandler {
-
-    private static final Logger log = LoggerFactory.getLogger(ReceivedMessageHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(ReceivedMessageHandler.class);
+    private static final ObjectMapper objectMapper = new ObjectMapper()
+            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
     public void handleMessage(String message) {
-        Moshi moshi = new Moshi.Builder().build();
-        JsonAdapter<BbbCommonEnvCoreMsg> jsonAdapter = moshi.adapter(BbbCommonEnvCoreMsg.class);
-
         try {
-            BbbCommonEnvCoreMsg bbbMesage = jsonAdapter.nullSafe().fromJson(message);
-            log.info("Converted new message {}", bbbMesage.core.header.name);
+            BbbCommonEnvCoreMsg bbbMessage = objectMapper.readValue(message, BbbCommonEnvCoreMsg.class);
+            logger.info("Converted a BigBlueButton message of type {}", bbbMessage.core.header.name);
         } catch (IOException e) {
-            log.error("Cannot handle the received BigBlueButton message", e);
+            logger.error("Cannot handle the received BigBlueButton message", e);
         }
-
     }
 }

@@ -1,82 +1,77 @@
-/**
+/*
  * SpoutBreeze open source platform - https://www.spoutbreeze.org/
  *
- * Copyright (c) 2021 Frictionless Solutions Inc., RIADVICE SUARL and by respective authors (see below).
+ * Copyright (c) 2021-2026 RIADVICE SUARL.
  *
- * This program is free software; you can redistribute it and/or modify it under the
- * terms of the GNU Lesser General Public License as published by the Free Software
- * Foundation; either version 3.0 of the License, or (at your option) any later
- * version.
+ * This program is free software: you can redistribute it and/or modify it under the
+ * terms of the GNU Affero General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later version.
  *
  * SpoutBreeze is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
- * PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+ * PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License along
- * with SpoutBreeze; if not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Affero General Public License along
+ * with SpoutBreeze. If not, see <https://www.gnu.org/licenses/>.
  */
-
 package org.spoutbreeze.interactor.redis;
 
-import javax.annotation.PostConstruct;
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
+import io.lettuce.core.RedisClient;
+import io.lettuce.core.pubsub.RedisPubSubListener;
+import io.lettuce.core.pubsub.StatefulRedisPubSubConnection;
+import io.micronaut.context.annotation.Context;
+import io.micronaut.context.annotation.Value;
+import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spoutbreeze.interactor.handlers.ReceivedMessageHandler;
 
-import io.lettuce.core.pubsub.RedisPubSubListener;
-import io.lettuce.core.pubsub.StatefulRedisPubSubConnection;
-import io.micronaut.context.annotation.Context;
-
 @Context
-@Singleton
 public class RedisMessageListener {
+    private static final Logger logger = LoggerFactory.getLogger(RedisMessageListener.class);
 
-    private static final Logger log = LoggerFactory.getLogger(RedisMessageListener.class);
+    private final RedisClient redisClient;
+    private final ReceivedMessageHandler handler = new ReceivedMessageHandler();
 
-    @Inject
-    StatefulRedisPubSubConnection<String, String> connection;
-
-    ReceivedMessageHandler handler;
+    public RedisMessageListener(@Value("${redis.uri}") String redisUri) {
+        this.redisClient = RedisClient.create(redisUri);
+    }
 
     @PostConstruct
     public void addListeners() {
-        log.info("Adding BigBlueButton Redis listeners");
-        handler = new ReceivedMessageHandler();
-        // @todo: put the channels in configuration
+        logger.info("Adding BigBlueButton Redis listeners");
+        StatefulRedisPubSubConnection<String, String> connection = redisClient.connectPubSub();
         connection.async().subscribe("to-akka-apps-redis-channel", "from-akka-apps-redis-channel");
-        connection.addListener(new RedisPubSubListener<String, String>() {
+        connection.addListener(new RedisPubSubListener<>() {
             @Override
-            public void message(String s, String s2) {
-                log.info("message, channel = {}, message = {}", s, s2);
-                handler.handleMessage(s);
+            public void message(String channel, String message) {
+                logger.info("message, channel = {}", channel);
+                handler.handleMessage(message);
             }
 
             @Override
-            public void message(String s, String k1, String s2) {
-                log.info("message, pattern = {}, channel = {}, message = {}", s, k1, s2);
+            public void message(String pattern, String channel, String message) {
+                logger.info("message, pattern = {}, channel = {}", pattern, channel);
             }
 
             @Override
-            public void subscribed(String s, long l) {
-                log.info("subscribed, channel = {}, currentChannelCount = {}", s, l);
+            public void subscribed(String channel, long count) {
+                logger.info("subscribed, channel = {}", channel);
             }
 
             @Override
-            public void psubscribed(String s, long l) {
-                log.info("psubscribed, channel = {}, currentChannelCount = {}", s, l);
+            public void psubscribed(String pattern, long count) {
+                logger.info("psubscribed, pattern = {}", pattern);
             }
 
             @Override
-            public void unsubscribed(String s, long l) {
-                log.info("unsubscribed, channel = {}, currentChannelCount = {}", s, l);
+            public void unsubscribed(String channel, long count) {
+                logger.info("unsubscribed, channel = {}", channel);
             }
 
             @Override
-            public void punsubscribed(String s, long l) {
-                log.info("punsubscribed, channel = {}, currentChannelCount = {}", s, l);
+            public void punsubscribed(String pattern, long count) {
+                logger.info("punsubscribed, pattern = {}", pattern);
             }
         });
     }

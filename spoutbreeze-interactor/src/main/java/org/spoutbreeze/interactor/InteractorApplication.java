@@ -14,11 +14,12 @@
  * You should have received a copy of the GNU Affero General Public License along
  * with SpoutBreeze. If not, see <https://www.gnu.org/licenses/>.
  */
-package org.spoutbreeze.interactor.bigbluebutton.messages.commons;
+package org.spoutbreeze.interactor;
 
-import java.util.Map;
+import io.micronaut.runtime.Micronaut;
 
-public class BbbCoreEnvelope {
-    public String name;
-    public Map<String, String> routing;
+public class InteractorApplication {
+    public static void main(String[] args) {
+        Micronaut.run(InteractorApplication.class, args);
+    }
 }

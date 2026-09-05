@@ -14,11 +14,24 @@
  * You should have received a copy of the GNU Affero General Public License along
  * with SpoutBreeze. If not, see <https://www.gnu.org/licenses/>.
  */
-package org.spoutbreeze.interactor.bigbluebutton.messages.commons;
+package org.spoutbreeze.interactor.config;
 
-import java.util.Map;
+import io.micronaut.context.annotation.Factory;
+import jakarta.inject.Singleton;
+import org.spoutbreeze.commons.data.broadcast.BroadcastJdbcRepository;
+import org.spoutbreeze.commons.data.server.ServerJdbcRepository;
 
-public class BbbCoreEnvelope {
-    public String name;
-    public Map<String, String> routing;
+import javax.sql.DataSource;
+
+@Factory
+public class RepositoryFactory {
+    @Singleton
+    BroadcastJdbcRepository broadcastJdbcRepository(DataSource dataSource) {
+        return new BroadcastJdbcRepository(dataSource);
+    }
+
+    @Singleton
+    ServerJdbcRepository serverJdbcRepository(DataSource dataSource) {
+        return new ServerJdbcRepository(dataSource);
+    }
 }

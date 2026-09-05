@@ -14,11 +14,22 @@
  * You should have received a copy of the GNU Affero General Public License along
  * with SpoutBreeze. If not, see <https://www.gnu.org/licenses/>.
  */
-package org.spoutbreeze.interactor.bigbluebutton.messages.commons;
+package org.spoutbreeze.interactor;
 
-import java.util.Map;
+import org.junit.jupiter.api.Test;
+import org.spoutbreeze.interactor.chat.ChatMessageFormatter;
 
-public class BbbCoreEnvelope {
-    public String name;
-    public Map<String, String> routing;
+import static org.assertj.core.api.Assertions.assertThat;
+
+class ChatMessageFormatterTest {
+    @Test
+    void prefixesPlatformMessages() {
+        assertThat(ChatMessageFormatter.format("Twitch", "viewer", "hello")).isEqualTo("[Twitch] viewer: hello");
+    }
+
+    @Test
+    void omitsThePrefixWithoutPlatform() {
+        assertThat(ChatMessageFormatter.format(null, "viewer", "hello")).isEqualTo("viewer: hello");
+        assertThat(ChatMessageFormatter.format("", "viewer", "hello")).isEqualTo("viewer: hello");
+    }
 }
