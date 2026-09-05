@@ -1,0 +1,15 @@
+{
+  "chrome": {
+    "default": "152.0",
+    "versions": {
+      "152.0": {
+        "image": "websummoner/chrome:152.0",
+        "port": "4444",
+        "path": "/",
+        "tmpfs": {
+          "/tmp": "size=512m"
+        }
+      }
+    }
+  }
+}

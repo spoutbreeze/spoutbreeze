@@ -1,0 +1,36 @@
+.git
+.github
+docs
+vagrant
+*.code-workspace
+spoutbreeze-web/tmp
+spoutbreeze-web/logs
+spoutbreeze-web/data
+**/build
+**/.gradle
+app/tmp
+app/logs
+
+# Environment configuration is supplied at runtime, never baked in. The
+# customer builds their own app/config/config-production.ini from the
+# tracked .sample; if one exists on the build host it must not reach the
+# image, because it can carry spoutbreeze.secret_key — the key that
+# decrypts every stored destination credential.
+app/config/config-production.ini
+app/config/config-staging.ini
+app/config/config-local.ini
+
+# The development and test files carry working credentials. Development
+# mounts app/ from the working tree, so they are never needed inside an
+# image — and an image that ships them hands a customer our dev API key
+# and destination encryption key.
+app/config/config-development.ini
+app/config/config-test.ini
+deploy/.env
+deploy/.env.*
+
+# The image takes its vendor from dist/vendor (dev-free, symlinks
+# dereferenced by tools/sb); the working-tree vendor carries dev
+# dependencies and framework symlinks, and is for local development only.
+vendor
+

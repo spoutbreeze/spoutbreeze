@@ -1,0 +1,66 @@
+# SpoutBreeze open source platform - https://www.spoutbreeze.org/
+#
+# Copyright (c) 2021-2026 RIADVICE SUARL.
+#
+# This program is free software: you can redistribute it and/or modify it under the
+# terms of the GNU Affero General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later version.
+#
+# SpoutBreeze is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License along
+# with SpoutBreeze. If not, see <https://www.gnu.org/licenses/>.
+
+services:
+  # Development overlay for the console: the image copies the source at build
+  # time, which is right for a release but means every edit needs a rebuild.
+  # Mounting the working tree — and the Sukarix checkout the path repository
+  # points at — makes application and framework changes take effect on the
+  # next request instead.
+  app-php:
+    volumes:
+      - ../app:/var/www/spoutbreeze/app
+      - ../db:/var/www/spoutbreeze/db
+      - ../public:/var/www/spoutbreeze/public
+      - ../tests:/var/www/spoutbreeze/tests
+      - ../tools:/var/www/spoutbreeze/tools
+      - ../composer.json:/var/www/spoutbreeze/composer.json:ro
+      # The image ships a dev-free vendor, which has no Statera and so cannot
+      # run the test suite. Development mounts the working-tree vendor over
+      # it, plus the two framework checkouts at the paths its relative
+      # symlinks resolve to inside the container (/var/sukarix/*).
+      - ../vendor:/var/www/spoutbreeze/vendor
+      - ../../../sukarix/sukarix:/var/sukarix/sukarix
+      - ../../../sukarix/statera:/var/sukarix/statera
+
+  web-legacy-php:
+    build:
+      context: ..
+      dockerfile: deploy/web-legacy.Dockerfile
+    image: spoutbreeze-web-legacy:local
+    environment:
+      SPB_ENV: development
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+  web-legacy-nginx:
+    image: nginx:stable-alpine
+    volumes:
+      - ./nginx/legacy-web.conf:/etc/nginx/conf.d/default.conf:ro
+    ports:
+      - "8090:80"
+    depends_on:
+      - web-legacy-php
+    restart: unless-stopped
+
+  mediamtx:
+    image: bluenviron/mediamtx:latest
+    ports:
+      - "1935:1935"
+    restart: unless-stopped

@@ -1,0 +1,61 @@
+{
+  "vhosts": [
+    {
+      "name": "/"
+    }
+  ],
+  "permissions": [
+    {
+      "user": "spoutbreeze",
+      "vhost": "/",
+      "configure": ".*",
+      "write": ".*",
+      "read": ".*"
+    }
+  ],
+  "exchanges": [
+    {
+      "name": "spoutbreeze",
+      "vhost": "/",
+      "type": "direct",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false,
+      "arguments": {}
+    }
+  ],
+  "queues": [
+    {
+      "name": "spoutbreeze_manager",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "spoutbreeze_events",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    }
+  ],
+  "bindings": [
+    {
+      "source": "spoutbreeze",
+      "vhost": "/",
+      "destination": "spoutbreeze_manager",
+      "destination_type": "queue",
+      "routing_key": "spoutbreeze_manager",
+      "arguments": {}
+    },
+    {
+      "source": "spoutbreeze",
+      "vhost": "/",
+      "destination": "spoutbreeze_events",
+      "destination_type": "queue",
+      "routing_key": "spoutbreeze_events",
+      "arguments": {}
+    }
+  ]
+}

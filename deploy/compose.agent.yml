@@ -1,0 +1,71 @@
+# SpoutBreeze open source platform - https://www.spoutbreeze.org/
+#
+# Copyright (c) 2021-2026 RIADVICE SUARL.
+#
+# This program is free software: you can redistribute it and/or modify it under the
+# terms of the GNU Affero General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later version.
+#
+# SpoutBreeze is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License along
+# with SpoutBreeze. If not, see <https://www.gnu.org/licenses/>.
+
+volumes:
+  videos:
+
+services:
+  agent:
+    image: spoutbreeze-agent:local
+    build:
+      context: ..
+      dockerfile: deploy/java.Dockerfile
+      target: agent
+    environment:
+      RABBITMQ_URI: amqp://spoutbreeze:spoutbreeze@rabbitmq:5672
+      JDBC_URL: jdbc:postgresql://postgres:5432/spoutbreeze
+      JDBC_USER: spoutbreeze_u
+      JDBC_PASSWORD: spoutbreeze_pass
+      GRID_ENDPOINT: http://websummoner:4444/wd/hub
+      AGENT_NAME: local
+      SPB_API_URL: http://app-nginx
+      SPB_API_KEY: spoutbreeze-dev-api-key
+    ports:
+      - "21030:21030"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      websummoner:
+        condition: service_started
+    restart: unless-stopped
+
+  websummoner:
+    image: websummoner/websummoner:latest
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./browsers.json:/etc/websummoner/browsers.json:ro
+      - videos:/opt/websummoner/video
+    command:
+      - "-limit"
+      - "5"
+      - "-container-network"
+      - "spoutbreeze-net"
+      - "-video-recorder-image"
+      - "spoutbreeze-streamer:local"
+      - "-max-timeout"
+      - "8h"
+    ports:
+      - "4444:4444"
+    restart: unless-stopped
+
+  streamer:
+    image: spoutbreeze-streamer:local
+    build:
+      context: ../spoutbreeze-streamer
+    entrypoint: ["sleep", "infinity"]
+    profiles:
+      - build
