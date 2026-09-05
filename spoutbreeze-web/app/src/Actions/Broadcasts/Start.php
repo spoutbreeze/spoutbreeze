@@ -1,21 +1,20 @@
 <?php
 
-/**
+/*
  * SpoutBreeze open source platform - https://www.spoutbreeze.org/
  *
- * Copyright (c) 2021 Frictionless Solutions Inc., RIADVICE SUARL and by respective authors (see below).
+ * Copyright (c) 2021-2026 RIADVICE SUARL.
  *
- * This program is free software; you can redistribute it and/or modify it under the
- * terms of the GNU Lesser General Public License as published by the Free Software
- * Foundation; either version 3.0 of the License, or (at your option) any later
- * version.
+ * This program is free software: you can redistribute it and/or modify it under the
+ * terms of the GNU Affero General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later version.
  *
  * SpoutBreeze is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
- * PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+ * PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License along
- * with SpoutBreeze; if not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Affero General Public License along
+ * with SpoutBreeze. If not, see <https://www.gnu.org/licenses/>.
  */
 
 namespace Actions\Broadcasts;
@@ -58,7 +57,7 @@ class Start extends BaseAction
                 $broadcast->endpoint_id = $endpoint->id;
                 $broadcast->server_id   = $server->id;
                 $broadcast->meeting_id  = $form['meetingId'];
-                $broadcast->selenoid_id = 'none';
+                $broadcast->session_id = 'none';
                 //              $broadcast->save();
 
                 $this->publishMessage(json_encode($broadcast->cast()));

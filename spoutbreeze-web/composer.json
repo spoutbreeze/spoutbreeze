@@ -57,7 +57,7 @@
     "xfra35/f3-cron": "Job scheduling for the PHP Fat-Free Framework",
     "ikkez/f3-mailer": "Email class with error and bounce handling"
   },
-  "license": "PRIVATE",
+  "license": "AGPL-3.0-or-later",
   "authors": [
     {
       "name": "RIADVICE",

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * SpoutBreeze open source platform - https://www.spoutbreeze.org/
  *
@@ -17,28 +19,21 @@
  * with SpoutBreeze. If not, see <https://www.gnu.org/licenses/>.
  */
 
-declare(strict_types=1);
-
 use Phinx\Migration\AbstractMigration;
 
-final class AddMeetingIdColumnToBroadcasts extends AbstractMigration
+/**
+ * The capture session id lives in a WebSummoner session, not a Selenoid one;
+ * the column follows the domain language.
+ */
+final class RenameSelenoidIdToSessionId extends AbstractMigration
 {
     public function up(): void
     {
-        $table = $this->table('broadcasts');
-        $table->addColumn('meeting_id', 'string', ['limit' => 128, 'null' => false])
-              ->addIndex(['meeting_id'], [
-                                     'unique' => true,
-                                     'name'   => 'idx_broadcasts_meeting_id']
-              )
-              ->save();
+        $this->table('broadcasts')->renameColumn('selenoid_id', 'session_id')->save();
     }
 
     public function down(): void
     {
-        $this->table('broadcasts')
-             ->removeIndexByName('idx_broadcasts_meeting_id')
-             ->removeColumn('meeting_id')
-             ->save();
+        $this->table('broadcasts')->renameColumn('session_id', 'selenoid_id')->save();
     }
 }
