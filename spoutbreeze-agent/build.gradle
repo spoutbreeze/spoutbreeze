@@ -1,43 +1,75 @@
+/*
+ * SpoutBreeze open source platform - https://www.spoutbreeze.org/
+ *
+ * Copyright (c) 2021-2026 RIADVICE SUARL.
+ *
+ * This program is free software: you can redistribute it and/or modify it under the
+ * terms of the GNU Affero General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later version.
+ *
+ * SpoutBreeze is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License along
+ * with SpoutBreeze. If not, see <https://www.gnu.org/licenses/>.
+ */
 plugins {
-	id 'org.springframework.boot' version '2.4.2'
-	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-    id 'com.diffplug.gradle.spotless' version '2.0.0'
-	id 'java'
+	id 'io.micronaut.application' version '5.0.2'
+	id 'com.gradleup.shadow' version '9.6.1'
+	id 'jacoco'
 }
 
 group = 'org.spoutbreeze'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '1.8'
 
-configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
+repositories {
+	mavenCentral()
+}
+
+micronaut {
+	version = '5.1.3'
+	runtime('netty')
+	testRuntime('junit5')
+	processing {
+		incremental(true)
+		annotations('org.spoutbreeze.agent.*')
 	}
 }
 
-repositories {
-    jcenter()
-    mavenLocal()
-    mavenCentral()
-    maven { url "https://repo.grails.org/grails/core" }
-}
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-actuator'
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	// @todo: implementation 'org.springframework.boot:spring-boot-starter-log4j2'
-	implementation 'org.springframework.session:spring-session-core'
-	implementation "com.rabbitmq:http-client:3.10.0"
-	implementation "org.springframework:spring-web:5.3.6"
-	implementation 'org.spoutbreeze:spoutbreeze-commons:0.0.1-SNAPSHOT'
-	implementation 'org.seleniumhq.selenium:selenium-java'
-	implementation 'org.springframework.boot:spring-boot-starter-amqp'
-	implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.11.1'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	runtimeOnly 'org.postgresql:postgresql'
-	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation(project(':spoutbreeze-commons'))
+	implementation('io.micronaut:micronaut-jackson-databind')
+	implementation('io.micronaut:micronaut-management')
+	implementation('io.micronaut:micronaut-http-client')
+	implementation('io.micronaut.sql:micronaut-jdbc-hikari')
+	implementation('io.micronaut.rabbitmq:micronaut-rabbitmq')
+	implementation('com.rabbitmq:http-client:5.7.0')
+	implementation('org.seleniumhq.selenium:selenium-java:4.49.0')
+	runtimeOnly('org.postgresql:postgresql')
+	runtimeOnly('org.slf4j:slf4j-simple')
+
+	testImplementation('org.mockito:mockito-core:5.23.0')
+	testImplementation('org.assertj:assertj-core:3.27.7')
+}
+
+application {
+	mainClass.set('org.spoutbreeze.agent.AgentApplication')
+}
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(25)
+	}
 }
 
 test {
 	useJUnitPlatform()
+	finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+	reports {
+		xml.required = true
+	}
 }
