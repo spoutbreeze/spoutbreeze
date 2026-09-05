@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spoutbreeze.org/contracts/broadcast-requested.schema.json",
+  "title": "BroadcastRequested",
+  "description": "Sent by the Web Facade to the spoutbreeze_manager queue when a broadcast is requested.",
+  "type": "object",
+  "required": ["v", "broadcast_id", "org_id", "requested_by"],
+  "properties": {
+    "v": {"type": "integer", "const": 1},
+    "broadcast_id": {"type": "integer", "minimum": 1},
+    "org_id": {"type": "integer", "minimum": 1},
+    "meeting_id": {"type": "string"},
+    "server_id": {"type": "integer"},
+    "targets_ref": {"type": "string", "description": "Opaque reference the streamer exchanges for its one-time job token."},
+    "profile": {"type": "string", "enum": ["720p30", "1080p30", "1080p60"]},
+    "requested_by": {"type": "string"}
+  },
+  "additionalProperties": false
+}

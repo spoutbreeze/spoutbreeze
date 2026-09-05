@@ -1,3 +1,19 @@
+/*
+ * SpoutBreeze open source platform - https://www.spoutbreeze.org/
+ *
+ * Copyright (c) 2021-2026 RIADVICE SUARL.
+ *
+ * This program is free software: you can redistribute it and/or modify it under the
+ * terms of the GNU Affero General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later version.
+ *
+ * SpoutBreeze is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License along
+ * with SpoutBreeze. If not, see <https://www.gnu.org/licenses/>.
+ */
 package org.spoutbreeze.commons.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -8,8 +24,8 @@ public class BroadcastMessage {
     @JsonProperty("id")
     private Long id;
 
-    @JsonProperty("selenoid_id")
-    private String selenoidId;
+    @JsonProperty("session_id")
+    private String sessionId;
 
     @JsonProperty("server_id")
     private String serverId;
@@ -70,12 +86,12 @@ public class BroadcastMessage {
         this.id = id;
     }
 
-    public String getSelenoidId() {
-        return selenoidId;
+    public String getSessionId() {
+        return sessionId;
     }
 
-    public void setSelenoidId(String selenoidId) {
-        this.selenoidId = selenoidId;
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
     }
 
     public String getServerId() {
@@ -122,7 +138,7 @@ public class BroadcastMessage {
     public String toString() {
         return "BroadcastMessage{" +
                 "id=" + id +
-                ", selenoidId='" + selenoidId + '\'' +
+                ", sessionId='" + sessionId + '\'' +
                 ", serverId='" + serverId + '\'' +
                 ", endpointId='" + endpointId + '\'' +
                 ", meetingId='" + meetingId + '\'' +

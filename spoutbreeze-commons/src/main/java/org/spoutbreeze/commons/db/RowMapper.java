@@ -14,19 +14,12 @@
  * You should have received a copy of the GNU Affero General Public License along
  * with SpoutBreeze. If not, see <https://www.gnu.org/licenses/>.
  */
-package org.spoutbreeze.commons.data.common;
-
-import org.spoutbreeze.commons.db.InsertInfo;
-import org.spoutbreeze.commons.db.RowMapper;
+package org.spoutbreeze.commons.db;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class InsertInfoRowMapper implements RowMapper<InsertInfo> {
-    @Override
-    public InsertInfo map(ResultSet rs) throws SQLException {
-        InsertInfo insertInfo = new InsertInfo();
-        insertInfo.lastId = rs.getInt("last_id");
-        return insertInfo;
-    }
+@FunctionalInterface
+public interface RowMapper<T> {
+    T map(ResultSet rs) throws SQLException;
 }

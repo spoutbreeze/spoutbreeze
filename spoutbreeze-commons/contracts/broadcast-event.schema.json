@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spoutbreeze.org/contracts/broadcast-event.schema.json",
+  "title": "BroadcastEvent",
+  "description": "Event envelope published to the spoutbreeze_events queue by agents, the streamer and the interactor.",
+  "type": "object",
+  "required": ["v", "type", "timestamp"],
+  "properties": {
+    "v": {"type": "integer", "const": 1},
+    "type": {
+      "type": "string",
+      "enum": [
+        "agent.online", "agent.heartbeat",
+        "session.started", "session.page_ready", "session.live", "session.ended", "session.failed",
+        "bbb.meeting_created", "bbb.meeting_ended", "bbb.user_joined", "bbb.user_left",
+        "chat.inbound"
+      ]
+    },
+    "timestamp": {"type": "string", "format": "date-time"},
+    "broadcast_id": {"type": "integer"},
+    "agent": {"type": "string"},
+    "server": {"type": "string"},
+    "stats": {
+      "type": "object",
+      "properties": {
+        "bitrate_kbps": {"type": "integer"},
+        "dropped_frames": {"type": "integer"},
+        "targets": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "payload": {"type": "object"}
+  },
+  "additionalProperties": false
+}

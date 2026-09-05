@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spoutbreeze.org/contracts/start-session.schema.json",
+  "title": "StartSession",
+  "description": "Sent by the Capture Manager to an agent queue to start a capture session.",
+  "type": "object",
+  "required": ["v", "broadcast_id", "join_url"],
+  "properties": {
+    "v": {"type": "integer", "const": 1},
+    "broadcast_id": {"type": "integer", "minimum": 1},
+    "join_url": {"type": "string", "format": "uri"},
+    "targets_ref": {"type": "string"},
+    "profile": {"type": "string", "enum": ["720p30", "1080p30", "1080p60"]},
+    "session_opts": {
+      "type": "object",
+      "properties": {
+        "screen_resolution": {"type": "string"},
+        "frame_rate": {"type": "integer", "minimum": 1, "maximum": 60},
+        "session_timeout": {"type": "string"}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

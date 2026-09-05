@@ -14,19 +14,16 @@
  * You should have received a copy of the GNU Affero General Public License along
  * with SpoutBreeze. If not, see <https://www.gnu.org/licenses/>.
  */
-package org.spoutbreeze.commons.data.common;
+package org.spoutbreeze.commons.contracts;
 
-import org.spoutbreeze.commons.db.InsertInfo;
-import org.spoutbreeze.commons.db.RowMapper;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-public class InsertInfoRowMapper implements RowMapper<InsertInfo> {
-    @Override
-    public InsertInfo map(ResultSet rs) throws SQLException {
-        InsertInfo insertInfo = new InsertInfo();
-        insertInfo.lastId = rs.getInt("last_id");
-        return insertInfo;
-    }
+/**
+ * StopSession v1 — the Capture Manager tells an agent to tear down a capture
+ * session (spoutbreeze-commons/contracts/stop-session.schema.json).
+ */
+public record StopSession(
+        @JsonProperty("v") int v,
+        @JsonProperty("broadcast_id") long broadcastId,
+        @JsonProperty("reason") String reason) {
 }

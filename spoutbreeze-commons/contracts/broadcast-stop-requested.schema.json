@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spoutbreeze.org/contracts/broadcast-stop-requested.schema.json",
+  "title": "BroadcastStopRequested",
+  "description": "Sent by the Web Facade or the Interactor to spoutbreeze_manager to stop a broadcast.",
+  "type": "object",
+  "required": ["v", "broadcast_id", "reason"],
+  "properties": {
+    "v": {"type": "integer", "const": 1},
+    "broadcast_id": {"type": "integer", "minimum": 1},
+    "reason": {"type": "string", "minLength": 1}
+  },
+  "additionalProperties": false
+}

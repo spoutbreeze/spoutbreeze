@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spoutbreeze.org/contracts/stop-session.schema.json",
+  "title": "StopSession",
+  "description": "Sent by the Capture Manager to an agent queue to stop a capture session.",
+  "type": "object",
+  "required": ["v", "broadcast_id"],
+  "properties": {
+    "v": {"type": "integer", "const": 1},
+    "broadcast_id": {"type": "integer", "minimum": 1},
+    "reason": {"type": "string"}
+  },
+  "additionalProperties": false
+}

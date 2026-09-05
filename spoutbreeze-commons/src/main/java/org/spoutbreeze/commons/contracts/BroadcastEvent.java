@@ -14,19 +14,24 @@
  * You should have received a copy of the GNU Affero General Public License along
  * with SpoutBreeze. If not, see <https://www.gnu.org/licenses/>.
  */
-package org.spoutbreeze.commons.data.common;
+package org.spoutbreeze.commons.contracts;
 
-import org.spoutbreeze.commons.db.InsertInfo;
-import org.spoutbreeze.commons.db.RowMapper;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.Map;
 
-public class InsertInfoRowMapper implements RowMapper<InsertInfo> {
-    @Override
-    public InsertInfo map(ResultSet rs) throws SQLException {
-        InsertInfo insertInfo = new InsertInfo();
-        insertInfo.lastId = rs.getInt("last_id");
-        return insertInfo;
-    }
+/**
+ * BroadcastEvent v1 — envelope on spoutbreeze_events
+ * (spoutbreeze-commons/contracts/broadcast-event.schema.json).
+ */
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public record BroadcastEvent(
+        @JsonProperty("v") int v,
+        @JsonProperty("type") String type,
+        @JsonProperty("timestamp") String timestamp,
+        @JsonProperty("broadcast_id") Long broadcastId,
+        @JsonProperty("agent") String agent,
+        @JsonProperty("server") String server,
+        @JsonProperty("payload") Map<String, Object> payload) {
 }
