@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="{{ @LANGUAGE }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Sukarix</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/js/tailwind.config.js"></script>
+    <link rel="stylesheet" href="/css/app.css">
+</head>
+<body class="bg-sukarix-dark text-white min-h-screen flex items-center justify-center p-4">
+    <div class="text-center max-w-2xl mx-auto">
+        <div class="relative inline-block mb-8">
+            <span class="text-9xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-br from-sukarix-violet to-sukarix-magenta">404</span>
+            <div class="absolute -inset-4 bg-sukarix-magenta/20 blur-3xl rounded-full -z-10"></div>
+        </div>
+        <h1 class="text-3xl sm:text-4xl font-bold mb-4">Page not found</h1>
+        <p class="text-gray-300 text-lg mb-8">The page you are looking for does not exist or has been moved.</p>
+        <a href="{{ @ALIASES.home }}" class="inline-flex items-center px-8 py-3.5 rounded-full bg-gradient-to-r from-sukarix-primary to-sukarix-magenta text-white font-semibold hover:shadow-xl transition-all">
+            Back home
+        </a>
+    </div>
+</body>
+</html>

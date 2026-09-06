@@ -1,0 +1,113 @@
+<div class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between">
+    <h2 class="text-2xl font-bold text-gray-800 dark:text-white/90">Broadcasts</h2>
+    <nav>
+        <ol class="flex items-center gap-1.5">
+            <li><a class="text-sm text-gray-500 hover:text-brand-600 dark:text-gray-400" href="/">Home</a></li>
+            <li class="text-gray-400">/</li>
+            <li class="text-sm font-medium text-gray-800 dark:text-white/90">Broadcasts</li>
+        </ol>
+    </nav>
+</div>
+
+{~ if (!empty(@form_error)): ~}
+<div class="mb-6 rounded-xl border border-error-200 bg-error-50 px-4 py-3 text-sm text-error-700 dark:border-error-500/30 dark:bg-error-500/10 dark:text-error-400">
+    {{ @form_error }}
+</div>
+{~ endif; ~}
+
+<div class="mb-6 grid grid-cols-1 gap-6 xl:grid-cols-3">
+    <div class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] xl:col-span-1">
+        <h3 class="mb-4 text-lg font-semibold text-gray-800 dark:text-white/90">Start a broadcast</h3>
+        <form method="post" action="/broadcasts" class="space-y-4">
+            <input type="hidden" name="csrf_token" value="{{ @csrf_token }}"/>
+            <div>
+                <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300" for="meeting_id">Meeting id</label>
+                <input id="meeting_id" name="meeting_id" class="h-11 w-full rounded-lg border border-gray-300 px-3 text-sm dark:border-gray-700 dark:bg-gray-900 dark:text-white" placeholder="auto-generated if empty"/>
+            </div>
+            <div>
+                <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300" for="rtmp_url">RTMP target</label>
+                <input id="rtmp_url" name="rtmp_url" value="{{ @default_rtmp }}" class="h-11 w-full rounded-lg border border-gray-300 px-3 text-sm dark:border-gray-700 dark:bg-gray-900 dark:text-white"/>
+            </div>
+            <div>
+                <span class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">Destinations</span>
+                {~ if (empty(@destinations)): ~}
+                <p class="text-sm text-gray-500 dark:text-gray-400">
+                    No saved destinations. <a href="/destinations" class="text-brand-600 hover:underline">Add one</a> to stream to YouTube, Facebook, LinkedIn or Panopto.
+                </p>
+                {~ else: ~}
+                <div class="space-y-2 rounded-lg border border-gray-200 p-3 dark:border-gray-700">
+                    {~ foreach (@destinations as @destination): ~}
+                    <label class="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
+                        <input type="checkbox" name="destination_ids[]" value="{{ @destination.id }}"
+                               class="h-4 w-4 rounded border-gray-300 text-brand-500"/>
+                        <span>{{ @destination.name }}</span>
+                        <span class="rounded-full bg-gray-100 px-2 py-0.5 text-xs text-gray-600 dark:bg-gray-800 dark:text-gray-400">{{ @destination.provider }}</span>
+                    </label>
+                    {~ endforeach; ~}
+                </div>
+                {~ endif; ~}
+            </div>
+
+            <div>
+                <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300" for="join_url">Join URL override (optional)</label>
+                <input id="join_url" name="join_url" class="h-11 w-full rounded-lg border border-gray-300 px-3 text-sm dark:border-gray-700 dark:bg-gray-900 dark:text-white"/>
+            </div>
+            <div>
+                <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300" for="profile">Profile</label>
+                <select id="profile" name="profile" class="h-11 w-full rounded-lg border border-gray-300 px-3 text-sm dark:border-gray-700 dark:bg-gray-900 dark:text-white">
+                    <option value="1080p30">1080p30</option>
+                    <option value="720p30">720p30</option>
+                </select>
+            </div>
+            <button type="submit" class="inline-flex h-11 items-center justify-center rounded-lg bg-brand-500 px-4 text-sm font-medium text-white hover:bg-brand-600">Start</button>
+        </form>
+    </div>
+
+    <div class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] xl:col-span-2">
+        <div class="mb-4 flex items-center justify-between">
+            <h3 class="text-lg font-semibold text-gray-800 dark:text-white/90">Recent broadcasts</h3>
+            <a href="/broadcasts" class="text-sm text-brand-600 hover:underline">Refresh</a>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="min-w-full text-left text-sm">
+                <thead>
+                <tr class="border-b border-gray-200 text-gray-500 dark:border-gray-800">
+                    <th class="py-2 pr-4">Id</th>
+                    <th class="py-2 pr-4">Meeting</th>
+                    <th class="py-2 pr-4">Status</th>
+                    <th class="py-2 pr-4">Agent</th>
+                    <th class="py-2">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                {~ foreach (@broadcasts ?: [] as @row): ~}
+                    <tr class="border-b border-gray-100 dark:border-gray-800">
+                        <td class="py-3 pr-4 font-medium text-gray-800 dark:text-white/90">{{ @row.id }}</td>
+                        <td class="py-3 pr-4 text-gray-600 dark:text-gray-400">{{ @row.meeting_id }}</td>
+                        <td class="py-3 pr-4">
+                            <span class="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-700 dark:bg-gray-800 dark:text-gray-300">{{ @row.status }}</span>
+                        </td>
+                        <td class="py-3 pr-4 text-gray-600 dark:text-gray-400">{{ @row.agent_id ?: '—' }}</td>
+                        <td class="py-3">
+                            {~ if (!in_array((string) (@row.status ?? ''), ['ENDED', 'FAILED'], true)): ~}
+                            <div class="flex items-center gap-3">
+                                <form method="post" action="/broadcasts/{{ @row.id }}/stop">
+                                    <input type="hidden" name="csrf_token" value="{{ @csrf_token }}"/>
+                                    <button type="submit" class="text-sm font-medium text-error-600 hover:underline">Stop</button>
+                                </form>
+                                {~ if (!empty(@row.meeting_id)): ~}
+                                <a href="/watch/{{ @row.meeting_id }}" target="_blank" rel="noopener" class="text-sm font-medium text-brand-600 hover:underline">Watch</a>
+                                {~ endif; ~}
+                            </div>
+                            {~ endif; ~}
+                        </td>
+                    </tr>
+                {~ endforeach; ~}
+                {~ if (empty(@broadcasts)): ~}
+                    <tr><td class="py-6 text-gray-500" colspan="5">No broadcasts yet.</td></tr>
+                {~ endif; ~}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

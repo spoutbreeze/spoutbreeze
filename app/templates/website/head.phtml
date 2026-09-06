@@ -1,0 +1,35 @@
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{{ @i18n.seo.description }}">
+    <meta name="keywords" content="{{ @i18n.seo.keywords }}">
+    <meta name="author" content="RIADVICE">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{{ @i18n.seo.og_title }}">
+    <meta property="og:description" content="{{ @i18n.seo.og_description }}">
+    <meta property="og:site_name" content="Sukarix">
+    <meta property="og:locale" content="{{ @current_locale }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ @i18n.seo.twitter_title }}">
+    <meta name="twitter:description" content="{{ @i18n.seo.twitter_description }}">
+    <title>{{ @i18n.seo.title }}</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/js/tailwind.config.js"></script>
+    <link rel="stylesheet" href="/css/app.css?v=20260818-navbar">
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "SoftwareSourceCode",
+            "name": "Sukarix",
+            "programmingLanguage": "PHP",
+            "runtimePlatform": "PHP 8.4+",
+            "codeRepository": "https://github.com/sukarix",
+            "description": "A modern PHP framework built on Fat-Free with routing, ACL, dependency injection, i18n, queues, caching and product-ready defaults."
+        }
+    </script>
+</head>

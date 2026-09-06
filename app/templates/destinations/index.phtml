@@ -1,0 +1,171 @@
+<div class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between">
+    <h2 class="text-2xl font-bold text-gray-800 dark:text-white/90">Destinations</h2>
+    <nav>
+        <ol class="flex items-center gap-1.5">
+            <li><a class="text-sm text-gray-500 hover:text-brand-600 dark:text-gray-400" href="/">Home</a></li>
+            <li class="text-gray-400">/</li>
+            <li class="text-sm font-medium text-gray-800 dark:text-white/90">Destinations</li>
+        </ol>
+    </nav>
+</div>
+
+{~ if (!empty(@form_error)): ~}
+<div class="mb-6 rounded-xl border border-error-200 bg-error-50 px-4 py-3 text-sm text-error-700 dark:border-error-500/30 dark:bg-error-500/10 dark:text-error-400">
+    {{ @form_error }}
+</div>
+{~ endif; ~}
+
+<div class="mb-6 grid grid-cols-1 gap-6 xl:grid-cols-3">
+    <div class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] xl:col-span-1"
+         x-data="{ provider: 'generic_rtmp' }">
+        <h3 class="mb-1 text-lg font-semibold text-gray-800 dark:text-white/90">Add a destination</h3>
+        <p class="mb-4 text-sm text-gray-500 dark:text-gray-400">
+            Credentials are encrypted before they are stored and are never shown again.
+        </p>
+        <form method="post" action="/destinations" class="space-y-4">
+            <input type="hidden" name="csrf_token" value="{{ @csrf_token }}"/>
+
+            <div>
+                <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300" for="name">Name</label>
+                <input id="name" name="name" required placeholder="Main YouTube channel"
+                       class="h-11 w-full rounded-lg border border-gray-300 px-3 text-sm dark:border-gray-700 dark:bg-gray-900 dark:text-white"/>
+            </div>
+
+            <div>
+                <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300" for="provider">Provider</label>
+                <select id="provider" name="provider" x-model="provider"
+                        class="h-11 w-full rounded-lg border border-gray-300 px-3 text-sm dark:border-gray-700 dark:bg-gray-900 dark:text-white">
+                    <option value="generic_rtmp">Generic RTMP</option>
+                    <option value="youtube">YouTube</option>
+                    <option value="facebook">Facebook</option>
+                    <option value="linkedin">LinkedIn</option>
+                    <option value="panopto">Panopto</option>
+                </select>
+            </div>
+
+            <div>
+                <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300" for="label">Stream label</label>
+                <input id="label" name="label" placeholder="defaults to the provider name"
+                       class="h-11 w-full rounded-lg border border-gray-300 px-3 text-sm dark:border-gray-700 dark:bg-gray-900 dark:text-white"/>
+            </div>
+
+            <template x-if="provider === 'generic_rtmp' || provider === 'linkedin'">
+                <div class="space-y-4">
+                    <div>
+                        <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">Ingest URL</label>
+                        <input name="url" placeholder="rtmps://…"
+                               class="h-11 w-full rounded-lg border border-gray-300 px-3 text-sm dark:border-gray-700 dark:bg-gray-900 dark:text-white"/>
+                    </div>
+                    <div>
+                        <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">Stream key</label>
+                        <input name="stream_key" type="password" autocomplete="new-password"
+                               class="h-11 w-full rounded-lg border border-gray-300 px-3 text-sm dark:border-gray-700 dark:bg-gray-900 dark:text-white"/>
+                    </div>
+                </div>
+            </template>
+
+            <template x-if="provider === 'youtube' || provider === 'facebook'">
+                <div class="space-y-4">
+                    <div>
+                        <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">Access token</label>
+                        <input name="access_token" type="password" autocomplete="new-password"
+                               class="h-11 w-full rounded-lg border border-gray-300 px-3 text-sm dark:border-gray-700 dark:bg-gray-900 dark:text-white"/>
+                    </div>
+                    <template x-if="provider === 'facebook'">
+                        <div>
+                            <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">Page id</label>
+                            <input name="target_id" placeholder="me"
+                                   class="h-11 w-full rounded-lg border border-gray-300 px-3 text-sm dark:border-gray-700 dark:bg-gray-900 dark:text-white"/>
+                        </div>
+                    </template>
+                    <template x-if="provider === 'youtube'">
+                        <div>
+                            <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">Privacy</label>
+                            <select name="privacy"
+                                    class="h-11 w-full rounded-lg border border-gray-300 px-3 text-sm dark:border-gray-700 dark:bg-gray-900 dark:text-white">
+                                <option value="unlisted">unlisted</option>
+                                <option value="private">private</option>
+                                <option value="public">public</option>
+                            </select>
+                        </div>
+                    </template>
+                </div>
+            </template>
+
+            <template x-if="provider === 'panopto'">
+                <div class="space-y-4">
+                    <div>
+                        <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">Site host</label>
+                        <input name="site" placeholder="demo.hosted.panopto.com"
+                               class="h-11 w-full rounded-lg border border-gray-300 px-3 text-sm dark:border-gray-700 dark:bg-gray-900 dark:text-white"/>
+                    </div>
+                    <div>
+                        <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">API user</label>
+                        <input name="user" autocomplete="off"
+                               class="h-11 w-full rounded-lg border border-gray-300 px-3 text-sm dark:border-gray-700 dark:bg-gray-900 dark:text-white"/>
+                    </div>
+                    <div>
+                        <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">API password</label>
+                        <input name="password" type="password" autocomplete="new-password"
+                               class="h-11 w-full rounded-lg border border-gray-300 px-3 text-sm dark:border-gray-700 dark:bg-gray-900 dark:text-white"/>
+                    </div>
+                    <div>
+                        <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">Folder id</label>
+                        <input name="folder_id"
+                               class="h-11 w-full rounded-lg border border-gray-300 px-3 text-sm dark:border-gray-700 dark:bg-gray-900 dark:text-white"/>
+                    </div>
+                </div>
+            </template>
+
+            <button type="submit" class="inline-flex h-11 items-center justify-center rounded-lg bg-brand-500 px-4 text-sm font-medium text-white hover:bg-brand-600">Save destination</button>
+        </form>
+    </div>
+
+    <div class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] xl:col-span-2">
+        <h3 class="mb-4 text-lg font-semibold text-gray-800 dark:text-white/90">Saved destinations</h3>
+        <div class="overflow-x-auto">
+            <table class="min-w-full text-left text-sm">
+                <thead>
+                <tr class="border-b border-gray-200 text-gray-500 dark:border-gray-800">
+                    <th class="py-2 pr-4">Name</th>
+                    <th class="py-2 pr-4">Provider</th>
+                    <th class="py-2 pr-4">Label</th>
+                    <th class="py-2 pr-4">State</th>
+                    <th class="py-2">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {~ foreach (@destinations ?: [] as @row): ~}
+                    <tr class="border-b border-gray-100 dark:border-gray-800">
+                        <td class="py-3 pr-4 font-medium text-gray-800 dark:text-white/90">{{ @row.name }}</td>
+                        <td class="py-3 pr-4 text-gray-600 dark:text-gray-400">{{ @row.provider }}</td>
+                        <td class="py-3 pr-4 text-gray-600 dark:text-gray-400">{{ @row.label }}</td>
+                        <td class="py-3 pr-4">
+                            {~ if (@row.enabled): ~}
+                            <span class="rounded-full bg-success-50 px-2 py-0.5 text-xs font-medium text-success-700 dark:bg-success-500/10 dark:text-success-400">enabled</span>
+                            {~ else: ~}
+                            <span class="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-600 dark:bg-gray-800 dark:text-gray-400">disabled</span>
+                            {~ endif; ~}
+                        </td>
+                        <td class="py-3">
+                            <div class="flex items-center gap-3">
+                                <form method="post" action="/destinations/{{ @row.id }}/toggle">
+                                    <input type="hidden" name="csrf_token" value="{{ @csrf_token }}"/>
+                                    <button type="submit" class="text-sm font-medium text-brand-600 hover:underline">{{ @row.enabled ? 'Disable' : 'Enable' }}</button>
+                                </form>
+                                <form method="post" action="/destinations/{{ @row.id }}/delete" onsubmit="return confirm('Delete this destination?');">
+                                    <input type="hidden" name="csrf_token" value="{{ @csrf_token }}"/>
+                                    <button type="submit" class="text-sm font-medium text-error-600 hover:underline">Delete</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                {~ endforeach; ~}
+                {~ if (empty(@destinations)): ~}
+                    <tr><td class="py-6 text-gray-500" colspan="5">No destinations yet. Add one to start a broadcast without pasting credentials.</td></tr>
+                {~ endif; ~}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

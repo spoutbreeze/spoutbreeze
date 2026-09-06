@@ -1,0 +1,27 @@
+<div class="rounded-2xl border border-gray-200 bg-white p-8 dark:border-gray-800 dark:bg-white/[0.03]">
+    <h1 class="mb-2 text-xl font-semibold text-gray-800 dark:text-white/90">Sign in</h1>
+    <p class="mb-6 text-sm text-gray-500 dark:text-gray-400">Operator access to the broadcast console.</p>
+
+    {~ if (!empty(@error)): ~}
+    <div class="mb-4 rounded-xl border border-error-200 bg-error-50 px-4 py-3 text-sm text-error-700 dark:border-error-500/30 dark:bg-error-500/10 dark:text-error-400">
+        {{ @error }}
+    </div>
+    {~ endif; ~}
+
+    <form method="post" action="/login" class="space-y-4">
+        <input type="hidden" name="csrf_token" value="{{ @csrf_token }}"/>
+        <div>
+            <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300" for="email">Email</label>
+            <input id="email" name="email" type="email" required autofocus class="h-11 w-full rounded-lg border border-gray-300 px-3 text-sm dark:border-gray-700 dark:bg-gray-900 dark:text-white"/>
+        </div>
+        <div>
+            <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300" for="password">Password</label>
+            <input id="password" name="password" type="password" required class="h-11 w-full rounded-lg border border-gray-300 px-3 text-sm dark:border-gray-700 dark:bg-gray-900 dark:text-white"/>
+        </div>
+        <button type="submit" class="h-11 w-full rounded-lg bg-brand-500 text-sm font-medium text-white hover:bg-brand-600">Sign in</button>
+    </form>
+
+    <p class="mt-4 text-center text-sm text-gray-500 dark:text-gray-400">
+        <a href="/forgot" class="text-brand-600 hover:underline">Forgot your password?</a>
+    </p>
+</div>

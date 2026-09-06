@@ -1,0 +1,22 @@
+<div class="rounded-2xl border border-gray-200 bg-white p-8 dark:border-gray-800 dark:bg-white/[0.03]">
+    <h1 class="mb-2 text-xl font-semibold text-gray-800 dark:text-white/90">Choose a new password</h1>
+
+    {~ if (!empty(@error)): ~}
+    <div class="mb-4 rounded-xl border border-error-200 bg-error-50 px-4 py-3 text-sm text-error-700 dark:border-error-500/30 dark:bg-error-500/10 dark:text-error-400">
+        {{ @error }}
+    </div>
+    {~ endif; ~}
+
+    <form method="post" action="/reset/{{ @token }}" class="space-y-4">
+        <input type="hidden" name="csrf_token" value="{{ @csrf_token }}"/>
+        <div>
+            <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300" for="password">New password</label>
+            <input id="password" name="password" type="password" required minlength="10" autofocus class="h-11 w-full rounded-lg border border-gray-300 px-3 text-sm dark:border-gray-700 dark:bg-gray-900 dark:text-white"/>
+        </div>
+        <div>
+            <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300" for="password_confirm">Confirm password</label>
+            <input id="password_confirm" name="password_confirm" type="password" required minlength="10" class="h-11 w-full rounded-lg border border-gray-300 px-3 text-sm dark:border-gray-700 dark:bg-gray-900 dark:text-white"/>
+        </div>
+        <button type="submit" class="h-11 w-full rounded-lg bg-brand-500 text-sm font-medium text-white hover:bg-brand-600">Set password</button>
+    </form>
+</div>

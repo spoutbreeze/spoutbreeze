@@ -1,0 +1,46 @@
+<div class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between">
+    <h2 class="text-2xl font-bold text-gray-800 dark:text-white/90">Profile</h2>
+</div>
+
+{~ if (!empty(@form_error)): ~}
+<div class="mb-6 rounded-xl border border-error-200 bg-error-50 px-4 py-3 text-sm text-error-700 dark:border-error-500/30 dark:bg-error-500/10 dark:text-error-400">
+    {{ @form_error }}
+</div>
+{~ endif; ~}
+
+<div class="grid grid-cols-1 gap-6 xl:grid-cols-2">
+    <div class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">
+        <h3 class="mb-4 text-lg font-semibold text-gray-800 dark:text-white/90">Change password</h3>
+        <form method="post" action="/profile" class="space-y-4">
+            <input type="hidden" name="csrf_token" value="{{ @csrf_token }}"/>
+            <input type="hidden" name="action" value="password"/>
+            <div>
+                <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300" for="current_password">Current password</label>
+                <input id="current_password" name="current_password" type="password" required class="h-11 w-full rounded-lg border border-gray-300 px-3 text-sm dark:border-gray-700 dark:bg-gray-900 dark:text-white"/>
+            </div>
+            <div>
+                <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300" for="new_password">New password (min 10 chars)</label>
+                <input id="new_password" name="new_password" type="password" required minlength="10" class="h-11 w-full rounded-lg border border-gray-300 px-3 text-sm dark:border-gray-700 dark:bg-gray-900 dark:text-white"/>
+            </div>
+            <button type="submit" class="h-11 w-full rounded-lg bg-brand-500 text-sm font-medium text-white hover:bg-brand-600">Change password</button>
+        </form>
+    </div>
+
+    <div class="rounded-2xl border border-error-200 bg-error-50 p-5 dark:border-error-500/30 dark:bg-error-500/10">
+        <h3 class="mb-2 text-lg font-semibold text-error-700 dark:text-error-400">Delete my account (GDPR)</h3>
+        <p class="mb-4 text-sm text-error-700/80 dark:text-error-400/80">
+            Permanently deletes your personal data: email, username and credentials are
+            erased and the account is anonymised. Broadcast history keeps working without
+            your identity. This cannot be undone.
+        </p>
+        <form method="post" action="/profile" onsubmit="return confirm('Really delete your account and personal data?');">
+            <input type="hidden" name="csrf_token" value="{{ @csrf_token }}"/>
+            <input type="hidden" name="action" value="delete"/>
+            <label class="mb-1.5 block text-sm font-medium text-error-700 dark:text-error-400" for="confirm_password">Confirm with your current password</label>
+            <div class="flex gap-2">
+                <input id="confirm_password" name="confirm_password" type="password" required class="h-11 flex-1 rounded-lg border border-error-300 px-3 text-sm dark:border-error-500/40 dark:bg-gray-900 dark:text-white"/>
+                <button type="submit" class="h-11 rounded-lg bg-error-600 px-4 text-sm font-medium text-white hover:bg-error-700">Delete</button>
+            </div>
+        </form>
+    </div>
+</div>

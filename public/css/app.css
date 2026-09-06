@@ -1,0 +1,194 @@
+:root {
+    --sukarix-ink: #170a2e;
+    --sukarix-aubergine: #241039;
+    --sukarix-primary: #5b1b8f;
+    --sukarix-violet: #7b2cbf;
+    --sukarix-magenta: #cf2390;
+    --sukarix-fuchsia: #ec4899;
+    --sukarix-blush: #fff4fb;
+    --sukarix-lilac: #f4edff;
+    --sukarix-mist: #fbf8ff;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Inter', 'Open Sans', system-ui, -apple-system, sans-serif;
+    background: var(--sukarix-mist);
+}
+
+.logo-gradient-text {
+    background: linear-gradient(100deg, var(--sukarix-primary), var(--sukarix-violet), var(--sukarix-magenta));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero-surface {
+    background:
+        radial-gradient(circle at 14% 18%, rgba(207, 35, 144, 0.18), transparent 26%),
+        radial-gradient(circle at 86% 18%, rgba(123, 44, 191, 0.18), transparent 28%),
+        linear-gradient(180deg, #ffffff 0%, #fff8fd 42%, #f4edff 100%);
+}
+
+.hero-panel {
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.92), rgba(255, 244, 251, 0.78));
+    border: 1px solid rgba(91, 27, 143, 0.12);
+    box-shadow: 0 30px 80px rgba(36, 16, 57, 0.14);
+    backdrop-filter: blur(16px);
+}
+
+.hero-orbit {
+    border: 1px solid rgba(91, 27, 143, 0.14);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.72), rgba(244, 237, 255, 0.72));
+}
+
+.hero-chip {
+    box-shadow: 0 16px 35px rgba(36, 16, 57, 0.12);
+}
+
+.btn-primary-sukarix {
+    background: linear-gradient(100deg, var(--sukarix-primary), var(--sukarix-magenta));
+    color: #ffffff;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 18px 35px rgba(207, 35, 144, 0.24);
+}
+
+.btn-primary-sukarix:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 22px 45px rgba(91, 27, 143, 0.28);
+}
+
+.btn-outline-sukarix {
+    border: 1px solid rgba(91, 27, 143, 0.22);
+    color: var(--sukarix-primary);
+    background-color: rgba(255, 255, 255, 0.7);
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-outline-sukarix:hover {
+    border-color: rgba(207, 35, 144, 0.45);
+    color: var(--sukarix-magenta);
+    background-color: #ffffff;
+    transform: translateY(-2px);
+}
+
+.accent-underline {
+    position: relative;
+    display: inline-block;
+}
+
+.accent-underline::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -10px;
+    width: 72px;
+    height: 4px;
+    transform: translateX(-50%);
+    background: linear-gradient(90deg, var(--sukarix-violet), var(--sukarix-magenta));
+    border-radius: 999px;
+}
+
+.feature-card {
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(207, 35, 144, 0.24);
+    box-shadow: 0 24px 50px rgba(36, 16, 57, 0.12);
+}
+
+.feature-icon-box {
+    background: linear-gradient(135deg, rgba(91, 27, 143, 0.1), rgba(207, 35, 144, 0.12));
+    color: var(--sukarix-primary);
+}
+
+#main-navbar {
+    color: var(--sukarix-ink);
+}
+
+#main-navbar .nav-link,
+#main-navbar .lang-switcher-btn,
+#mobile-menu-toggle {
+    color: rgba(23, 10, 46, 0.82) !important;
+}
+
+#main-navbar .nav-link:hover,
+#main-navbar .lang-switcher-btn:hover,
+#mobile-menu-toggle:hover {
+    color: var(--sukarix-magenta) !important;
+}
+
+.nav-scrolled {
+    background-color: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(14px);
+    box-shadow: 0 1px 0 rgba(91, 27, 143, 0.08), 0 18px 40px rgba(36, 16, 57, 0.06);
+}
+
+.mobile-menu {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.mobile-menu.open {
+    max-height: 460px;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes floatCard {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.animate-fade-in-up {
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+.float-card {
+    animation: floatCard 6s ease-in-out infinite;
+}
+
+/* RTL support for Arabic and other RTL languages */
+[dir="rtl"] body {
+    text-align: right;
+}
+
+[dir="rtl"] #main-navbar .max-w-7xl > .flex {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .hero-orbit.absolute.-left-8 {
+    left: auto;
+    right: -2rem;
+}
+
+[dir="rtl"] .hero-orbit.absolute.-right-5 {
+    right: auto;
+    left: -1.25rem;
+}
+
+[dir="rtl"] .feature-card {
+    text-align: right;
+}
+
+[dir="rtl"] footer .grid {
+    direction: rtl;
+}

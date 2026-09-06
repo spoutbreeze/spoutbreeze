@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="{{ @current_locale }}" dir="{{ @is_rtl ? 'rtl' : 'ltr' }}">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>SpoutBreeze Console</title>
+    <link rel="icon" href="/assets/tailadmin/favicon.ico"/>
+    <link rel="stylesheet" href="/assets/tailadmin/style.css"/>
+</head>
+<body
+    x-data="{ page: '{{ @sidebar_page }}', loaded: true, darkMode: false, stickyMenu: false, sidebarToggle: false, scrollTop: false }"
+    x-init="darkMode = JSON.parse(localStorage.getItem('darkMode')); $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(value)))"
+    :class="{'dark bg-gray-900': darkMode === true}"
+>
+<div class="flex h-screen overflow-hidden">
+    <aside
+        :class="sidebarToggle ? 'translate-x-0 lg:w-[90px]' : '-translate-x-full'"
+        class="sidebar fixed left-0 top-0 z-9999 flex h-screen w-[290px] flex-col overflow-y-hidden border-r border-gray-200 bg-white px-5 dark:border-gray-800 dark:bg-black lg:static lg:translate-x-0"
+    >
+        <div :class="sidebarToggle ? 'justify-center' : 'justify-between'" class="flex items-center gap-2 pt-8 pb-7">
+            <a href="/">
+                <span :class="sidebarToggle ? 'hidden' : ''" class="text-xl font-bold text-gray-800 dark:text-white/90">Spout<span class="text-brand-500">Breeze</span></span>
+            </a>
+        </div>
+
+        <div class="flex flex-col overflow-y-auto duration-300 ease-linear no-scrollbar">
+            <nav x-data="{ selected: $persist('Dashboard') }">
+                <h3 class="mb-4 text-xs uppercase leading-[20px] text-gray-400">
+                    <span :class="sidebarToggle ? 'lg:hidden' : ''">Menu</span>
+                </h3>
+                <ul class="mb-6 flex flex-col gap-1 lg:mb-9">
+                    <li>
+                        <a href="/" class="{{ @sidebar_page == 'dashboard' ? 'menu-item-active text-brand-700 dark:text-brand-400' : 'text-gray-700 dark:text-gray-300' }} group relative flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium">
+                            <svg class="h-5 w-5 fill-current" viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/broadcasts" class="{{ @sidebar_page == 'broadcasts' ? 'menu-item-active text-brand-700 dark:text-brand-400' : 'text-gray-700 dark:text-gray-300' }} group relative flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium">
+                            <svg class="h-5 w-5 fill-current" viewBox="0 0 24 24"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
+                            Broadcasts
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/destinations" class="{{ @sidebar_page == 'destinations' ? 'menu-item-active text-brand-700 dark:text-brand-400' : 'text-gray-700 dark:text-gray-300' }} group relative flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium">
+                            <svg class="h-5 w-5 fill-current" viewBox="0 0 24 24"><path d="M12 2a7 7 0 00-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 00-7-7zm0 9.5A2.5 2.5 0 1112 6.5a2.5 2.5 0 010 5z"/></svg>
+                            Destinations
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/users" class="{{ @sidebar_page == 'users' ? 'menu-item-active text-brand-700 dark:text-brand-400' : 'text-gray-700 dark:text-gray-300' }} group relative flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium">
+                            <svg class="h-5 w-5 fill-current" viewBox="0 0 24 24"><path d="M12 12a4 4 0 100-8 4 4 0 000 8zm0 2c-4 0-8 2-8 5v2h16v-2c0-3-4-5-8-5z"/></svg>
+                            Users
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/profile" class="{{ @sidebar_page == 'profile' ? 'menu-item-active text-brand-700 dark:text-brand-400' : 'text-gray-700 dark:text-gray-300' }} group relative flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium">
+                            <svg class="h-5 w-5 fill-current" viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 5a3 3 0 110 6 3 3 0 010-6zm0 13a8 8 0 01-5.3-2c.9-1.8 2.9-3 5.3-3s4.4 1.2 5.3 3a8 8 0 01-5.3 2z"/></svg>
+                            Profile
+                        </a>
+                    </li>
+                </ul>
+                <form method="post" action="/logout" class="mb-6">
+                    <input type="hidden" name="csrf_token" value="{{ @csrf_token }}"/>
+                    <button type="submit" class="text-sm text-gray-500 hover:text-error-600 dark:text-gray-400">Sign out</button>
+                </form>
+            </nav>
+
+            <div :class="sidebarToggle ? 'lg:hidden' : ''" class="mb-6 rounded-2xl border border-gray-200 p-4 dark:border-gray-800">
+                <p class="text-sm text-gray-600 dark:text-gray-400">Broadcast stack</p>
+                <p class="mt-1 text-lg font-bold text-gray-800 dark:text-white">WebSummoner grid</p>
+            </div>
+        </div>
+    </aside>
+
+    <div class="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
+        <header class="sticky top-0 z-999 flex w-full border-b border-gray-200 bg-white/80 backdrop-blur-lg dark:border-gray-800 dark:bg-gray-900/80">
+            <div class="flex w-full items-center justify-between px-4 py-4 lg:px-8">
+                <div class="flex items-center gap-2 lg:gap-4 min-w-fit">
+                    <button @click="sidebarToggle = !sidebarToggle" class="flex h-10 w-10 items-center justify-center rounded-lg text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:hover:bg-gray-800 dark:hover:text-gray-300 lg:hidden">
+                        <svg class="h-6 w-6 fill-current" viewBox="0 0 24 24"><path d="M4 6h16v2H4V6zm0 5h16v2H4v-2zm0 5h16v2H4v-2z"/></svg>
+                    </button>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button @click="darkMode = !darkMode" class="flex h-10 w-10 items-center justify-center rounded-lg text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:hover:bg-gray-800 dark:hover:text-gray-300">
+                        <svg x-show="!darkMode" class="h-6 w-6 fill-current" viewBox="0 0 24 24"><path d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.36-6.36l-1.42 1.42M7.05 16.95l-1.42 1.42m12.73 0l-1.42-1.42M7.05 7.05L5.64 5.64M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                        <svg x-show="darkMode" class="h-6 w-6 fill-current" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <main class="px-4 py-6 lg:px-8">
+            <include href="{{ @view }}"/>
+        </main>
+    </div>
+</div>
+<script src="/assets/tailadmin/bundle.js"></script>
+<!-- Cookie consent: SpoutBreeze uses one essential session cookie only. -->
+<div id="cookie-consent" style="display:none" class="fixed bottom-4 left-4 right-4 z-[9999] mx-auto max-w-xl rounded-xl border border-gray-200 bg-white p-4 shadow-lg dark:border-gray-800 dark:bg-gray-900 sm:left-6 sm:right-auto">
+    <p class="text-sm text-gray-600 dark:text-gray-300">We use only the one essential cookie that keeps you signed in. No tracking, no analytics.</p>
+    <button onclick="document.getElementById('cookie-consent').remove();document.cookie='cookie_consent=essential; Path=/; Max-Age=31536000; SameSite=Lax'" class="mt-2 rounded-lg bg-brand-500 px-4 py-1.5 text-sm font-medium text-white hover:bg-brand-600">OK</button>
+</div>
+<script>
+if (!document.cookie.includes('cookie_consent=') && document.cookie.includes('PHPSESSID')) {
+    document.getElementById('cookie-consent').style.display = 'block';
+}
+</script>
+</body>
+</html>

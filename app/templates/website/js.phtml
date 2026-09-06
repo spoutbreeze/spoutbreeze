@@ -1,0 +1,14 @@
+<js src="jquery.min.js"/>
+<js src="core/common.js"/>
+<js src="core/locale.js"/>
+<js src="app.js"/>
+
+{{ \Sukarix\Helpers\Assets::instance()->renderGroup('footer') }}
+
+<script>
+    jQuery(document).ready(function () {
+        Locale.setLocale('{{ @current_locale }}');
+        Locale.init();
+        Common.init();
+    });
+</script>

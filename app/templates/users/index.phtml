@@ -1,0 +1,85 @@
+<div class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between">
+    <h2 class="text-2xl font-bold text-gray-800 dark:text-white/90">Users</h2>
+</div>
+
+{~ if (!empty(@form_error)): ~}
+<div class="mb-6 rounded-xl border border-error-200 bg-error-50 px-4 py-3 text-sm text-error-700 dark:border-error-500/30 dark:bg-error-500/10 dark:text-error-400">
+    {{ @form_error }}
+</div>
+{~ endif; ~}
+
+<div class="grid grid-cols-1 gap-6 xl:grid-cols-3">
+    <div class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">
+        <h3 class="mb-4 text-lg font-semibold text-gray-800 dark:text-white/90">Add a user</h3>
+        <form method="post" action="/users" class="space-y-4">
+            <input type="hidden" name="csrf_token" value="{{ @csrf_token }}"/>
+            <div>
+                <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300" for="u_email">Email</label>
+                <input id="u_email" name="email" type="email" required class="h-11 w-full rounded-lg border border-gray-300 px-3 text-sm dark:border-gray-700 dark:bg-gray-900 dark:text-white"/>
+            </div>
+            <div>
+                <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300" for="u_username">Username</label>
+                <input id="u_username" name="username" required class="h-11 w-full rounded-lg border border-gray-300 px-3 text-sm dark:border-gray-700 dark:bg-gray-900 dark:text-white"/>
+            </div>
+            <div>
+                <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300" for="u_password">Password (min 10 chars)</label>
+                <input id="u_password" name="password" type="password" required minlength="10" class="h-11 w-full rounded-lg border border-gray-300 px-3 text-sm dark:border-gray-700 dark:bg-gray-900 dark:text-white"/>
+            </div>
+            <div>
+                <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300" for="u_role">Role</label>
+                <select id="u_role" name="role" class="h-11 w-full rounded-lg border border-gray-300 px-3 text-sm dark:border-gray-700 dark:bg-gray-900 dark:text-white">
+                    <option value="admin">admin</option>
+                    <option value="customer">operator</option>
+                </select>
+            </div>
+            <button type="submit" class="h-11 w-full rounded-lg bg-brand-500 text-sm font-medium text-white hover:bg-brand-600">Create user</button>
+        </form>
+    </div>
+
+    <div class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] xl:col-span-2">
+        <h3 class="mb-4 text-lg font-semibold text-gray-800 dark:text-white/90">Accounts</h3>
+        <div class="overflow-x-auto">
+            <table class="min-w-full text-left text-sm">
+                <thead>
+                <tr class="border-b border-gray-200 text-gray-500 dark:border-gray-800">
+                    <th class="py-2 pr-4">Email</th>
+                    <th class="py-2 pr-4">Username</th>
+                    <th class="py-2 pr-4">Role</th>
+                    <th class="py-2 pr-4">Status</th>
+                    <th class="py-2">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {~ foreach (@users as @u): ~}
+                    <tr class="border-b border-gray-100 dark:border-gray-800">
+                        <td class="py-3 pr-4 text-gray-800 dark:text-white/90">{{ @u.email }}</td>
+                        <td class="py-3 pr-4 text-gray-600 dark:text-gray-400">{{ @u.username }}</td>
+                        <td class="py-3 pr-4 text-gray-600 dark:text-gray-400">{{ @u.role }}</td>
+                        <td class="py-3 pr-4">
+                            <span class="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-700 dark:bg-gray-800 dark:text-gray-300">{{ @u.status }}</span>
+                        </td>
+                        <td class="py-3">
+                            <form method="post" action="/users/{{ @u.id }}/toggle" class="inline mr-3">
+                                <input type="hidden" name="csrf_token" value="{{ @csrf_token }}"/>
+                                <button type="submit" class="text-sm font-medium text-gray-600 hover:underline dark:text-gray-300">
+                                    {~ if ('active' == @u.status): ~}Deactivate{~ else: ~}Activate{~ endif; ~}
+                                </button>
+                            </form>
+                            <form method="post" action="/users/{{ @u.id }}/password" class="inline mr-3">
+                                <input type="hidden" name="csrf_token" value="{{ @csrf_token }}"/>
+                                <input type="password" name="new_password" placeholder="new password" minlength="10" required class="h-8 w-32 rounded-lg border border-gray-300 px-2 text-xs dark:border-gray-700 dark:bg-gray-900 dark:text-white"/>
+                                <button type="submit" class="text-sm font-medium text-brand-600 hover:underline">Reset</button>
+                            </form>
+                            <form method="post" action="/users/{{ @u.id }}/delete" class="inline"
+                                  onsubmit="return confirm('Delete this user\u0027s personal data (GDPR)? The account is anonymised.');">
+                                <input type="hidden" name="csrf_token" value="{{ @csrf_token }}"/>
+                                <button type="submit" class="text-sm font-medium text-error-600 hover:underline">Delete data</button>
+                            </form>
+                        </td>
+                    </tr>
+                {~ endforeach; ~}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

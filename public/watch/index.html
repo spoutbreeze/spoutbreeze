@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>SpoutBreeze Player</title>
+    <style>
+        body { font-family: sans-serif; margin: 2rem; background: #111; color: #eee; }
+        video { width: min(100%, 960px); background: #000; }
+        p { max-width: 40rem; line-height: 1.5; color: #bbb; }
+        #status { color: #f66; }
+
+        /* Audio invitation. Hidden until the server says a live meeting is
+           actually there to join, so the watch page never offers a control
+           that would fail. */
+        #audio-invite {
+            max-width: min(100%, 960px);
+            margin-top: 1.25rem;
+            padding: 1rem 1.25rem;
+            border: 1px solid #2c3a3d;
+            border-radius: 6px;
+            background: #161d1f;
+        }
+        #audio-invite h2 { margin: 0 0 .35rem; font-size: 1.05rem; color: #eee; }
+        #audio-invite p { margin: 0 0 .85rem; font-size: .9rem; }
+        #audio-form { display: flex; flex-wrap: wrap; gap: .6rem; align-items: center; }
+        #audio-name {
+            flex: 1 1 16rem; min-width: 0; padding: .55rem .7rem; font: inherit; font-size: .95rem;
+            color: #eee; background: #0e1416; border: 1px solid #2c3a3d; border-radius: 4px;
+        }
+        button {
+            padding: .55rem 1.1rem; font: inherit; font-size: .95rem; font-weight: 600;
+            color: #05191b; background: #45bac3; border: 0; border-radius: 4px; cursor: pointer;
+        }
+        button:hover:not(:disabled) { background: #63cdd5; }
+        button:disabled { opacity: .55; cursor: default; }
+        button.leave { color: #eee; background: #3a2422; }
+        button.leave:hover:not(:disabled) { background: #4d2e2b; }
+        #audio-state { margin: .85rem 0 0; font-size: .9rem; color: #9fb0b4; }
+        #audio-state.live { color: #63cdd5; }
+        #audio-state.error { color: #f88; }
+        .talking { display: none; }
+        .talking.on { display: inline; color: #63cdd5; }
+        :focus-visible { outline: 2px solid #45bac3; outline-offset: 2px; }
+    </style>
+</head>
+<body>
+    <h1>SpoutBreeze Player</h1>
+    <video id="player" controls playsinline></video>
+    <p id="status"></p>
+
+    <section id="audio-invite" hidden>
+        <h2>Join the meeting audio</h2>
+        <p id="audio-blurb">
+            You are watching the stream, which runs a few seconds behind. Join the audio to
+            hear the room live.
+        </p>
+        <form id="audio-form">
+            <input id="audio-name" type="text" maxlength="64" autocomplete="name"
+                   placeholder="Your name, as the room will see it"/>
+            <button id="audio-join" type="submit">Join audio</button>
+            <button id="audio-leave" type="button" class="leave" hidden>Leave audio</button>
+        </form>
+        <p id="audio-state" role="status" aria-live="polite"></p>
+    </section>
+
+    <script src="js/hls.min.js"></script>
+    <script src="js/livekit-client.min.js"></script>
+    <script>
+        // Path: /watch/<event> — the event name maps to the MediaMTX path
+        // /live/<event> on the player edge.
+        const event = location.pathname.split('/').filter(Boolean)[1] || 'test';
+        const video = document.getElementById('player');
+        const status = document.getElementById('status');
+        const src = '/live/' + encodeURIComponent(event) + '/index.m3u8';
+
+        if (video.canPlayType('application/vnd.apple.mpegurl')) {
+            video.src = src;
+        } else if (window.Hls && Hls.isSupported()) {
+            const hls = new Hls({ lowLatencyMode: true, backBufferLength: 30 });
+            hls.loadSource(src);
+            hls.attachMedia(video);
+            hls.on(Hls.Events.ERROR, (_event, data) => {
+                if (data.fatal) {
+                    status.textContent = 'The broadcast is not live right now ('
+                        + data.details + '). It will start playing when the stream begins.';
+                }
+            });
+            hls.on(Hls.Events.MANIFEST_PARSED, () => { status.textContent = ''; });
+        } else {
+            status.textContent = 'This browser cannot play LL-HLS video.';
+        }
+
+        // ---- Meeting audio over LiveKit -------------------------------------
+        //
+        // BigBlueButton 4.0 carries meeting audio on LiveKit, so joining is a
+        // LiveKit connection to the meeting's room and nothing more — no
+        // BigBlueButton client is loaded. The stream keeps playing video; its
+        // audio is muted on join so the live voices are not doubled by the
+        // delayed stream.
+
+        const invite = document.getElementById('audio-invite');
+        const form = document.getElementById('audio-form');
+        const nameField = document.getElementById('audio-name');
+        const joinButton = document.getElementById('audio-join');
+        const leaveButton = document.getElementById('audio-leave');
+        const audioState = document.getElementById('audio-state');
+        const blurb = document.getElementById('audio-blurb');
+        const endpoint = '/api/v1/player/audio/' + encodeURIComponent(event);
+
+        let room = null;
+        const attached = new Map();
+
+        function setState(text, kind) {
+            audioState.textContent = text;
+            audioState.className = kind || '';
+        }
+
+        // Only offer the invitation when a live meeting is behind it.
+        fetch(endpoint)
+            .then((response) => (response.ok ? response.json() : null))
+            .then((body) => {
+                if (!body || !body.available) { return; }
+                invite.hidden = false;
+                if (body.mode === 'speak') {
+                    blurb.textContent = 'You are watching the stream, which runs a few seconds '
+                        + 'behind. Join the audio to hear the room live and speak to it.';
+                }
+            })
+            .catch(() => { /* No invitation on offer; the page is still a player. */ });
+
+        form.addEventListener('submit', (submitEvent) => {
+            submitEvent.preventDefault();
+            if (room) { return; }
+
+            joinButton.disabled = true;
+            setState('Connecting to the meeting audio…');
+
+            fetch(endpoint, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name: nameField.value })
+            })
+                .then(async (response) => {
+                    const body = await response.json().catch(() => ({}));
+                    if (!response.ok) {
+                        throw new Error(body.message || 'Audio is unavailable right now.');
+                    }
+                    return body;
+                })
+                .then((grant) => connect(grant))
+                .catch((error) => {
+                    joinButton.disabled = false;
+                    setState(error.message, 'error');
+                });
+        });
+
+        async function connect(grant) {
+            room = new LivekitClient.Room({ adaptiveStream: false, dynacast: false });
+
+            room.on(LivekitClient.RoomEvent.TrackSubscribed, (track) => {
+                if (track.kind !== LivekitClient.Track.Kind.Audio) { return; }
+                const element = track.attach();
+                element.autoplay = true;
+                document.body.appendChild(element);
+                attached.set(track.sid, { track, element });
+            });
+
+            room.on(LivekitClient.RoomEvent.TrackUnsubscribed, (track) => {
+                const entry = attached.get(track.sid);
+                if (entry) {
+                    entry.track.detach(entry.element);
+                    entry.element.remove();
+                    attached.delete(track.sid);
+                }
+            });
+
+            room.on(LivekitClient.RoomEvent.Disconnected, () => { teardown('You left the meeting audio.'); });
+            room.on(LivekitClient.RoomEvent.Reconnecting, () => { setState('Audio connection lost, reconnecting…'); });
+            room.on(LivekitClient.RoomEvent.Reconnected, () => { setState(liveMessage(grant), 'live'); });
+
+            try {
+                await room.connect(grant.url, grant.token);
+            } catch (error) {
+                room = null;
+                joinButton.disabled = false;
+                setState('Could not reach the meeting audio. ' + (error.message || ''), 'error');
+                return;
+            }
+
+            if (grant.mode === 'speak') {
+                try {
+                    await room.localParticipant.setMicrophoneEnabled(true);
+                } catch (error) {
+                    setState('Joined, but the microphone was refused. You can still listen.', 'error');
+                }
+            }
+
+            // The stream's own audio would arrive seconds later than the live
+            // room, so mute it rather than play both.
+            video.muted = true;
+            joinButton.hidden = true;
+            leaveButton.hidden = false;
+            nameField.disabled = true;
+            setState(liveMessage(grant), 'live');
+        }
+
+        function liveMessage(grant) {
+            return grant.mode === 'speak'
+                ? 'You are in the meeting audio and your microphone is on.'
+                : 'You are listening to the meeting audio.';
+        }
+
+        leaveButton.addEventListener('click', () => {
+            if (room) { room.disconnect(); }
+        });
+
+        function teardown(message) {
+            attached.forEach((entry) => { entry.track.detach(entry.element); entry.element.remove(); });
+            attached.clear();
+            room = null;
+            video.muted = false;
+            joinButton.hidden = false;
+            joinButton.disabled = false;
+            leaveButton.hidden = true;
+            nameField.disabled = false;
+            setState(message);
+        }
+
+        // A viewer closing the tab should leave the room, not linger in the
+        // participant list until LiveKit times the connection out.
+        window.addEventListener('pagehide', () => { if (room) { room.disconnect(); } });
+    </script>
+</body>
+</html>
