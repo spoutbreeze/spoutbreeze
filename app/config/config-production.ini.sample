@@ -1,0 +1,81 @@
+[globals]
+; Stack trace verbosity. Assign values 1 to 3 for increasing verbosity levels. Zero (0) suppresses the stack trace.
+; This is the default value and it should be the assigned setting on a production server.
+DEBUG = 0
+
+; database settings
+; db.driver = pgsql
+; db.dsn = pgsql:host=localhost;port=5432;dbname=sukarix
+; db.username = sukarix
+; db.password =
+
+; SpoutBreeze production configuration.
+;
+; app/config/spoutbreeze.ini carries the non-sensitive defaults and is loaded
+; first; this file overrides what differs on this install, and is the only
+; place credentials belong. Fat-Free hot-loads it, so there is no
+; environment-variable layer to keep in step.
+;
+; Copy to config-production.ini and edit. That filename is gitignored and
+; excluded from the Docker build, so it never enters an image — mount it at
+; /var/www/spoutbreeze/app/config/config-production.ini and run the container
+; with APP_ENV=production.
+
+DEBUG = 0
+application.environment = production
+
+; Console database (users, sessions, destinations).
+spoutbreeze.db.dsn = pgsql:host=postgres;port=5432;dbname=spoutbreeze_app
+spoutbreeze.db.username = spoutbreeze_u
+spoutbreeze.db.password =
+
+; Broadcast domain database, shared with the JVM services.
+spoutbreeze.domain.db.dsn = pgsql:host=postgres;port=5432;dbname=spoutbreeze
+spoutbreeze.domain.db.username = spoutbreeze_u
+spoutbreeze.domain.db.password =
+
+spoutbreeze.amqp.dsn = amqp://spoutbreeze:spoutbreeze@rabbitmq:5672
+spoutbreeze.redis.host = redis
+spoutbreeze.sink_url =
+
+; Machine API bearer key for /api/v1 — change it.
+spoutbreeze.api.key =
+
+; Seals saved destination credentials. Generate with:
+;   docker compose -f deploy/compose.yml exec app-php php tools/sb secret-key
+; Losing or changing it makes every stored stream key and access token
+; unreadable, so keep it with your other deployment secrets.
+spoutbreeze.secret_key =
+
+; Player audio over LiveKit. Credentials come from
+; /etc/bigbluebutton/livekit.yaml on the BigBlueButton server. A viewer
+; admitted this way is a LiveKit participant, not a BigBlueButton user:
+; moderators cannot mute or eject them from the BigBlueButton interface, so
+; enable speaking only where that is acceptable.
+spoutbreeze.livekit.audio_invite = false
+spoutbreeze.livekit.allow_speaking = false
+spoutbreeze.livekit.url =
+spoutbreeze.livekit.key =
+spoutbreeze.livekit.secret =
+
+; Bootstrap admin, created once on the first start that finds no account with
+; this address, then never modified. Leave the password empty and a strong one
+; is generated and printed to the container log on creation.
+spoutbreeze.admin.email =
+spoutbreeze.admin.password =
+
+; Settings
+ORGANISATION = RIADVICE
+
+; time to cache any errors which occur; x-cache is installed on the server
+error.ttl = 60
+
+; set to development|testing|staging|production|local or whatever you like
+application.environment = production
+
+; log session queries
+log.level = info
+
+; turn javascript and css minification on and off
+MINIFY_CSS = TRUE
+MINIFY_JS = TRUE
