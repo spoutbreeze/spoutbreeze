@@ -172,3 +172,6 @@ deploy/.env
 /app/tmp/*
 !/app/tmp/.gitkeep
 
+# mdBook build output.
+/docs/book/
+

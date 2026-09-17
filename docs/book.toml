@@ -1,0 +1,15 @@
+[book]
+title = "SpoutBreeze"
+description = "Streaming BigBlueButton meetings to YouTube, Twitch, LinkedIn, Panopto, Facebook and the SpoutBreeze Player."
+authors = ["RIADVICE SUARL"]
+language = "en"
+src = "src"
+
+[output.html]
+default-theme = "rust"
+git-repository-url = "https://github.com/spoutbreeze/spoutbreeze"
+edit-url-template = "https://github.com/spoutbreeze/spoutbreeze/edit/master/docs/{path}"
+
+[output.html.fold]
+enable = true
+level = 1
