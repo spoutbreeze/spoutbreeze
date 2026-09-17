@@ -37,22 +37,6 @@
       ]
     }
   },
-  "repositories": [
-    {
-      "type": "path",
-      "url": "../../sukarix/sukarix",
-      "options": {
-        "symlink": true
-      }
-    },
-    {
-      "type": "path",
-      "url": "../../sukarix/statera",
-      "options": {
-        "symlink": true
-      }
-    }
-  ],
   "config": {
     "optimize-autoloader": true,
     "sort-packages": true,

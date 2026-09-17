@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7cc63dd5da5a14895ccc6ac0be44b532",
+    "content-hash": "5633d03b9681a903cb84c140e8f07d7e",
     "packages": [
         {
             "name": "bcosca/fatfree-core",
@@ -2145,10 +2145,16 @@
         {
             "name": "sukarix/sukarix",
             "version": "0.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sukarix/sukarix.git",
+                "reference": "9e8438fc6dfd57e260b6854537e18974a7d90e70"
+            },
             "dist": {
-                "type": "path",
-                "url": "../../sukarix/sukarix",
-                "reference": "a2657a318ed23665a2f754c7032dcee8ae2ebeb4"
+                "type": "zip",
+                "url": "https://api.github.com/repos/sukarix/sukarix/zipball/9e8438fc6dfd57e260b6854537e18974a7d90e70",
+                "reference": "9e8438fc6dfd57e260b6854537e18974a7d90e70",
+                "shasum": ""
             },
             "require": {
                 "bcosca/fatfree-core": "^3.9.2",
@@ -2164,6 +2170,7 @@
                 "nesbot/carbon": "^3.11.1",
                 "peppeocchi/php-cron-scheduler": "^v4.0",
                 "php": "^8.4",
+                "php-amqplib/php-amqplib": "^3.7",
                 "sukarix/f3-access": "^v1.2.3",
                 "tracy/tracy": "^v2.11.0",
                 "xfra35/f3-multilang": "^v1.3.2"
@@ -2173,7 +2180,6 @@
                 "ext-xdebug": "*",
                 "friendsofphp/php-cs-fixer": "^v3.93.1",
                 "nunomaduro/phpinsights": "^2.14.2",
-                "php-amqplib/php-amqplib": "^3.7",
                 "php-parallel-lint/php-parallel-lint": "^1.4.0",
                 "phpmetrics/phpmetrics": "^v2.9.1",
                 "phpstan/phpstan": "^2.2.14",
@@ -2184,8 +2190,7 @@
                 "vimeo/psalm": "^6.13.0"
             },
             "suggest": {
-                "ikkez/f3-middleware": "A middleware router plugin for PHP Fat-Free Framework",
-                "php-amqplib/php-amqplib": "Needed only by Sukarix\\Messaging\\AmqpPublisher, to publish to RabbitMQ (^3.7). It requires ext-sockets."
+                "ikkez/f3-middleware": "A middleware router plugin for PHP Fat-Free Framework"
             },
             "type": "library",
             "autoload": {
@@ -2193,49 +2198,7 @@
                     "Sukarix\\": "src/Sukarix/"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "": "tests/src/",
-                    "Fixtures\\Actions\\": "tests/fixtures/Actions/"
-                }
-            },
-            "scripts": {
-                "test": [
-                    "php tools/statera.php"
-                ],
-                "lint": [
-                    "parallel-lint src tests"
-                ],
-                "check": [
-                    "@lint",
-                    "@test",
-                    "@code-check"
-                ],
-                "code-check": [
-                    "phpstan analyse --no-progress"
-                ],
-                "coverage": [
-                    "XDEBUG_MODE=coverage php tools/statera.php \"?statera=withCoverage\""
-                ],
-                "csfix": [
-                    "XDEBUG_MODE=off PHP_CS_FIXER_IGNORE_ENV=1 php-cs-fixer fix --allow-risky yes"
-                ],
-                "sniffer": [
-                    "phpcs src/ tests/"
-                ],
-                "phpcbf": [
-                    "phpcbf src/ tests/"
-                ],
-                "phpinsights": [
-                    "./vendor/bin/phpinsights"
-                ],
-                "phpmetrics": [
-                    "./vendor/bin/phpmetrics --report-html=metrics src/"
-                ],
-                "psalm": [
-                    "./vendor/bin/psalm --threads=8 --diff"
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -2261,10 +2224,7 @@
                 "issues": "https://github.com/sukarix/sukarix/issues",
                 "source": "https://github.com/sukarix/sukarix"
             },
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
+            "time": "2026-09-14T10:18:23+00:00"
         },
         {
             "name": "symfony/clock",
@@ -6504,10 +6464,16 @@
         {
             "name": "sukarix/statera",
             "version": "0.5.0",
-            "dist": {
-                "type": "path",
-                "url": "../../sukarix/statera",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sukarix/statera.git",
                 "reference": "1415b2336fcaf232c66bcbd96a4bfaaced439510"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sukarix/statera/zipball/1415b2336fcaf232c66bcbd96a4bfaaced439510",
+                "reference": "1415b2336fcaf232c66bcbd96a4bfaaced439510",
+                "shasum": ""
             },
             "require": {
                 "php": "^8.2",
@@ -6528,48 +6494,7 @@
                     "Sukarix\\": "src/Sukarix/"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "": [
-                        "src/",
-                        "tests/"
-                    ]
-                }
-            },
-            "scripts": {
-                "code-check": [
-                    "./vendor/bin/phpstan analyse"
-                ],
-                "csfix": [
-                    "sudo phpdismod -s cli xdebug",
-                    "./vendor/bin/php-cs-fixer fix --allow-risky yes",
-                    "sudo phpenmod -s cli xdebug\n\n"
-                ],
-                "sniffer": [
-                    "./vendor/bin/phpcs app/src/"
-                ],
-                "phpcbf": [
-                    "vendor/bin/phpcbf app/src/"
-                ],
-                "phpdd": [
-                    "./vendor/bin/phpdd --target 8.1 app/src/"
-                ],
-                "phploc": [
-                    "./vendor/bin/phploc app/src/"
-                ],
-                "phpinsights": [
-                    "./vendor/bin/phpinsights"
-                ],
-                "phpmetrics": [
-                    "./vendor/bin/phpmetrics --report-html=metrics app/src/"
-                ],
-                "churn": [
-                    "./vendor/bin/churn run app/src/"
-                ],
-                "psalm": [
-                    "./vendor/bin/psalm --threads=8 --diff"
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -6596,10 +6521,7 @@
                 "issues": "https://github.com/suakrix/statera/issues",
                 "source": "https://github.com/suakrix/statera"
             },
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
+            "time": "2026-09-14T10:18:23+00:00"
         },
         {
             "name": "symfony/event-dispatcher",

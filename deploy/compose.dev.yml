@@ -28,12 +28,13 @@ services:
       - ../tools:/var/www/spoutbreeze/tools
       - ../composer.json:/var/www/spoutbreeze/composer.json:ro
       # The image ships a dev-free vendor, which has no Statera and so cannot
-      # run the test suite. Development mounts the working-tree vendor over
-      # it, plus the two framework checkouts at the paths its relative
-      # symlinks resolve to inside the container (/var/sukarix/*).
+      # run the test suite; development mounts the working-tree vendor over it.
+      # Composer resolves the framework from Packagist so that a clone of this
+      # repository builds anywhere, and these two mounts put the local
+      # checkouts back on top, so framework changes are still live here.
       - ../vendor:/var/www/spoutbreeze/vendor
-      - ../../../sukarix/sukarix:/var/sukarix/sukarix
-      - ../../../sukarix/statera:/var/sukarix/statera
+      - ../../../sukarix/sukarix:/var/www/spoutbreeze/vendor/sukarix/sukarix
+      - ../../../sukarix/statera:/var/www/spoutbreeze/vendor/sukarix/statera
 
   web-legacy-php:
     build:
