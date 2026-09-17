@@ -1,0 +1,79 @@
+{
+  "name": "spoutbreeze/spoutbreeze",
+  "type": "project",
+  "description": "SpoutBreeze broadcast control plane on the Sukarix framework.",
+  "keywords": [
+    "spoutbreeze",
+    "sukarix",
+    "bigbluebutton",
+    "streaming",
+    "broadcast"
+  ],
+  "license": "AGPL-3.0-or-later",
+  "require": {
+    "php": "^8.4",
+    "php-amqplib/php-amqplib": "^3.7",
+    "robmorgan/phinx": "^0.16.10",
+    "sukarix/sukarix": "^0.5.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "": "app/src",
+      "Panopto\\": "app/lib/Panopto"
+    }
+  },
+  "require-dev": {
+    "ext-xdebug": "*",
+    "sukarix/statera": "^0.5.0",
+    "fakerphp/faker": "^1.24.1",
+    "friendsofphp/php-cs-fixer": "^3.75",
+    "roave/security-advisories": "dev-latest"
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "": [
+        "app/src",
+        "tests/src/"
+      ]
+    }
+  },
+  "repositories": [
+    {
+      "type": "path",
+      "url": "../../sukarix/sukarix",
+      "options": {
+        "symlink": true
+      }
+    },
+    {
+      "type": "path",
+      "url": "../../sukarix/statera",
+      "options": {
+        "symlink": true
+      }
+    }
+  ],
+  "config": {
+    "optimize-autoloader": true,
+    "sort-packages": true,
+    "process-timeout": 600,
+    "preferred-install": "dist",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "github-protocols": [
+      "https"
+    ],
+    "allow-plugins": {
+      "php-http/discovery": true,
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    },
+    "platform": {
+      "php": "8.4.25"
+    }
+  },
+  "scripts": {
+    "serve": [
+      "php -S ${SUKARIX_SERVE_HOST:-0.0.0.0}:${SUKARIX_SERVE_PORT:-8765} -t public/"
+    ]
+  }
+}
