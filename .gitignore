@@ -118,3 +118,57 @@ local.properties
 # Log files (if you are creating logs in debug mode, uncomment this)
 **/*.log
 
+
+# === SpoutBreeze revival ===
+
+# PHP — dependencies, caches and runtime state
+/vendor/
+app/tmp/
+app/logs/
+app/data/
+spoutbreeze-web/vendor/
+spoutbreeze-web/tmp/
+spoutbreeze-web/logs/
+spoutbreeze-web/data/
+
+# Gradle / JVM — build outputs and local state (Java sources keep using build/ too)
+.gradle/
+**/build/
+!spoutbreeze-web/public/**
+
+# Node — plugin builds only (Node never runs at runtime)
+spoutbreeze-bigbluebutton-plugin/node_modules/
+spoutbreeze-bigbluebutton-plugin/dist/
+
+# Local environment and secrets
+.env
+*.local
+
+# Streamer test artefacts
+spoutbreeze-streamer/tests/*.log
+
+# Local stack secrets (Postal SMTP, admin password)
+deploy/.env
+
+# Environment configuration. Only the samples are tracked; the real files
+# carry credentials (database, API key, destination encryption key) and are
+# written per install.
+/app/config/config-production.ini
+/app/config/config-staging.ini
+/app/config/config-local.ini
+!/app/config/*.ini.sample
+
+# Release vendor staged by `tools/sb` for the runtime image.
+/dist/
+
+# Runtime output. Tracy exception dumps in particular capture local variables,
+# which can include credentials.
+/logs/*
+!/logs/.gitkeep
+/app/logs/*
+!/app/logs/.gitkeep
+/tmp/*
+!/tmp/.gitkeep
+/app/tmp/*
+!/app/tmp/.gitkeep
+
