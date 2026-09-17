@@ -1,0 +1,179 @@
+#!/usr/bin/env bash
+#
+# SpoutBreeze open source platform - https://www.spoutbreeze.org/
+#
+# Copyright (c) 2021-2026 RIADVICE SUARL.
+#
+# This program is free software: you can redistribute it and/or modify it under the
+# terms of the GNU Affero General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later version.
+#
+# SpoutBreeze is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License along
+# with SpoutBreeze. If not, see <https://www.gnu.org/licenses/>.
+#
+# Operator CLI: build, start, stop and test the SpoutBreeze stack.
+# Everything runs in Docker; nothing touches the host besides this script.
+
+set -euo pipefail
+
+COMPOSE="docker compose -f deploy/compose.yml"
+API=http://localhost:8091/api/v1
+API_KEY=${SPB_API_KEY:-spoutbreeze-dev-api-key}
+
+say()  { printf '%s\n' "$*"; }
+run()  { echo "+ $*"; "$@"; }
+
+require_curl() {
+    command -v curl >/dev/null 2>&1 || { say "curl is required on the host"; exit 1; }
+}
+
+api() { curl -s -m 30 -H "Authorization: Bearer ${API_KEY}" "$@"; }
+
+cmd_up()      { cmd_player_sync; cmd_vendor_release; run $COMPOSE up -d --build; cmd_urls; }
+cmd_down()    { run $COMPOSE down; }
+cmd_start()   { run $COMPOSE start; }
+cmd_stop()    { run $COMPOSE stop; }
+cmd_restart() { run $COMPOSE restart "$@"; }
+cmd_build()   { cmd_player_sync; cmd_vendor_release; run $COMPOSE build "$@"; }
+cmd_logs()    { run $COMPOSE logs -f --tail=100 "${1:-}"; }
+cmd_status()  { run $COMPOSE ps; }
+
+cmd_urls() {
+    say
+    say "SpoutBreeze testing URLs"
+    say "-----------------------"
+    say "New console (TailAdmin):   http://localhost:8091"
+    say "Broadcasts screen:         http://localhost:8091/broadcasts"
+    say "Legacy console (2021):     http://localhost:8090"
+    say "RabbitMQ management:       http://localhost:15672  (spoutbreeze / spoutbreeze)"
+    say "WebSummoner hub status:    http://localhost:4444/status"
+    say "Watch a live broadcast:    http://localhost:8091/watch/<meeting-id>"
+    say "Streamer job API:          ${API}/streamer/jobs/<token>"
+    say
+    say "Service health:"
+    say "  Manager:    $(curl -s -m 5 http://localhost:21020/health || echo unreachable)"
+    say "  Agent:      $(curl -s -m 5 http://localhost:21030/health || echo unreachable)"
+    say "  Interactor: $(curl -s -m 5 http://localhost:8081/health || echo unreachable)"
+    say
+    say "BBB server:      ${BBB_FQDN:-(set BBB_FQDN in deploy/.env)}"
+}
+
+cmd_broadcast_start() {
+    require_curl
+    local meeting=${1:?meeting id required}
+    local url=${2:?target RTMP/RTMPS url required}
+    api -X POST http://localhost:8091/api/v1/broadcasts \
+        -H 'content-type: application/json' \
+        -d "{\"meeting_id\":\"${meeting}\",\"profile\":\"1080p30\",\"targets\":[{\"provider\":\"generic_rtmp\",\"label\":\"platform\",\"url\":\"${url}\"}]}"
+    say
+    say "Watch (player-edge targets): http://localhost:8091/watch/${meeting}"
+}
+
+cmd_broadcast_stop() {
+    require_curl
+    local id=${1:?broadcast id required}
+    api -X POST "http://localhost:8091/api/v1/broadcasts/${id}/stop" \
+        -H 'content-type: application/json' -d '{}'
+    say
+}
+
+cmd_broadcast_list() {
+    docker compose -f deploy/compose.yml exec -T postgres \
+        psql -U spoutbreeze_u -d spoutbreeze -c "SELECT id, meeting_id, status, agent_id FROM broadcasts ORDER BY id DESC LIMIT 10"
+}
+
+cmd_test_twitch() {
+    require_curl
+    local key=${1:?Twitch stream key required}
+    say "Starting a test broadcast to rtmps://live.twitch.tv:443/app/<key>"
+    say "Watch https://www.twitch.tv/<your-channel>; stop with: sb broadcast-stop <id>"
+    cmd_broadcast_start "twitch-test-$(date +%s)" "rtmps://live.twitch.tv:443/app/${key}"
+}
+
+cmd_config() {
+    $COMPOSE exec -T app-php php tools/config-dump.php
+}
+
+cmd_vendor_release() {
+    # The runtime image must not ship development dependencies, and its
+    # vendor must be self-contained: composer resolves sukarix and statera
+    # through path repositories, so vendor/sukarix/* are symlinks to
+    # checkouts outside the image that would arrive broken.
+    #
+    # Install without dev, copy with -L so those symlinks become real
+    # directories, then restore the development vendor so local work and the
+    # test suite keep running.
+    say "staging a dev-free vendor for the image"
+    composer install --no-dev --optimize-autoloader --no-interaction --quiet
+    rm -rf dist/vendor
+    mkdir -p dist
+    cp -rL vendor dist/vendor
+    composer install --optimize-autoloader --no-interaction --quiet
+    say "dist/vendor ready ($(find dist/vendor -maxdepth 2 -mindepth 2 -type d | wc -l) packages, no dev, no symlinks)"
+}
+
+cmd_player_sync() {
+    # nginx serves the watch page from public/watch, but the source of truth is
+    # spoutbreeze-player/watch (the layout in AGENTS.md). These were previously
+    # kept in step by hand, which meant edits to the player silently never
+    # reached the served page.
+    rm -rf public/watch
+    mkdir -p public
+    cp -r spoutbreeze-player/watch public/watch
+    say "player synced: spoutbreeze-player/watch -> public/watch"
+}
+
+cmd_secret_key() {
+    # A fresh SPB_SECRET_KEY for deploy/.env. Generated in the app container so
+    # the host needs no PHP with libsodium.
+    $COMPOSE exec -T app-php php -r 'echo bin2hex(sodium_crypto_secretbox_keygen()), PHP_EOL;'
+}
+
+cmd_help() {
+    say "Usage: tools/sb <command>"
+    say
+    say "  up                    build and start the whole stack, print URLs"
+    say "  down                  stop and remove the stack (volumes kept)"
+    say "  start | stop | restart [service...]"
+    say "  build [service...]    (re)build images"
+    say "  status                container list"
+    say "  urls                  all testing URLs and health probes"
+    say "  logs [service]        follow logs"
+    say
+    say "  broadcast-list                        recent broadcasts"
+    say "  broadcast-start <meeting> <rtmp-url>  start a broadcast"
+    say "  broadcast-stop <id>                   stop a broadcast"
+    say "  test-twitch <stream-key>              one-shot Twitch test"
+    say
+    say "  secret-key                            generate an SPB_SECRET_KEY"
+    say "  config                                resolved configuration, secrets masked"
+    say "  player-sync                           copy spoutbreeze-player/watch into public/watch"
+    say "  vendor-release                        stage a dev-free vendor into dist/vendor"
+    say
+    say "Environment: SPB_API_KEY (default: spoutbreeze-dev-api-key)"
+}
+
+case "${1:-help}" in
+    up)                shift; cmd_up "$@" ;;
+    down)              shift; cmd_down "$@" ;;
+    start)             shift; cmd_start "$@" ;;
+    stop)              shift; cmd_stop "$@" ;;
+    restart)           shift; cmd_restart "$@" ;;
+    build)             shift; cmd_build "$@" ;;
+    logs)              shift; cmd_logs "$@" ;;
+    status)            shift; cmd_status ;;
+    urls)              shift; cmd_urls ;;
+    broadcast-list)    shift; cmd_broadcast_list ;;
+    broadcast-start)   shift; cmd_broadcast_start "$@" ;;
+    broadcast-stop)    shift; cmd_broadcast_stop "$@" ;;
+    test-twitch)       shift; cmd_test_twitch "$@" ;;
+    secret-key)        shift; cmd_secret_key ;;
+    config)            shift; cmd_config ;;
+    player-sync)       shift; cmd_player_sync ;;
+    vendor-release)    shift; cmd_vendor_release ;;
+    *)                 cmd_help ;;
+esac
